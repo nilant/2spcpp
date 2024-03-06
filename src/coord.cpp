@@ -14,8 +14,8 @@ Coord::Coord(GRBEnv& env, Instance const& inst) : model{env}, x{inst.nitems, ins
 
     for (auto const& item : inst.items) {
         int i = item.id;
-        for (int p = 0; p < inst.w ; ++p) {
-            for (int q = 0; q < inst.ub; ++q) {
+        for (int p = 0; p <= inst.w - item.w; ++p) {
+            for (int q = 0; q <= inst.ub - item.h; ++q) {
                 x(i, p, q) = model.addVar(0, 1, 0, GRB_BINARY, fmt::format("x_{}_{}_{}", i, p, q));
             }
         }
@@ -41,8 +41,8 @@ Coord::Coord(GRBEnv& env, Instance const& inst) : model{env}, x{inst.nitems, ins
             GRBLinExpr expr{0};
             for (auto const& item : inst.items) {
                 int i = item.id;
-                for (int p = std::max(0, r - item.w + 1); p <= r; ++p) {
-                    for (int q = std::max(0, s - item.h + 1); q <= s; ++q) {
+                for (int p = std::max(0, r - item.w + 1); p <= r && p <= inst.w - item.w; ++p) {
+                    for (int q = std::max(0, s - item.h + 1); q <= s && q <= inst.ub - item.h; ++q) {
                         expr += x(i, p, q);
                     }
                 }

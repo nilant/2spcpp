@@ -36,13 +36,6 @@ MIPResult bottom_left(Instance const& inst) {
             }
     );
 
-    int area = 0;
-    for (auto const& item : items) {
-        area += item.w * item.h;
-    }
-    area /= 16.0;
-    fmt::print("lb={}\n", area);
-
     int obj = 0;
     for (auto const& item : items) {
         for (int q = 0; q <= inst.ub - item.h; ++q) {
