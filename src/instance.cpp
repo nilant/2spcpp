@@ -5,7 +5,6 @@ Instance::Instance(fs::path const& input_file) {
     
     std::ifstream file(input_file);
     json j = json::parse(file)["instance"];
-    name = j["name"];
     rmax = j["rmax"];
     wmax = j["wmax"];
     w = j["W"];

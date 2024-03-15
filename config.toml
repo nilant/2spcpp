@@ -1,3 +1,5 @@
+merge_cells = false
+
 # unique identifier (for merging)
 instance_index = ["ntasks", "alpha", "wmax", "rmax", "seed"]
 

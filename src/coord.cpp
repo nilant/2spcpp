@@ -68,7 +68,6 @@ Coord::Coord(GRBEnv& env, Instance const& inst) : model{env}, x{inst.nitems, ins
 MIPResult Coord::optimize(Args const& args, int ub) {
     
     auto res = solve(name, model, args, ub);
-    fmt::print("\nobj={}, runtime={}, buildtime={}\n", res.obj, res.runtime, _buildtime);
-
+    res.buildtime = _buildtime;
     return res;
 }

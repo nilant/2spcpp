@@ -21,13 +21,14 @@ void MIPResult::write(fs::path const& file_path) {
         jsol["obj"] = obj;
         jsol["bound"] = bound;
         jsol["runtime"] = runtime;
+        jsol["gap"] = gap;
         j[name] = jsol;
 
         out << j << std::endl;
 }
 
 void MIPResult::print() {
-    fmt::print("obj={}, bound={}, runtime={}\n", obj, bound, runtime);
+    fmt::print("obj={}, bound={}, runtime={}, buildtime={}\n", obj, bound, runtime, buildtime);
 }
 
 MIPResult solve(std::string const& name, GRBModel& model, Args const& args, int ub) {
@@ -46,9 +47,10 @@ MIPResult solve(std::string const& name, GRBModel& model, Args const& args, int 
             result.bound = std::lround(model.get(GRB_DoubleAttr_ObjBound));
             result.runtime = model.get(GRB_DoubleAttr_Runtime);
         } else {
-            result.obj = ub;
-            result.bound = 1;
-            result.runtime = args.timelimit;
+            result.obj = -1;
+            result.bound = -1;
+            result.gap = -1;
+            result.runtime = -1;
         }
 
         if (model.get(GRB_IntAttr_Status) == GRB_INFEASIBLE) {
@@ -59,9 +61,10 @@ MIPResult solve(std::string const& name, GRBModel& model, Args const& args, int 
     } catch(GRBException& e) {
         fmt::print("Error code = {}\n", e.getErrorCode());
         fmt::print("Error message = {}\n", e.getMessage()); 
-        result.obj = ub;
-        result.bound = 1;
-        result.runtime = args.timelimit;
+        result.obj = -1;
+        result.bound = -1;
+        result.gap = -1;
+        result.runtime = -1;
     } catch(...) {
         fmt::print("Exception during optimization");
         std::exit(1);

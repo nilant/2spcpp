@@ -11,9 +11,11 @@ struct MIPResult {
     std::string name;
     double obj;
     double bound;
+    double gap;
     double runtime;
+    double buildtime;
 
-    explicit MIPResult(std::string alg_name) : name{alg_name} {}
+    explicit MIPResult(std::string const& alg_name) : name{alg_name} {}
 
     void write(fs::path const& file_path);
     void print();

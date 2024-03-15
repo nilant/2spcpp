@@ -1,6 +1,6 @@
 #pragma once
 
 #include "instance.hpp"
-#include "mipresult.hpp"
+#include "heuresult.hpp"
 
-MIPResult bottom_left(Instance const& inst);
+HeurResult bottom_left(Instance const& inst);

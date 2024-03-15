@@ -13,6 +13,5 @@ add_executable(shelves main_shelves.cpp shelves.cpp instance.cpp cli.cpp mipresu
 target_include_directories(shelves PUBLIC ${GUROBI_INCLUDE_DIRS})
 target_link_libraries(shelves PUBLIC ${GUROBI_CPP_LIBRARY} ${GUROBI_LIBRARY} fmt::fmt -pthread)
 
-add_executable(bottom_left main_bottom_left.cpp bottom_left.cpp instance.cpp cli.cpp mipresult.cpp)
-target_include_directories(bottom_left PUBLIC ${GUROBI_INCLUDE_DIRS})
-target_link_libraries(bottom_left PUBLIC ${GUROBI_CPP_LIBRARY} ${GUROBI_LIBRARY} fmt::fmt -pthread)
+add_executable(bottom_left main_bottom_left.cpp bottom_left.cpp instance.cpp cli.cpp heuresult.cpp)
+target_link_libraries(bottom_left PUBLIC fmt::fmt -pthread)
