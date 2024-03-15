@@ -21,4 +21,4 @@ struct MIPResult {
     void print();
 };
 
-MIPResult solve(std::string const& name, GRBModel& model, Args const& args, int ub);
+MIPResult solve(std::string const& name, GRBModel& model, Args const& args);

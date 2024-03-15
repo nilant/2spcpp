@@ -15,8 +15,8 @@ class Coord {
     GRBVar z;
 
     public:
-        Coord(GRBEnv& env, Instance const& inst);
-        MIPResult optimize(Args const& args, int ub);
+        Coord(GRBEnv& env, Instance const& inst, int ub);
+        MIPResult optimize(Args const& args);
         double runtime() { return model.get(GRB_DoubleAttr_Runtime); };
         double buildtime() { return _buildtime; };
 };

@@ -9,11 +9,11 @@ int main(int argc, char* argv[]) {
     GRBEnv env{};
     Instance inst{args.input_file};
 
-    auto bl_res = bottom_left(inst);
-    inst.ub = bl_res.obj;
+    auto res_bl = bottom_left(inst);
+    int ub = res_bl.obj;
 
-    Coord coord{env, inst};
-    MIPResult res = coord.optimize(args, inst.ub);
+    Coord coord{env, inst, ub};
+    MIPResult res = coord.optimize(args);
     res.write(args.input_file);
 
     return 0;

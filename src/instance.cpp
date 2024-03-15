@@ -14,7 +14,6 @@ Instance::Instance(fs::path const& input_file) {
     nitems = j["nitems"];
     reff = j["reff"];
     lb = j["lb"];
-    ub = j["ub"];
 
     nitems2 = 0;
 

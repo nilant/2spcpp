@@ -31,7 +31,7 @@ void MIPResult::print() {
     fmt::print("obj={}, bound={}, runtime={}, buildtime={}\n", obj, bound, runtime, buildtime);
 }
 
-MIPResult solve(std::string const& name, GRBModel& model, Args const& args, int ub) {
+MIPResult solve(std::string const& name, GRBModel& model, Args const& args) {
     fmt::print("Optimizing {}\n\n", args.input_file.string());
 
     model.set(GRB_IntParam_Seed, args.seed);

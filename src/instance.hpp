@@ -32,7 +32,6 @@ struct Instance {
     int nitems2; // for coord2
     int reff;
     int lb;
-    int ub;
     std::vector<Task> tasks;
     std::vector<Config> items;
 
