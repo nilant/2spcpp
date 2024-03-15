@@ -92,6 +92,18 @@ Coord2::Coord2(GRBEnv& env, Instance const& inst, int ub) : model{env}, x{inst.n
         model.addConstr(z >= expr, fmt::format("11_{}", task.id));
     }
 
+    //(12)
+    GRBLinExpr expr{0};
+    for (auto const& item : inst.items) {
+        int i = item.id;
+        for (int p = 0; p <= inst.w - item.w; ++p) {
+            for (int q = 0; q <= ub - item.h; ++q) {
+                expr += (item.h * item.w) * x(i, p, q);
+            }
+        }
+    }
+    model.addConstr((1.0 / inst.w) * expr <= z, "7");
+
     auto t1 = std::chrono::high_resolution_clock::now();
 	_buildtime = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count() / 1000.0; 
 };
