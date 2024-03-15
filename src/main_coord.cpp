@@ -15,6 +15,7 @@ int main(int argc, char* argv[]) {
     Coord coord{env, inst, ub};
     MIPResult res = coord.optimize(args);
     res.write(args.input_file);
+    res.print();
 
     return 0;
 }

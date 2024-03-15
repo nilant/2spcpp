@@ -10,6 +10,7 @@ int main(int argc, char* argv[]) {
     Shelves shelves{env, inst};
     MIPResult res = shelves.optimize(args);
     res.write(args.input_file);
+    res.print();
 
     return 0;
 }
