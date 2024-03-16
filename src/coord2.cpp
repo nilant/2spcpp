@@ -94,7 +94,7 @@ Coord2::Coord2(GRBEnv& env, Instance const& inst, int ub) : model{env}, x{inst.n
 
     //(12)
     GRBLinExpr expr{0};
-    for (auto const& item : inst.items) {
+    for (auto const& item : items) {
         int i = item.id;
         for (int p = 0; p <= inst.w - item.w; ++p) {
             for (int q = 0; q <= ub - item.h; ++q) {
@@ -111,6 +111,6 @@ Coord2::Coord2(GRBEnv& env, Instance const& inst, int ub) : model{env}, x{inst.n
 MIPResult Coord2::optimize(Args const& args) {
     
     auto res = solve(name, model, args);
-    fmt::print("\nobj={}, runtime={}, buildtime={}\n", res.obj, res.runtime, _buildtime);
+    res.buildtime = _buildtime;
     return res;
 }
