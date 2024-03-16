@@ -36,8 +36,8 @@ HeurResult bottom_left(Instance const& inst) {
     int w = inst.w + 1;
     mdarray<int, 2> coord{w, ub};
 
-    for (int p = 0; p <= w; ++p) {
-        for (int q = 0; q <= ub; ++q) {
+    for (int p = 0; p < w; ++p) {
+        for (int q = 0; q < ub; ++q) {
             coord(p, q) = true;
         }
     }
