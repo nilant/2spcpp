@@ -45,7 +45,7 @@ MIPResult solve(std::string const& name, GRBModel& model, Args const& args) {
         if (model.get(GRB_IntAttr_SolCount) > 0) {
             result.obj = std::lround(model.get(GRB_DoubleAttr_ObjVal));
             result.bound = std::lround(model.get(GRB_DoubleAttr_ObjBound));
-            result.gap = std::abs(result.obj - result.bound) / result.obj;
+            result.gap = std::abs(result.obj - result.bound) / std::abs(result.obj);
             result.runtime = model.get(GRB_DoubleAttr_Runtime);
         } else {
             result.obj = -1;
