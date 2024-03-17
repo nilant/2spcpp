@@ -25,11 +25,12 @@ if __name__ == '__main__':
                 j = json.load(f)
 
             if j[resname]['obj'] == -1:
-                j[resname]['obj'] = j['bottom_left']['obj']
+                j[resname]['obj'] = float('nan')
             if j[resname]['bound'] == -1:
-                j[resname]['bound'] = 1
+                j[resname]['bound'] = float('nan')
             if j[resname]['runtime'] == -1 or j[resname]['runtime'] > config['timelimit']:
-                j[resname]['runtime'] = config['timelimit']
+                j[resname]['runtime'] = float('nan')
+            j[resname]['gap'] = abs(j[resname]['obj'] - j[resname]['bound']) / abs(j[resname]['obj'])
             
             with open(input, 'w') as f:
                 json.dump(j, f, indent=4)
