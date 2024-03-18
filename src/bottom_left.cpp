@@ -24,16 +24,20 @@ HeurResult bottom_left(Instance const& inst) {
     HeurResult res{"bottom_left"};
 
     int ub = 0;
+    double area = 0;
     std::vector<Config> items;
     items.reserve(inst.ntasks * inst.rmax);
     for (auto const& task : inst.tasks) {
         for (int r = 0; r < task.repeat; ++r) {
             items.push_back(task.configs[0]);
             ub += task.configs[0].h;
+            area += task.configs[0].h * task.configs[0].w;
         }
     }
 
-    int w = inst.w + 1;
+    int lb = std::lround(area / inst.w);
+
+    int w = inst.w;
     mdarray<int, 2> coord{w, ub};
 
     for (int p = 0; p < w; ++p) {
@@ -71,6 +75,7 @@ HeurResult bottom_left(Instance const& inst) {
 
     auto t1 = std::chrono::high_resolution_clock::now();
     res.obj = obj;
+    res.bound = lb;
 	res.runtime = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count() / 1000.0; 
 
     return res;
