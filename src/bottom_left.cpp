@@ -33,7 +33,7 @@ HeurResult bottom_left(Instance const& inst) {
         }
     }
 
-    int w = inst.w + 1;
+    int w = inst.w;
     mdarray<int, 2> coord{w, ub};
 
     for (int p = 0; p < w; ++p) {
