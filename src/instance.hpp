@@ -35,5 +35,6 @@ struct Instance {
     std::vector<Task> tasks;
     std::vector<Config> items;
 
+    Instance() {};
     Instance(fs::path const& dat_file);
 };
