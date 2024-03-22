@@ -69,6 +69,6 @@ Shelves::Shelves(GRBEnv& env, Instance const& inst) : model{env}, y{inst.nitems,
 MIPResult Shelves::optimize(Args const& args) {
     
     auto res = solve(name, model, args);
-    fmt::print("\nobj={}, runtime={}, buildtime={}\n", res.obj, res.runtime, _buildtime);
+    res.buildtime = _buildtime;
     return res;
 }
