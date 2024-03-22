@@ -7,14 +7,14 @@
 #include "instance.hpp"
 
 
-Shelves::Shelves(GRBEnv& env, Instance const& inst) : model{env}, y{inst.nitems, inst.rmax}, x{inst.nitems, inst.nitems, inst.rmax} {
+Shelves::Shelves(GRBEnv& env, Instance const& inst) : model{env}, sorted_items{inst.items}, y{inst.nitems, inst.rmax}, x{inst.nitems, inst.nitems, inst.rmax} {
 
     auto t0 = std::chrono::high_resolution_clock::now();
 
-    sorted_items.reserve(inst.nitems);
-    std::partial_sort_copy(inst.items.begin(), inst.items.end(),
-                            sorted_items.begin(), sorted_items.end(), 
-                            [] (auto const& a, auto const& b) { return a.h > b.h; });
+    std::sort(sorted_items.begin(), sorted_items.end(), 
+                [] (auto const& a, auto const& b) { 
+                    return a.h > b.h; }
+                );
 
     for (int i = 0; i < inst.nitems; ++i) {
         for (int r = 0; r < sorted_items[i].repeat; ++r) {
