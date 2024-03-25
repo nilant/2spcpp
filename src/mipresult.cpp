@@ -32,7 +32,6 @@ void MIPResult::print() {
 }
 
 MIPResult solve(std::string const& name, GRBModel& model, Args const& args) {
-    fmt::print("Optimizing {}\n\n", args.input_file.string());
 
     model.set(GRB_IntParam_Seed, args.seed);
     model.set(GRB_DoubleParam_TimeLimit, args.timelimit);

@@ -35,9 +35,7 @@ Assignment::Assignment(GRBEnv& env, mdarray<int, 2> const& combs) : model{env}, 
 
 MIPResult Assignment::optimize(Args const& args) {
 
-    auto res = solve(name, model, args);
-    fmt::print("\nobj={}, runtime={}, buildtime={}\n", res.obj, res.runtime, _buildtime);
-    return res;
+    return solve(name, model, args);
 }
 
 std::vector<Instance> Assignment::select(mdarray<Instance, 2> const& instances) {

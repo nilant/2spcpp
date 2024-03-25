@@ -4,6 +4,7 @@
 #include "shelves.hpp"
 #include "coord.hpp"
 #include <chrono>
+#include <fmt/core.h>
 
 
 std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance> const& subs, Args const& args) {
@@ -18,6 +19,7 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance> const& subs
 
     for (int i = 0; i < n; ++i) {
         for (int j = i+1; j < n; ++j) {
+            fmt::print("Optimizing ({}, {})\n", i, j);
             Instance new_inst = merge(subs[i], subs[j]);
             Coord coord{env, new_inst, new_inst.ub};
             auto coord_res = coord.optimize(coord_args, new_inst.ub);
@@ -51,8 +53,16 @@ HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
     Args coord_args{args};
     coord_args.timelimit = (args.timelimit - 10) / nlevels;
 
+    fmt::print("n={}, nlevels={}\n", subs.size(), nlevels);
+    int i = 0;
     while (subs.size() >= 2) {
-        subs = solve_level(env, subs, args);
+        subs = solve_level(env, subs, coord_args);
+        int obj = 0;
+        for (auto const& sub : subs) {
+            obj += sub.ub;
+        }
+        fmt::print("level={}, obj={}\n", i, obj);
+        i++;
     }
 
     auto t1 = std::chrono::high_resolution_clock::now();

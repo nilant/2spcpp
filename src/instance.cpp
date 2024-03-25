@@ -60,6 +60,8 @@ Instance merge(Instance const& inst1, Instance const& inst2) {
     inst.ub = inst1.ub + inst2.ub;
 
     inst.ntasks = inst1.ntasks;
+    inst.nitems = inst1.nitems;
+
     inst.tasks.resize(inst.ntasks);
 
     for (auto const& task : inst1.tasks) {
@@ -85,8 +87,6 @@ Instance merge(Instance const& inst1, Instance const& inst2) {
             inst.items.push_back(item);
         }
     }
-
-    inst.nitems = inst.items.size();
 
     return inst;
 }

@@ -69,7 +69,6 @@ Shelves::Shelves(GRBEnv& env, Instance const& inst) : model{env}, sorted_items{i
 MIPResult Shelves::optimize(Args const& args) {
     
     auto res = solve(name, model, args);
-    fmt::print("\nobj={}, runtime={}, buildtime={}\n", res.obj, res.runtime, _buildtime);
     return res;
 }
 
@@ -92,15 +91,17 @@ std::vector<Instance> Shelves::subinsts(Instance const& inst) const {
                 sub.seed = inst.seed;
                 sub.alpha = inst.alpha;
                 sub.ntasks = inst.ntasks;
+                sub.nitems = inst.nitems;
 
                 sub.ub = sorted_items[i].h;
 
                 sub.reff = 0;
                 sub.tasks.push_back(inst.tasks[sorted_items[i].task_id]);
+                sub.tasks.back().repeat = 1;
                 if (val(x(i, i, r)) >= 1) {
-                    sub.tasks.back().repeat = val(x(i, i, r)) + 1;
-                    sub.reff += sub.tasks.back().repeat;
+                    sub.tasks.back().repeat += val(x(i, i, r));
                 }
+                sub.reff += sub.tasks.back().repeat;
 
                 for (int k = i+1; k < inst.nitems; ++k) {
                     if (val(x(k, i, r)) >= 1) {
@@ -117,8 +118,6 @@ std::vector<Instance> Shelves::subinsts(Instance const& inst) const {
                     }
                 }
 
-                sub.nitems = sub.items.size();
-                
                 subs.push_back(sub);
             }
         }
