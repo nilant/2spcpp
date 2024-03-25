@@ -12,5 +12,7 @@ int main(int argc, char* argv[]) {
     res.write(args.input_file);
     res.print();
 
+    assert(res.obj > res.bound);
+
     return 0;
 }

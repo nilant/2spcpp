@@ -18,6 +18,7 @@ void HeurResult::write(fs::path const& file_path) {
 
         nlohmann::ordered_json jsol;
         jsol["obj"] = obj;
+        jsol["bound"] = bound;
         jsol["runtime"] = runtime;
         j[name] = jsol;
 
@@ -25,5 +26,5 @@ void HeurResult::write(fs::path const& file_path) {
 }
 
 void HeurResult::print() {
-    fmt::print("obj={}, runtime={}\n", obj, runtime);
+    fmt::print("obj={}, bound={}, runtime={}\n", obj, bound, runtime);
 }

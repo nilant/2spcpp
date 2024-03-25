@@ -101,8 +101,3 @@ if __name__ == '__main__':
         hostname = os.environ.get('HOSTNAME', socket.gethostname())
         msg = f'run of {cmd} on {hostname} completed in {elapsed_time}'
         send_message_to_telegram(msg)
-
-    postopt = pathlib.Path.cwd() / './postopt.py'
-    if postopt.exists():
-        print('run post optimization...')
-        subprocess.run([postopt, args.input_dir, '--config', args.config])

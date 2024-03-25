@@ -6,6 +6,7 @@ namespace fs = std::filesystem;
 struct HeurResult {
     std::string name;
     double obj;
+    double bound;
     double runtime;
 
     explicit HeurResult(std::string const& alg_name) : name{alg_name} {}
