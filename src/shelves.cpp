@@ -81,8 +81,8 @@ std::vector<Instance> Shelves::subinsts(Instance const& inst) const {
 
     std::vector<Instance> subs;
 
-    for (int i = 0; i < sorted_items.size(); ++i) {
-        for (int r = 0; sorted_items[i].repeat; ++r) {
+    for (int i = 0; i < inst.nitems; ++i) {
+        for (int r = 0; r < sorted_items[i].repeat; ++r) {
             if (val(y(i, r)) == 1) {
                 Instance sub{};
                 sub.name = inst.name;
@@ -91,33 +91,33 @@ std::vector<Instance> Shelves::subinsts(Instance const& inst) const {
                 sub.w = inst.w;
                 sub.seed = inst.seed;
                 sub.alpha = inst.alpha;
+                sub.ntasks = inst.ntasks;
+
+                sub.ub = sorted_items[i].h;
 
                 sub.reff = 0;
-                sub.ntasks = 0;
                 sub.tasks.push_back(inst.tasks[sorted_items[i].task_id]);
                 if (val(x(i, i, r)) >= 1) {
                     sub.tasks.back().repeat = val(x(i, i, r)) + 1;
                     sub.reff += sub.tasks.back().repeat;
-                    sub.ntasks++;
                 }
 
-                for (int k = 0; k < sorted_items.size(); ++k) {
-                    if (k != i && val(x(k, i, r)) >= 1) {
+                for (int k = i+1; k < inst.nitems; ++k) {
+                    if (val(x(k, i, r)) >= 1) {
                         sub.tasks.push_back(inst.tasks[sorted_items[k].task_id]);
                         sub.tasks.back().repeat = val(x(k, i, r));
                         sub.reff += sub.tasks.back().repeat;
-                        sub.ntasks++;
                     }
                 }
 
-                sub.nitems = 0;
                 for (auto& task : sub.tasks) {
                     for (auto& item : task.configs) {
                         item.repeat = task.repeat;
                         sub.items.push_back(item);
-                        sub.nitems++;
                     }
                 }
+
+                sub.nitems = sub.items.size();
                 
                 subs.push_back(sub);
             }
