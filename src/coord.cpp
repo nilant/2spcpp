@@ -78,9 +78,12 @@ Coord::Coord(GRBEnv& env, Instance const& inst, int ub) : model{env}, x{inst.nit
 	_buildtime = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count() / 1000.0; 
 };
 
-MIPResult Coord::optimize(Args const& args) {
+MIPResult Coord::optimize(Args const& args, int ub) {
     
     auto res = solve(name, model, args);
+    if (res.obj == -1) {
+        res.obj = ub;
+    }
     res.buildtime = _buildtime;
     return res;
 }

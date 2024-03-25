@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
     int ub = res_bl.obj;
 
     Coord coord{env, inst, ub};
-    MIPResult res = coord.optimize(args);
+    MIPResult res = coord.optimize(args, ub);
     res.write(args.input_file);
     res.print();
 

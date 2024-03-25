@@ -2,6 +2,7 @@
 
 #include <gurobi_c++.h>
 
+#include "instance.hpp"
 #include "mdarray.hpp"
 #include "mipresult.hpp"
 #include "cli.hpp"
@@ -19,4 +20,5 @@ class Assignment {
         MIPResult optimize(Args const& args);
         double runtime() { return model.get(GRB_DoubleAttr_Runtime); };
         double buildtime() { return _buildtime; };
+        std::vector<Instance> select(mdarray<Instance, 2> const& instances);
 };

@@ -124,5 +124,10 @@ std::vector<Instance> Shelves::subinsts(Instance const& inst) const {
         }
     }
 
+    if (subs.size() % 2 != 0) {
+        Instance empty{};
+        subs.push_back(empty);
+    }
+
     return subs;
 }
