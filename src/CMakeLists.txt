@@ -13,8 +13,8 @@ add_executable(shelves main_shelves.cpp shelves.cpp instance.cpp cli.cpp mipresu
 target_include_directories(shelves PUBLIC ${GUROBI_INCLUDE_DIRS})
 target_link_libraries(shelves PUBLIC ${GUROBI_CPP_LIBRARY} ${GUROBI_LIBRARY} fmt::fmt -pthread)
 
-add_executable(heuristic main_heuristic.cpp heuristic.cpp instance.cpp cli.cpp heuresult.cpp shelves.cpp coord.cpp mipresult.cpp assignment.cpp)
-target_link_libraries(heuristic PUBLIC fmt::fmt -pthread)
+add_executable(matheuristic main_heuristic.cpp heuristic.cpp instance.cpp cli.cpp heuresult.cpp shelves.cpp coord.cpp mipresult.cpp assignment.cpp)
+target_link_libraries(mathheuristic PUBLIC fmt::fmt -pthread)
 
 target_include_directories(heuristic PUBLIC ${GUROBI_INCLUDE_DIRS})
 target_link_libraries(heuristic PUBLIC ${GUROBI_CPP_LIBRARY} ${GUROBI_LIBRARY} fmt::fmt -pthread)
