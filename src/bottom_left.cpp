@@ -35,7 +35,7 @@ HeurResult bottom_left(Instance const& inst) {
         }
     }
 
-    int lb = std::lround(area / inst.w);
+    int lb = std::ceil(area / inst.w);
 
     int w = inst.w;
     mdarray<int, 2> coord{w, ub};
