@@ -22,8 +22,8 @@ int main(int argc, char* argv[]) {
         res.print();
 
     } catch (GRBException& e) {
-        fmt::print("error code={}", e.getErrorCode());
-        fmt::print("error message={}", e.getMessage());
+        fmt::print("error code={}\n", e.getErrorCode());
+        fmt::print("error message={}\n", e.getMessage());
     }
 
     return 0;
