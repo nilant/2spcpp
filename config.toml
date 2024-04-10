@@ -5,14 +5,12 @@ instance_index = ["ntasks", "alpha", "wmax", "rmax", "seed"]
 
 # columns order for instaces latex table
 instance_order = ["W", "nitems", "reff", "lb"]
-instance_stats = []
 
 # columns order for results table
 models_order = ["obj", "bound", "runtime"]
-models_stats = []
 
 # columns order for latex table
-algos_order = ["obj", "runtime"]
+algos_order = ["obj", "bound", "runtime"]
 algos_stats = []
 
 # models

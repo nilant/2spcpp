@@ -71,7 +71,8 @@ Coord::Coord(GRBEnv& env, Instance const& inst, int ub) : model{env}, x{inst.nit
             }
         }
     }
-    model.addConstr( expr <= z * inst.w, "bound_7");
+
+    model.addConstr(expr <= z * inst.w, "bound_7");
 
 
     auto t1 = std::chrono::high_resolution_clock::now();
