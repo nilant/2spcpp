@@ -6,7 +6,7 @@ import argparse
 import pathlib
 
 def amdahl_law(exec_time, nproc, amdahl_p):
-    h = exec_time * ((1-amdahl_p) + amdahl_p / nproc)
+    h = round(exec_time * ((1-amdahl_p) + amdahl_p / nproc), 2)
     h_ceil = math.ceil(h)
     return h_ceil
 

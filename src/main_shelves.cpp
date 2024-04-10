@@ -1,16 +1,26 @@
+#include <fmt/core.h>
+
+#include "gurobi_c++.h"
 #include "shelves.hpp"
 #include "mipresult.hpp"
 
 int main(int argc, char* argv[]) {
 
-    Args args{argc, argv};
+    try {
 
-    GRBEnv env{};
-    Instance inst{args.input_file};
-    Shelves shelves{env, inst};
-    MIPResult res = shelves.optimize(args);
-    res.write(args.input_file);
-    res.print();
+        Args args{argc, argv};
+
+        GRBEnv env{};
+        Instance inst{args.input_file};
+        Shelves shelves{env, inst};
+        MIPResult res = shelves.optimize(args);
+        res.write(args.input_file);
+        res.print();
+
+    } catch (GRBException& e) {
+        fmt::print("error code={}", e.getErrorCode());
+        fmt::print("error message={}", e.getMessage());
+    }
 
     return 0;
 }
