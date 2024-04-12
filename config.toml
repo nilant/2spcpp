@@ -14,10 +14,10 @@ models_order = ["obj", "bound", "runtime"]
 algos_order = ["obj", "bound", "runtime"]
 
 # models
-models = ["bin/shelves", "bin/coord", "bin/coord2"]
+models = []
 
 # algorithms
-algos = ["bin/bottom_left"]
+algos = ["bin/heuristic"]
 
 # timelimit
 timelimit = 3600
