@@ -7,8 +7,11 @@
 #include <fmt/core.h>
 
 
-std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance> const& subs, Args const& args) {
+std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Args const& args) {
 
+    if (subs.size() % 2 == 1) {
+        subs.push_back(Instance{});
+    }
     int n = subs.size();
 
     Args coord_args{args};
@@ -35,6 +38,8 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance> const& subs
 }
 
 HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
+
+    fmt::print("Optimizing {}...\n", inst.name);
 
     auto t0 = std::chrono::high_resolution_clock::now();
 

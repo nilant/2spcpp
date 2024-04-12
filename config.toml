@@ -17,7 +17,7 @@ algos_order = ["obj", "bound", "runtime"]
 models = []
 
 # algorithms
-algos = ["bin/heuristic"]
+algos = ["bin/matheuristic"]
 
 # timelimit
 timelimit = 600

@@ -22,6 +22,7 @@ int main(int argc, char* argv[]) {
         HeurResult res = heuristic(env, inst, args);
         res.write(args.input_file);
         res.print();
+
     } catch (GRBException& e) {
         fmt::print("error code = {}\n", e.getErrorCode());
         fmt::print("error message = {}\n", e.getMessage());
