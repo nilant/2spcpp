@@ -11,7 +11,6 @@ models_order = ["obj", "bound", "runtime"]
 
 # columns order for latex table
 algos_order = ["obj", "bound", "runtime"]
-algos_stats = []
 
 # models
 models = ["bin/shelves", "bin/coord", "bin/coord2"]
