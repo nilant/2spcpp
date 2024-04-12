@@ -9,11 +9,9 @@ instance_stats = []
 
 # columns order for results table
 models_order = ["obj", "bound", "runtime"]
-models_stats = []
 
 # columns order for latex table
-algos_order = ["obj", "runtime"]
-algos_stats = []
+algos_order = ["obj", "bound", "runtime"]
 
 # models
 models = ["bin/shelves", "bin/coord", "bin/coord2"]
