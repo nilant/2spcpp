@@ -49,7 +49,10 @@ HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
     shelves_args.timelimit = 10;
 
     Shelves shelves{env, inst};
-    shelves.optimize(shelves_args);
+    auto shelves_sol = shelves.optimize(shelves_args);
+    res.start_sol = shelves_sol.obj;
+    
+    fmt::print("starting solution={}\n", res.start_sol);
 
     auto subs = shelves.subinsts(inst);
 
@@ -58,7 +61,8 @@ HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
     Args coord_args{args};
     coord_args.timelimit = (args.timelimit - 10) / nlevels;
 
-    fmt::print("n={}, nlevels={}\n", subs.size(), nlevels);
+    int n = subs.size();
+    fmt::print("n={}, pairs={}, nlevels={}\n", n, (n * (n-1) / 2), nlevels);
     int i = 0;
     while (subs.size() >= 2) {
         subs = solve_level(env, subs, coord_args);

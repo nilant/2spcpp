@@ -5,6 +5,7 @@ namespace fs = std::filesystem;
 
 struct HeurResult {
     std::string name;
+    double start_sol;
     double obj;
     double bound;
     double runtime;
