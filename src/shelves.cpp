@@ -97,6 +97,7 @@ std::vector<Instance> Shelves::subinsts(Instance const& inst) const {
 
                 sub.reff = 0;
                 sub.tasks.push_back(inst.tasks[sorted_items[i].task_id]);
+                sub.tasks.back().configs = {sorted_items[i]};
                 sub.tasks.back().repeat = 1;
                 if (val(x(i, i, r)) >= 1) {
                     sub.tasks.back().repeat += val(x(i, i, r));
@@ -106,6 +107,7 @@ std::vector<Instance> Shelves::subinsts(Instance const& inst) const {
                 for (int k = i+1; k < inst.nitems; ++k) {
                     if (val(x(k, i, r)) >= 1) {
                         sub.tasks.push_back(inst.tasks[sorted_items[k].task_id]);
+                        sub.tasks.back().configs = {sorted_items[i]};
                         sub.tasks.back().repeat = val(x(k, i, r));
                         sub.reff += sub.tasks.back().repeat;
                     }
