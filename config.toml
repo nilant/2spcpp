@@ -20,7 +20,7 @@ models = []
 algos = ["bin/matheuristic"]
 
 # timelimit
-timelimit = 600
+timelimit = 3600
 
 # memlimit
 memlimit = 16
