@@ -17,27 +17,8 @@ bool fit(Config const& item, mdarray<int, 2> const& coord, int p, int q) {
     return flag;
 }
 
-HeurResult bottom_left(Instance const& inst) {
+int bottom_left_impl(std::vector<Config>& items, int w, int ub) {
 
-    auto t0 = std::chrono::high_resolution_clock::now();
-
-    HeurResult res{"bottom_left"};
-
-    int ub = 0;
-    double area = 0;
-    std::vector<Config> items;
-    items.reserve(inst.ntasks * inst.rmax);
-    for (auto const& task : inst.tasks) {
-        for (int r = 0; r < task.repeat; ++r) {
-            items.push_back(task.configs[0]);
-            ub += task.configs[0].h;
-            area += task.configs[0].h * task.configs[0].w;
-        }
-    }
-
-    int lb = std::lround(area / inst.w);
-
-    int w = inst.w;
     mdarray<int, 2> coord{w, ub};
 
     for (int p = 0; p < w; ++p) {
@@ -72,6 +53,31 @@ HeurResult bottom_left(Instance const& inst) {
         }
         next_item:;
     }
+
+    return obj;
+}
+
+HeurResult bottom_left(Instance const& inst) {
+
+    auto t0 = std::chrono::high_resolution_clock::now();
+
+    HeurResult res{"bottom_left"};
+
+    int ub = 0;
+    double area = 0;
+    std::vector<Config> items;
+    items.reserve(inst.ntasks * inst.rmax);
+    for (auto const& task : inst.tasks) {
+        for (int r = 0; r < task.repeat; ++r) {
+            items.push_back(task.configs[0]);
+            ub += task.configs[0].h;
+            area += task.configs[0].h * task.configs[0].w;
+        }
+    }
+
+    int lb = std::lround(area / inst.w);
+
+    int obj = bottom_left_impl(items, inst.w, ub); 
 
     auto t1 = std::chrono::high_resolution_clock::now();
     res.obj = obj;
