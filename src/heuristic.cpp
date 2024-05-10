@@ -1,13 +1,15 @@
 #include "heuristic.hpp"
 #include "assignment.hpp"
+#include "bottom_left.hpp"
 #include "heuresult.hpp"
 #include "shelves.hpp"
 #include "coord.hpp"
+
 #include <chrono>
 #include <fmt/core.h>
 
 
-std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Args const& args) {
+std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Instance const& inst, Args const& args) {
 
     if (subs.size() % 2 == 1) {
         subs.push_back(Instance{});
@@ -15,26 +17,34 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Args
     int n = subs.size();
 
     Args coord_args{args};
-    coord_args.timelimit /= (n * (n-1) / 2);
+    coord_args.timelimit /= (n / 2);
 
     mdarray<int, 2> combs{n, n};
     mdarray<Instance, 2> instances{n, n};
 
     for (int i = 0; i < n; ++i) {
         for (int j = i+1; j < n; ++j) {
-            fmt::print("Optimizing ({}, {})\n", i, j);
             Instance new_inst = merge(subs[i], subs[j]);
-            Coord coord{env, new_inst, new_inst.ub};
-            auto coord_res = coord.optimize(coord_args, new_inst.ub);
-            new_inst.ub = coord_res.obj;
-            combs(i, j) = coord_res.obj;
+            
+            auto bl_res = bottom_left(new_inst); 
+            fmt::print("Optimize ({}, {}): pre={}, post={}\n", i, j, new_inst.ub, bl_res.obj);
+            new_inst.ub = std::min(static_cast<int>(bl_res.obj), new_inst.ub);
+            combs(i, j) = new_inst.ub;
             instances(i, j) = new_inst;
         }
     }
 
     Assignment ass{env, combs};
     ass.optimize(args);
-    return ass.select(instances);
+    auto new_subs = ass.select(instances);
+    for (auto sub : new_subs) {
+        Coord coord(env, sub, sub.ub);
+        auto coord_res = coord.optimize(coord_args, sub.ub);
+        fmt::print("coord pre={}, post={}\n", sub.ub, coord_res.obj);
+        sub.ub = std::min(static_cast<int>(coord_res.obj), sub.ub);
+    }
+
+    return new_subs;
 }
 
 HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
@@ -65,7 +75,7 @@ HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
     fmt::print("n={}, pairs={}, nlevels={}\n", n, (n * (n-1) / 2), nlevels);
     int i = 0;
     while (subs.size() >= 2) {
-        subs = solve_level(env, subs, coord_args);
+        subs = solve_level(env, subs, inst, coord_args);
         int obj = 0;
         for (auto const& sub : subs) {
             obj += sub.ub;

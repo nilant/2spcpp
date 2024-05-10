@@ -21,4 +21,8 @@ struct MIPResult {
     void print();
 };
 
+inline int val(GRBVar const& x) {
+    return std::lrint(x.get(GRB_DoubleAttr_X));
+}
+
 MIPResult solve(std::string const& name, GRBModel& model, Args const& args);

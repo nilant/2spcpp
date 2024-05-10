@@ -72,10 +72,6 @@ MIPResult Shelves::optimize(Args const& args) {
     return res;
 }
 
-int val(GRBVar const& x) {
-    return std::lrint(x.get(GRB_DoubleAttr_X));
-}
-
 std::vector<Instance> Shelves::subinsts(Instance const& inst) const {
 
     std::vector<Instance> subs;
@@ -94,12 +90,16 @@ std::vector<Instance> Shelves::subinsts(Instance const& inst) const {
                 sub.nitems = inst.nitems;
 
                 sub.ub = sorted_items[i].h;
+                sub.selected_items.push_back(sorted_items[i]);
 
                 sub.reff = 0;
                 sub.tasks.push_back(inst.tasks[sorted_items[i].task_id]);
                 sub.tasks.back().repeat = 1;
                 if (val(x(i, i, r)) >= 1) {
                     sub.tasks.back().repeat += val(x(i, i, r));
+                    for (int rr = 0; rr < val(x(i, i, r)); ++rr) {
+                        sub.selected_items.push_back(sorted_items[i]);
+                    }
                 }
                 sub.reff += sub.tasks.back().repeat;
 
@@ -107,6 +107,9 @@ std::vector<Instance> Shelves::subinsts(Instance const& inst) const {
                     if (val(x(k, i, r)) >= 1) {
                         sub.tasks.push_back(inst.tasks[sorted_items[k].task_id]);
                         sub.tasks.back().repeat = val(x(k, i, r));
+                        for (int rr = 0; rr < val(x(k, i, r)); ++rr) {
+                            sub.selected_items.push_back(sorted_items[k]);
+                        }
                         sub.reff += sub.tasks.back().repeat;
                     }
                 }
@@ -117,6 +120,8 @@ std::vector<Instance> Shelves::subinsts(Instance const& inst) const {
                         sub.items.push_back(item);
                     }
                 }
+
+                assert(sub.selected_items.size() == sub.reff);
 
                 subs.push_back(sub);
             }

@@ -88,5 +88,8 @@ Instance merge(Instance const& inst1, Instance const& inst2) {
         }
     }
 
+    inst.selected_items = inst1.selected_items;
+    inst.selected_items.insert(inst.selected_items.end(), inst2.selected_items.begin(), inst2.selected_items.end());
+
     return inst;
 }

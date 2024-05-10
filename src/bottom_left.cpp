@@ -57,7 +57,7 @@ int bottom_left_impl(std::vector<Config>& items, int w, int ub) {
     return obj;
 }
 
-HeurResult bottom_left(Instance const& inst) {
+HeurResult bottom_left(Instance& inst) {
 
     auto t0 = std::chrono::high_resolution_clock::now();
 
@@ -65,19 +65,14 @@ HeurResult bottom_left(Instance const& inst) {
 
     int ub = 0;
     double area = 0;
-    std::vector<Config> items;
-    items.reserve(inst.ntasks * inst.rmax);
-    for (auto const& task : inst.tasks) {
-        for (int r = 0; r < task.repeat; ++r) {
-            items.push_back(task.configs[0]);
-            ub += task.configs[0].h;
-            area += task.configs[0].h * task.configs[0].w;
-        }
+    for (auto const& item : inst.selected_items) {
+        ub += item.h;
+        area += item.h * item.w;
     }
 
     int lb = std::lround(area / inst.w);
 
-    int obj = bottom_left_impl(items, inst.w, ub); 
+    int obj = bottom_left_impl(inst.selected_items, inst.w, ub); 
 
     auto t1 = std::chrono::high_resolution_clock::now();
     res.obj = obj;

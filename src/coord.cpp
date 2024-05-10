@@ -87,3 +87,34 @@ MIPResult Coord::optimize(Args const& args, int ub) {
     res.buildtime = _buildtime;
     return res;
 }
+
+Instance Coord::subinst(Instance const& inst) const {
+    
+    Instance sub;
+    sub.name = inst.name;
+    sub.rmax = inst.rmax;
+    sub.wmax = sub.wmax;
+    sub.w = inst.w;
+    sub.seed = inst.seed;
+    sub.alpha = inst.alpha;
+    sub.tasks = inst.tasks;
+    sub.items = inst.items;
+    sub.reff = inst.reff;
+    
+    sub.ub = val(z);
+
+    for (auto const& item : inst.items) {
+        int i = item.id;
+        for (int p = 0; p <= inst.w - item.w; ++p) {
+            for (int q = 0; q <= sub.ub - item.h; ++q) {
+                if (val(x(i, p, q)) == 1) {
+                    sub.selected_items.push_back(item);
+                }
+            }
+        }
+    }
+
+    assert(sub.selected_items.size() == sub.reff);
+
+    return sub;
+}
