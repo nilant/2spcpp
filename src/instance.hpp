@@ -11,6 +11,8 @@ struct Config {
     int repeat{-1};
     int w{-1};
     int h{-1};
+    int x{-1};
+    int y{-1};
 };
 
 struct Task {

@@ -37,10 +37,12 @@ int bottom_left_impl(std::vector<Config>& items, int w, int ub) {
     );
 
     int obj = 0;
-    for (auto const& item : items) {
+    for (auto& item : items) {
         for (int q = 0; q <= ub - item.h; ++q) {
             for (int p = 0; p <= w - item.w; ++p) {
                 if (fit(item, coord, p, q)) {
+                    item.x = p;
+                    item.y = q;
                     obj = std::max(q + item.h, obj);
                     for (int i = p; i < p + item.w; ++i) {
                         for (int j = q; j < q + item.h; ++j) {

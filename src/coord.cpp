@@ -103,12 +103,14 @@ Instance Coord::subinst(Instance const& inst) const {
     
     sub.ub = val(z);
 
-    for (auto const& item : inst.items) {
+    for (auto& item : inst.items) {
         int i = item.id;
         for (int p = 0; p <= inst.w - item.w; ++p) {
             for (int q = 0; q <= sub.ub - item.h; ++q) {
                 if (val(x(i, p, q)) == 1) {
                     sub.selected_items.push_back(item);
+                    sub.selected_items.back().x = p;
+                    sub.selected_items.back().y = q;
                 }
             }
         }
