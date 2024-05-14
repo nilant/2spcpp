@@ -1,6 +1,8 @@
 #pragma once
 
 #include <filesystem>
+#include <cmath>
+
 #include "cli.hpp"
 #include "gurobi_c++.h"
 
