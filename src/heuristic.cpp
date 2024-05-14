@@ -17,7 +17,7 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
     int n = subs.size();
 
     Args coord_args{args};
-    coord_args.timelimit /= (n / 2);
+    coord_args.timelimit /= (n);
 
     mdarray<int, 2> combs{n, n};
     mdarray<Instance, 2> instances{n, n};
