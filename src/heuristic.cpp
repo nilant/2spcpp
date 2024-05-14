@@ -28,7 +28,7 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
             
             auto bl_res = bottom_left(new_inst); 
             fmt::print("Optimize ({}, {}): pre={}, post={}\n", i, j, new_inst.ub, bl_res.obj);
-            new_inst.ub = std::min(static_cast<int>(bl_res.obj), new_inst.ub);
+            new_inst.ub = std::min(static_cast<int>(std::lrint(bl_res.obj)), new_inst.ub);
             combs(i, j) = new_inst.ub;
             instances(i, j) = new_inst;
         }
@@ -37,11 +37,11 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
     Assignment ass{env, combs};
     ass.optimize(args);
     auto new_subs = ass.select(instances);
-    for (auto sub : new_subs) {
+    for (auto& sub : new_subs) {
         Coord coord(env, sub, sub.ub);
         auto coord_res = coord.optimize(coord_args, sub.ub);
         fmt::print("coord pre={}, post={}\n", sub.ub, coord_res.obj);
-        sub.ub = std::min(static_cast<int>(coord_res.obj), sub.ub);
+        sub.ub = std::min(static_cast<int>(std::lrint(coord_res.obj)), sub.ub);
     }
 
     return new_subs;

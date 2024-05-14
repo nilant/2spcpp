@@ -27,15 +27,6 @@ int bottom_left_impl(std::vector<Config>& items, int w, int ub) {
         }
     }
 
-    std::sort(items.begin(), items.end(), 
-             [](auto const& a, auto const& b) { 
-                if ((a.h > b.h) || (a.h == b.h && a.w < b.w)) {
-                    return true;
-                }
-                return false;
-            }
-    );
-
     int obj = 0;
     for (auto& item : items) {
         for (int q = 0; q <= ub - item.h; ++q) {
@@ -73,6 +64,15 @@ HeurResult bottom_left(Instance& inst) {
     }
 
     int lb = std::lround(area / inst.w);
+
+     std::sort(inst.selected_items.begin(), inst.selected_items.end(), 
+             [](auto const& a, auto const& b) { 
+                if ((a.h > b.h) || (a.h == b.h && a.w < b.w)) {
+                    return true;
+                }
+                return false;
+            }
+    );
 
     int obj = bottom_left_impl(inst.selected_items, inst.w, ub); 
 
