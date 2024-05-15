@@ -47,6 +47,7 @@ std::vector<Instance> Assignment::select(mdarray<Instance, 2> const& instances) 
     for (int i = 0; i < n; ++i) {
         for (int j = i+1; j < n; ++j) {
             if (std::lrint(x(i, j).get(GRB_DoubleAttr_X)) == 1) {
+                fmt::print("selecting ({}, {})\n", i, j);
                 insts.push_back(instances(i, j));
             }
         }
