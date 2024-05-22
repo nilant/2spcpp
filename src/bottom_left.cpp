@@ -1,10 +1,11 @@
+#include <algorithm>
 #include <cmath>
 #include <fmt/core.h> 
+#include <random>
 
 #include "bottom_left.hpp"
 #include "instance.hpp"
 #include "mdarray.hpp"
-
 
 bool fit(Config const& item, mdarray<int, 2> const& coord, int p, int q) {
     bool flag = true;
@@ -50,22 +51,24 @@ int bottom_left_impl(std::vector<Config>& items, int w, int ub) {
     return obj;
 }
 
-HeurResult bottom_left(Instance& inst) {
+HeurResult bottom_left(Instance const& inst) {
 
     auto t0 = std::chrono::high_resolution_clock::now();
 
     HeurResult res{"bottom_left"};
 
+    std::vector<Config> items{inst.selected_items};
+
     int ub = 0;
     double area = 0;
-    for (auto const& item : inst.selected_items) {
+    for (auto const& item : items) {
         ub += item.h;
         area += item.h * item.w;
     }
 
     int lb = std::lround(area / inst.w);
 
-     std::sort(inst.selected_items.begin(), inst.selected_items.end(), 
+     std::sort(items.begin(), items.end(), 
              [](auto const& a, auto const& b) { 
                 if ((a.h > b.h) || (a.h == b.h && a.w < b.w)) {
                     return true;
@@ -74,7 +77,18 @@ HeurResult bottom_left(Instance& inst) {
             }
     );
 
-    int obj = bottom_left_impl(inst.selected_items, inst.w, ub); 
+    int obj = bottom_left_impl(items, inst.w, ub); 
+
+    std::random_device rd;
+    std::mt19937 g(rd());
+
+    for (int count = 0; count < 50; ++count) {
+        std::shuffle(items.begin(), items.end(), g);
+
+        int obj2 = bottom_left_impl(items, inst.w, ub);
+
+        obj = std::min(obj2, obj);
+    }
 
     auto t1 = std::chrono::high_resolution_clock::now();
     res.obj = obj;
