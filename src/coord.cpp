@@ -23,6 +23,7 @@ Coord::Coord(GRBEnv& env, Instance const& inst, int ub) : model{env}, x{inst.nit
 
     //(4)
     for (auto const& task : inst.tasks) {
+        if (task.id == -1) continue; 
         GRBLinExpr expr{0}; 
         for (auto const& item : task.configs) {
             int i = item.id;

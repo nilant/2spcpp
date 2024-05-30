@@ -92,25 +92,26 @@ std::vector<Instance> Shelves::subinsts(Instance const& inst) const {
                 sub.ub = sorted_items[i].h;
                 sub.selected_items.push_back(sorted_items[i]);
 
+                sub.tasks = std::vector<Task>(sub.ntasks);
                 sub.reff = 0;
-                sub.tasks.push_back(inst.tasks[sorted_items[i].task_id]);
-                sub.tasks.back().repeat = 1;
+                sub.tasks[sorted_items[i].task_id] = (inst.tasks[sorted_items[i].task_id]);
+                sub.tasks[sorted_items[i].task_id].repeat = 1;
                 if (val(x(i, i, r)) >= 1) {
-                    sub.tasks.back().repeat += val(x(i, i, r));
+                    sub.tasks[sorted_items[i].task_id].repeat += val(x(i, i, r));
                     for (int rr = 0; rr < val(x(i, i, r)); ++rr) {
                         sub.selected_items.push_back(sorted_items[i]);
                     }
                 }
-                sub.reff += sub.tasks.back().repeat;
+                sub.reff += sub.tasks[sorted_items[i].task_id].repeat;
 
                 for (int k = i+1; k < inst.nitems; ++k) {
                     if (val(x(k, i, r)) >= 1) {
-                        sub.tasks.push_back(inst.tasks[sorted_items[k].task_id]);
-                        sub.tasks.back().repeat = val(x(k, i, r));
+                        sub.tasks[sorted_items[k].task_id] = (inst.tasks[sorted_items[k].task_id]);
+                        sub.tasks[sorted_items[k].task_id].repeat = val(x(k, i, r));
                         for (int rr = 0; rr < val(x(k, i, r)); ++rr) {
                             sub.selected_items.push_back(sorted_items[k]);
                         }
-                        sub.reff += sub.tasks.back().repeat;
+                        sub.reff += sub.tasks[sorted_items[k].task_id].repeat;
                     }
                 }
 

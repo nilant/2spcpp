@@ -1,5 +1,7 @@
 #include "instance.hpp"
 #include <fstream>
+#include <vector>
+#include <fmt/core.h>
 
 Instance::Instance(fs::path const& input_file) {
     
@@ -65,10 +67,12 @@ Instance merge(Instance const& inst1, Instance const& inst2) {
     inst.tasks.resize(inst.ntasks);
 
     for (auto const& task : inst1.tasks) {
+        if (task.id == -1) continue;
         inst.tasks[task.id] = task;
     }
 
     for (auto& task : inst2.tasks) {
+        if (task.id == -1) continue;
         if (inst.tasks[task.id].id == -1) {
             inst.tasks[task.id] = task;
         } else { // already present
@@ -79,17 +83,39 @@ Instance merge(Instance const& inst1, Instance const& inst2) {
         }
     }
 
-    auto it = std::remove_if(inst.tasks.begin(), inst.tasks.end(), [](auto const& task) { return task.id == -1; });
-    inst.tasks.erase(it, inst.tasks.end());
-
     for (auto const& task : inst.tasks) {
+        if (task.id == -1) continue;
         for (auto const& item : task.configs) {
             inst.items.push_back(item);
         }
     }
 
-    inst.selected_items = inst1.selected_items;
-    inst.selected_items.insert(inst.selected_items.end(), inst2.selected_items.begin(), inst2.selected_items.end());
+    for (auto const& item : inst1.selected_items) {
+        inst.selected_items.push_back(item);
+    }
+
+    for (auto const& item : inst2.selected_items) {
+        inst.selected_items.push_back(item);
+    }
 
     return inst;
+}
+
+inline bool overlap_1d(int x1_min, int x1_max, int x2_min, int x2_max) {
+    return x1_max > x2_min && x2_max > x1_min;
+}
+
+bool check_feas(std::vector<Config> const& items) {
+    for (int i = 0; i < items.size()-1; ++i) {
+        for (int j = i+1; j <items.size(); ++j) {
+            auto const& item1 = items[i];
+            auto const& item2 = items[j];
+            if (overlap_1d(item1.x, item1.x + item1.w, item2.x, item2.x + item2.w) &&
+                overlap_1d(item1.y, item1.y + item1.h, item2.y, item2.y + item2.h)) {
+                    fmt::print("item {}(({},{})-({},{})) and item {}(({},{})-({},{})) overlaps\n", item1.id, item1.x, item1.y, item1.w, item1.h, item2.id, item2.x, item2.y, item2.w, item2.h);
+                    return false;
+                }
+        }
+    }
+    return true;
 }

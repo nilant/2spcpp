@@ -44,3 +44,4 @@ struct Instance {
 };
 
 Instance merge(Instance const& inst1, Instance const& inst2);
+bool check_feas(std::vector<Config> const& items);

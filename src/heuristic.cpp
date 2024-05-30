@@ -82,6 +82,7 @@ HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
         }
         fmt::print("level={}, obj={}\n", i, obj);
         i++;
+        std::exit(1);
     }
 
     auto t1 = std::chrono::high_resolution_clock::now();
