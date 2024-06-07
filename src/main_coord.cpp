@@ -24,15 +24,12 @@ int main(int argc, char* argv[]) {
     std::vector<Config> items(inst.selected_items);
     int ub = bottom_left_impl(items.begin(), items.end(), inst.w, inst.ub);
     inst.ub = ub;
-    auto bl_res = bottom_left(inst);
-    int ub2 = bl_res.obj;
 
-    fmt::print("old: {}, new: {}\n", ub, ub2);
-    // fmt::print("old: {}\n", ub);
-
-    // Coord coord{env, inst, ub};
-    // MIPResult res = coord.optimize(args, ub);
-    // coord.print_sol(inst);
+    Coord coord{env, inst, ub};
+    MIPResult res = coord.optimize(args, ub);
+    #ifndef NDEBUG
+        coord.print_sol(inst);
+    #endif 
 
     return 0;
 }
