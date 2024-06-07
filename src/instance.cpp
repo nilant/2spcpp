@@ -46,6 +46,17 @@ Instance::Instance(fs::path const& input_file) {
         }
         tasks.push_back(task);
     }
+
+    for (auto const& task : tasks) {
+        for (int r = 0; r < task.repeat; ++r) {
+            selected_items.push_back(task.configs[0]);
+        }
+    }
+    
+    ub = 0;
+    for (auto const& task : tasks) {
+        ub += task.configs[0].h;
+    }
 }
 
 Instance merge(Instance const& inst1, Instance const& inst2) {
@@ -118,4 +129,31 @@ bool check_feas(std::vector<Config> const& items) {
         }
     }
     return true;
+}
+
+void print_solution(std::vector<Config>::iterator begin, std::vector<Config>::iterator end, int obj) {
+    std::ofstream file_ss{"data/solution.json"};
+    file_ss << std::setprecision(2)  << std::setw(4) << std::fixed;
+
+    nlohmann::ordered_json jsol;
+
+    std::vector<nlohmann::ordered_json> jitems;
+    for (auto it = begin; it != end; ++it) {
+        auto const& item = *it;
+        nlohmann::ordered_json j;
+        j["id"] = item.id;
+        j["task_id"] = item.task_id;
+        j["repeat"] = item.repeat;
+        j["w"] = item.w;
+        j["h"] = item.h;
+        j["x"] = item.x;
+        j["y"] = item.y;
+
+        jitems.push_back(j);
+    }
+
+    jsol["solution"] = jitems;
+    jsol["obj"] = obj;
+
+    file_ss << jsol << std::endl;
 }

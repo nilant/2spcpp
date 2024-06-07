@@ -1,12 +1,12 @@
 #include <algorithm>
+#include <cmath>
 #include <fmt/core.h> 
 #include <limits>
-#include <random>
+
+#include <fstream>
+#include <fmt/core.h>
 
 #include "bottom_left.hpp"
-#include "cli.hpp"
-#include "coord.hpp"
-#include "gurobi_c.h"
 #include "instance.hpp"
 #include "mdarray.hpp"
 
@@ -44,25 +44,21 @@ int bottom_left_impl(std::vector<Config>::iterator begin, std::vector<Config>::i
     int obj = 0;
     for (auto it = begin; it != end; ++it) {
         auto& item = *it;
-        bool flag = false;
         for (int q = 0; q <= ub - item.h; ++q) {
             for (int p = 0; p <= w - item.w; ++p) {
                 if (fit(item, coord, p, q)) {
-                    flag = true;
                     obj = std::max(q + item.h, obj);
                     fill_space(coord, p, q, item);
                     goto next_item;
                 }
             }
         }
-        if (!flag) {
-            #ifndef NDEBUG
-                fmt::print("item {} does not fit\n", item.id);
-            #endif
-            return std::numeric_limits<int>::max();
-        }
         next_item:;
     }
+
+    #ifndef NDEBUG
+        print_solution(begin, end, obj);
+    #endif
 
     return obj;
 }
@@ -78,48 +74,33 @@ HeurResult bottom_left(Instance const& inst) {
     int ub = 2*inst.ub;
     int lb = 0;
 
-    std::random_device rd;
-    std::mt19937 gen(rd());
-
-    std::bernoulli_distribution d(0.1);
-
-    auto mid = std::partition(items.begin(), items.end(), [&](auto const& a) {
-                                                            auto val = !d(gen); 
-                                                            return val;
-                                                        });
-    std::sort(items.begin(), mid, 
-            [](auto const& a, auto const& b) {
-                if ((a.h > b.h) || (a.h == b.h && a.w < b.w)) {
-                    return true;
+    std::sort(items.begin(), items.end(), 
+                [](auto const& a, auto const& b) {
+                    if ((a.h > b.h) || (a.h == b.h && a.w < b.w)) {
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
-    );
+        );
 
-    #ifndef NDEBUG
-        fmt::print("keeping out items ");
-        for (auto it = mid; it != items.end(); ++it) {
-            fmt::print("{}, ", it->id);
-        }
-        fmt::print("\n");
-    #endif
-
-    int obj = std::numeric_limits<int>::max();
+    auto mid = items.begin() + std::lrint(std::ceil(items.size() * 0.9));
     for (auto it = mid; it != items.end(); ++it) {
+
+        int task_id = items.back().task_id;
         Config best_config;
-        int task_id = it->task_id;
+        int best_obj = std::numeric_limits<int>::max(); 
         for (auto& config : inst.tasks[task_id].configs) {
             *it = config;
-            int new_obj = bottom_left_impl(items.begin(), std::next(it), inst.w, ub);
-            if (new_obj < obj) {
-                obj = new_obj;
+            int new_obj = bottom_left_impl(items.begin(), it+1, inst.w, ub);
+            if (new_obj < best_obj) {
+                best_obj = new_obj;
                 best_config = config;
             }
         }
         *it = best_config;
     }
 
-    obj = bottom_left_impl(items.begin(), items.end(), inst.w, ub);
+    int final_obj = bottom_left_impl(items.begin(), items.end(), inst.w, ub);
 
     #ifndef NDEBUG
     if (!check_feas(items)) {
@@ -128,7 +109,7 @@ HeurResult bottom_left(Instance const& inst) {
     #endif
 
     auto t1 = std::chrono::high_resolution_clock::now();
-    res.obj = obj;
+    res.obj = final_obj;
     res.bound = lb;
 	res.runtime = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count() / 1000.0; 
 

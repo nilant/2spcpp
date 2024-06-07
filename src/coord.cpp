@@ -3,6 +3,7 @@
 #include "coord.hpp"
 #include "gurobi_c++.h"
 #include "gurobi_c.h"
+#include "instance.hpp"
 #include "mipresult.hpp"
 
 
@@ -87,6 +88,26 @@ MIPResult Coord::optimize(Args const& args, int ub) {
     }
     res.buildtime = _buildtime;
     return res;
+}
+
+void Coord::print_sol(Instance const& inst) const {
+    std::vector<Config> items;
+
+        for (auto const& item : inst.items) {
+        int i = item.id;
+        for (int p = 0; p <= inst.w - item.w; ++p) {
+            for (int q = 0; q <= inst.ub - item.h; ++q) {
+                if (std::lrint(x(i, p, q).get(GRB_DoubleAttr_X)) == 1) {
+                    Config item2 = item;
+                    item2.x = p;
+                    item2.y = q;
+                    items.push_back(item2);
+                }
+            }
+        }
+    }
+    int obj = std::lrint(z.get(GRB_DoubleAttr_X));
+    print_solution(items.begin(), items.end(), obj);
 }
 
 Instance Coord::subinst(Instance const& inst) const {
