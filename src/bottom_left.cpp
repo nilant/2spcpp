@@ -3,7 +3,6 @@
 #include <fmt/core.h> 
 #include <limits>
 
-#include <fstream>
 #include <fmt/core.h>
 
 #include "bottom_left.hpp"
