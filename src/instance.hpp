@@ -41,6 +41,7 @@ struct Instance {
 
     Instance() {};
     Instance(fs::path const& dat_file);
+    void print(fs::path const& dat_file, std::string name);
 };
 
 Instance merge(Instance const& inst1, Instance const& inst2);

@@ -59,6 +59,51 @@ Instance::Instance(fs::path const& input_file) {
     }
 }
 
+void Instance::print(fs::path const& file_path, std::string inst_name) {
+
+    std::ifstream file(file_path);
+
+    std::ofstream file_ss{file_path};
+    nlohmann::ordered_json j;
+
+    j["name"] = inst_name;
+    j["rmax"] = rmax;
+    j["wmax"] = wmax;
+    j["W"] = w;
+    j["seed"] = seed;
+    j["alpha"] = alpha;
+    j["ntasks"] = ntasks;
+    j["nitmes"] = nitems;
+    j["reff"] = reff;
+    j["lb"] = lb;
+    j["ub"] = ub;
+    std::vector<nlohmann::ordered_json> jtasks;
+    for (auto& task : tasks) {
+        nlohmann::ordered_json jtask;
+        jtask["id"] = task.id;
+        jtask["effort"] = task.effort;
+        jtask["repeat"] = task.repeat;
+
+        std::vector<nlohmann::ordered_json> jconfigs;
+        for (auto& config : task.configs) {
+            nlohmann::ordered_json jconf;
+            jconf["width"] = config.w;
+            jconf["height"] = config.h;
+
+            jconfigs.push_back(jconf);
+        }
+
+        jtask["configs"] = jconfigs;
+
+        jtasks.push_back(jtask);
+    }
+
+    j["tasks"] = jtasks;
+
+    file_ss << std::setprecision(2)  << std::setw(4) << std::fixed;
+    file_ss << j << std::endl;
+}
+
 Instance merge(Instance const& inst1, Instance const& inst2) {
 
     Instance inst{};
