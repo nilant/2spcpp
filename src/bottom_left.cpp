@@ -62,6 +62,7 @@ int get_top_from_id(std::vector<int>& tops, int id, int ub) {
     if (id == -1) {
         return ub;
     }
+    assert(id >= 0);
     return tops[id];
 }
 
