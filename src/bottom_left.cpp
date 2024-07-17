@@ -62,7 +62,7 @@ int get_top_from_id(std::vector<int>& tops, int id, int ub) {
     if (id == -1) {
         return ub;
     }
-    assert(id >= 0);
+    assert(id >= 0 && id < tops.size());
     return tops[id];
 }
 
@@ -76,7 +76,11 @@ int bottom_left_impl(std::vector<Config>::iterator begin, std::vector<Config>::i
         }
     }
 
-    std::vector<int> tops(end-begin);
+    int max_id = 0;
+    for (auto p = begin; p != end; ++p) {
+        max_id = std::max(max_id, p->id);
+    }
+    std::vector<int> tops(max_id+1);
 
     int obj = 0;
     for (auto it = begin; it != end; ++it) {
