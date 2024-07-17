@@ -27,9 +27,6 @@ int main(int argc, char* argv[]) {
 
     Coord coord{env, inst, ub};
     MIPResult res = coord.optimize(args, ub);
-    #ifndef NDEBUG
-        coord.print_sol(inst);
-    #endif 
 
     return 0;
 }

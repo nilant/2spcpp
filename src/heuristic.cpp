@@ -2,6 +2,7 @@
 #include "assignment.hpp"
 #include "bottom_left.hpp"
 #include "heuresult.hpp"
+#include "instance.hpp"
 #include "shelves.hpp"
 #include "coord.hpp"
 
@@ -26,11 +27,14 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
         for (int j = i+1; j < n; ++j) {
             Instance new_inst = merge(subs[i], subs[j]);
             
+            auto shelves_obj = new_inst.ub;
+
             auto bl_res = bottom_left(new_inst); 
+            if ((i == 0 && j == 1) || (i == 0 && j == 2) || (i == 2 && j == 3))
+                print_solution(new_inst.selected_items.begin(), new_inst.selected_items.end(), bl_res.obj, std::format("data/{}_{}_{}_{}.json", inst.name, "bl", i, j), "bl");
+
+            auto bl_obj = bl_res.obj;
             fmt::print("Optimize ({}, {}): pre={}, post={}\n", i, j, new_inst.ub, bl_res.obj);
-            new_inst.ub = std::min(static_cast<int>(std::lrint(bl_res.obj)), new_inst.ub);
-            combs(i, j) = new_inst.ub;
-            instances(i, j) = new_inst;
         }
     }
 

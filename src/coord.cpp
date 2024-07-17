@@ -90,9 +90,9 @@ MIPResult Coord::optimize(Args const& args, int ub) {
     return res;
 }
 
-void Coord::print_sol(Instance const& inst) const {
-    std::vector<Config> items;
+void Coord::costruct_solution(Instance& inst) {
 
+        inst.selected_items.clear();
         for (auto const& item : inst.items) {
         int i = item.id;
         for (int p = 0; p <= inst.w - item.w; ++p) {
@@ -101,13 +101,11 @@ void Coord::print_sol(Instance const& inst) const {
                     Config item2 = item;
                     item2.x = p;
                     item2.y = q;
-                    items.push_back(item2);
+                    inst.selected_items.push_back(item2);
                 }
             }
         }
     }
-    int obj = std::lrint(z.get(GRB_DoubleAttr_X));
-    print_solution(items.begin(), items.end(), obj);
 }
 
 Instance Coord::subinst(Instance const& inst) const {

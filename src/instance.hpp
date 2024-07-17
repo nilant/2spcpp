@@ -42,8 +42,9 @@ struct Instance {
     Instance() {};
     Instance(fs::path const& dat_file);
     void print(fs::path const& dat_file, std::string name);
+    void print_selected(fs::path const& dat_file, std::string name);
 };
 
 Instance merge(Instance const& inst1, Instance const& inst2);
 bool check_feas(std::vector<Config> const& items);
-void print_solution(std::vector<Config>::iterator begin, std::vector<Config>::iterator end, int obj);
+void print_solution(std::vector<Config>::iterator begin, std::vector<Config>::iterator end, int obj, std::string filename, std::string algname);

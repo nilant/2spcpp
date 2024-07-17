@@ -1,4 +1,5 @@
 #include "instance.hpp"
+#include <algorithm>
 #include <fstream>
 #include <vector>
 #include <fmt/core.h>
@@ -59,6 +60,58 @@ Instance::Instance(fs::path const& input_file) {
     }
 }
 
+void Instance::print_selected(fs::path const& file_path, std::string inst_name) {
+
+    std::ifstream file(file_path);
+
+    std::ofstream file_ss{file_path};
+    nlohmann::ordered_json j;
+
+    j["name"] = inst_name;
+    j["rmax"] = rmax;
+    j["wmax"] = wmax;
+    j["W"] = w;
+    j["seed"] = seed;
+    j["alpha"] = alpha;
+    j["ntasks"] = ntasks;
+    j["nitems"] = nitems;
+    j["nitems2"] = nitems2;
+    j["reff"] = reff;
+    j["lb"] = lb;
+    j["ub"] = ub;
+    std::vector<nlohmann::ordered_json> jtasks;
+    for (auto& task : tasks) {
+        if (task.id == -1) continue;
+        nlohmann::ordered_json jtask;
+        jtask["id"] = task.id;
+        jtask["effort"] = task.effort;
+        jtask["repeat"] = task.repeat;
+
+        std::vector<nlohmann::ordered_json> jconfigs;
+        for (auto& config : selected_items) {
+            if (config.task_id != task.id) continue;
+            nlohmann::ordered_json jconf;
+            jconf["width"] = config.w;
+            jconf["height"] = config.h;
+
+            jconfigs.push_back(jconf);
+        }
+
+        std::sort(jconfigs.begin(), jconfigs.end());
+        jconfigs.erase(std::unique(jconfigs.begin(), jconfigs.end()), jconfigs.end());
+        jtask["configs"] = jconfigs;
+
+        jtasks.push_back(jtask);
+    }
+
+    j["tasks"] = jtasks;
+
+    file_ss << std::setprecision(2)  << std::setw(4) << std::fixed;
+    nlohmann::ordered_json jj;
+    jj["instance"] = j;
+    file_ss << jj << std::endl;
+}
+
 void Instance::print(fs::path const& file_path, std::string inst_name) {
 
     std::ifstream file(file_path);
@@ -73,12 +126,14 @@ void Instance::print(fs::path const& file_path, std::string inst_name) {
     j["seed"] = seed;
     j["alpha"] = alpha;
     j["ntasks"] = ntasks;
-    j["nitmes"] = nitems;
+    j["nitems"] = nitems;
+    j["nitems2"] = nitems2;
     j["reff"] = reff;
     j["lb"] = lb;
     j["ub"] = ub;
     std::vector<nlohmann::ordered_json> jtasks;
     for (auto& task : tasks) {
+        if (task.id == -1) continue;
         nlohmann::ordered_json jtask;
         jtask["id"] = task.id;
         jtask["effort"] = task.effort;
@@ -101,7 +156,9 @@ void Instance::print(fs::path const& file_path, std::string inst_name) {
     j["tasks"] = jtasks;
 
     file_ss << std::setprecision(2)  << std::setw(4) << std::fixed;
-    file_ss << j << std::endl;
+    nlohmann::ordered_json jj;
+    jj["instance"] = j;
+    file_ss << jj << std::endl;
 }
 
 Instance merge(Instance const& inst1, Instance const& inst2) {
@@ -146,12 +203,24 @@ Instance merge(Instance const& inst1, Instance const& inst2) {
         }
     }
 
-    for (auto const& item : inst1.selected_items) {
+    auto items1{inst1.selected_items};
+    std::sort(items1.begin(), items1.end(), [](auto const& a, auto const& b) {return a.h > b.h; });
+    int p = 0;
+    for (auto& item : items1) {
         inst.selected_items.push_back(item);
+        inst.selected_items.back().y = 0;
+        inst.selected_items.back().x = p;
+        p += inst.selected_items.back().w;
     }
 
-    for (auto const& item : inst2.selected_items) {
+    auto items2{inst2.selected_items};
+    std::sort(items2.begin(), items2.end(), [](auto const& a, auto const& b) {return a.h > b.h; });
+    p = 0;
+    for (auto& item : items2) {
         inst.selected_items.push_back(item);
+        inst.selected_items.back().y = items1[0].h;
+        inst.selected_items.back().x = p;
+        p += inst.selected_items.back().w;
     }
 
     return inst;
@@ -176,8 +245,8 @@ bool check_feas(std::vector<Config> const& items) {
     return true;
 }
 
-void print_solution(std::vector<Config>::iterator begin, std::vector<Config>::iterator end, int obj) {
-    std::ofstream file_ss{"data/solution.json"};
+void print_solution(std::vector<Config>::iterator begin, std::vector<Config>::iterator end, int obj, std::string filename, std::string algname) {
+    std::ofstream file_ss{filename};
     file_ss << std::setprecision(2)  << std::setw(4) << std::fixed;
 
     nlohmann::ordered_json jsol;
@@ -197,8 +266,11 @@ void print_solution(std::vector<Config>::iterator begin, std::vector<Config>::it
         jitems.push_back(j);
     }
 
-    jsol["solution"] = jitems;
+    jsol["items"] = jitems;
     jsol["obj"] = obj;
 
-    file_ss << jsol << std::endl;
+    nlohmann::ordered_json jj;
+    jj[algname] = jsol;
+
+    file_ss << jj << std::endl;
 }
