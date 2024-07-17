@@ -36,7 +36,7 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
             auto bl_obj = bl_res.obj;
             fmt::print("Optimize ({}, {}): pre={}, post={}\n", i, j, new_inst.ub, bl_res.obj);
 
-            new_inst.ub = bl_obj;
+            combs(i, j) = new_inst.ub;
             instances(i, j) = new_inst;
         }
     }
