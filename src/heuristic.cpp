@@ -30,8 +30,8 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
             auto shelves_obj = new_inst.ub;
 
             auto bl_res = bottom_left(new_inst); 
-            if ((i == 0 && j == 1) || (i == 0 && j == 2) || (i == 2 && j == 3))
-                print_solution(new_inst.selected_items.begin(), new_inst.selected_items.end(), bl_res.obj, std::format("data/{}_{}_{}_{}.json", inst.name, "bl", i, j), "bl");
+            // if ((i == 0 && j == 1) || (i == 0 && j == 2) || (i == 2 && j == 3))
+            //     print_solution(new_inst.selected_items.begin(), new_inst.selected_items.end(), bl_res.obj, std::format("data/{}_{}_{}_{}.json", inst.name, "bl", i, j), "bl");
 
             auto bl_obj = bl_res.obj;
             fmt::print("Optimize ({}, {}): pre={}, post={}\n", i, j, new_inst.ub, bl_res.obj);
@@ -90,7 +90,6 @@ HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
         }
         fmt::print("level={}, obj={}\n", i, obj);
         i++;
-        std::exit(1);
     }
 
     auto t1 = std::chrono::high_resolution_clock::now();
