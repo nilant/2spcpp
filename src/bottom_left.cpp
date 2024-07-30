@@ -150,15 +150,21 @@ HeurResult bottom_left(Instance& inst) {
         );
 
     auto t1 = std::chrono::high_resolution_clock::now();
-    res.obj = bottom_left_impl(items.begin(), items.end(), inst.w, ub);
+    int obj = bottom_left_impl(items.begin(), items.end(), inst.w, ub);
+    res.obj = obj;
+
+    res.sol.items = items;
+    res.sol.name = "bl";
+    res.sol.obj = obj;
+
+    res.bound = lb;
+	res.runtime = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count() / 1000.0; 
 
     #ifndef NDEBUG
     if (!check_feas(items)) {
         std::exit(1);
     }
     #endif
-    res.bound = lb;
-	res.runtime = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count() / 1000.0; 
 
     return res;
 }

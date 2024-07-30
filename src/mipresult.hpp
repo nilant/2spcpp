@@ -4,6 +4,7 @@
 #include <cmath>
 
 #include "cli.hpp"
+#include "instance.hpp"
 #include "gurobi_c++.h"
 
 
@@ -16,6 +17,8 @@ struct MIPResult {
     double gap;
     double runtime;
     double buildtime;
+
+    Solution sol;
 
     explicit MIPResult(std::string const& alg_name) : name{alg_name} {}
 

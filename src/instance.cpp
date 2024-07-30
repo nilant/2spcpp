@@ -245,14 +245,11 @@ bool check_feas(std::vector<Config> const& items) {
     return true;
 }
 
-void print_solution(std::vector<Config>::iterator begin, std::vector<Config>::iterator end, int obj, std::string filename, std::string algname) {
-    std::ofstream file_ss{filename};
-    file_ss << std::setprecision(2)  << std::setw(4) << std::fixed;
-
+nlohmann::ordered_json Solution::to_json() {
     nlohmann::ordered_json jsol;
 
     std::vector<nlohmann::ordered_json> jitems;
-    for (auto it = begin; it != end; ++it) {
+    for (auto it = items.begin(); it != items.end(); ++it) {
         auto const& item = *it;
         nlohmann::ordered_json j;
         j["id"] = item.id;
@@ -269,8 +266,5 @@ void print_solution(std::vector<Config>::iterator begin, std::vector<Config>::it
     jsol["items"] = jitems;
     jsol["obj"] = obj;
 
-    nlohmann::ordered_json jj;
-    jj[algname] = jsol;
-
-    file_ss << jj << std::endl;
+    return jsol;
 }

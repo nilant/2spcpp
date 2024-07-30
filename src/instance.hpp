@@ -45,6 +45,13 @@ struct Instance {
     void print_selected(fs::path const& dat_file, std::string name);
 };
 
+struct Solution {
+    int obj;
+    std::string name;
+    std::vector<Config> items;
+    
+    nlohmann::ordered_json to_json();
+};
+
 Instance merge(Instance const& inst1, Instance const& inst2);
 bool check_feas(std::vector<Config> const& items);
-void print_solution(std::vector<Config>::iterator begin, std::vector<Config>::iterator end, int obj, std::string filename, std::string algname);

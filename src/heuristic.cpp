@@ -7,6 +7,7 @@
 #include "coord.hpp"
 
 #include <chrono>
+#include <fstream>
 #include <fmt/core.h>
 
 
@@ -26,18 +27,49 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
     for (int i = 0; i < n; ++i) {
         for (int j = i+1; j < n; ++j) {
             Instance new_inst = merge(subs[i], subs[j]);
-            
+            Solution merge_sol;
+            merge_sol.name = "shelves";
+            merge_sol.items = new_inst.selected_items;
+            merge_sol.obj = new_inst.ub;
+
             auto shelves_obj = new_inst.ub;
 
-            auto bl_res = bottom_left(new_inst); 
-            // if ((i == 0 && j == 1) || (i == 0 && j == 2) || (i == 2 && j == 3))
-            //     print_solution(new_inst.selected_items.begin(), new_inst.selected_items.end(), bl_res.obj, std::format("data/{}_{}_{}_{}.json", inst.name, "bl", i, j), "bl");
+            auto bl_res = bottom_left(new_inst);
+            auto bl_sol = bl_res.sol;
 
-            auto bl_obj = bl_res.obj;
-            fmt::print("Optimize ({}, {}): pre={}, post={}\n", i, j, new_inst.ub, bl_res.obj);
+            int bl_obj = bl_res.obj;
 
-            new_inst.ub = bl_obj;
-            combs(i, j) = bl_obj;
+            char star = ' ';
+            int obj = bl_obj; 
+            if (bl_obj > shelves_obj) {
+                star = '*';
+                obj = shelves_obj;
+
+                #ifndef NDEBUG
+                    auto json_merge_sol = merge_sol.to_json();                     
+                    auto json_bl_sol = bl_sol.to_json();
+
+                    Coord coord(env, new_inst, shelves_obj);
+                    auto coord_res = coord.optimize(coord_args, shelves_obj);
+                    coord_res.sol = coord.costruct_solution(new_inst);
+
+                    auto json_coord_sol = coord_res.sol.to_json();
+
+                    nlohmann::ordered_json jj;
+                    jj["shelves"] = json_merge_sol;
+                    jj["bl"] = json_bl_sol;
+                    jj["coord"] = json_coord_sol;
+
+                    std::ofstream file(fmt::format("data/sols/{}_{}_{}_{}_{}_sol.json", inst.name, inst.rmax, inst.wmax, i, j));
+                    file << std::setprecision(2) << std::setw(4) << std::fixed;
+
+                    file << jj << std::endl;
+                #endif
+            }
+            fmt::print("Optimize ({}, {}): pre={}, post={} {}\n", i, j, shelves_obj, bl_res.obj, star);
+
+            new_inst.ub = obj;
+            combs(i, j) = new_inst.ub;
             instances(i, j) = new_inst;
         }
     }

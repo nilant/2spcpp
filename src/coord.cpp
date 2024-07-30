@@ -87,13 +87,14 @@ MIPResult Coord::optimize(Args const& args, int ub) {
         res.obj = ub;
     }
     res.buildtime = _buildtime;
+
     return res;
 }
 
-void Coord::costruct_solution(Instance& inst) {
+Solution Coord::costruct_solution(Instance& inst) {
 
-        inst.selected_items.clear();
-        for (auto const& item : inst.items) {
+    inst.selected_items.clear();
+    for (auto const& item : inst.items) {
         int i = item.id;
         for (int p = 0; p <= inst.w - item.w; ++p) {
             for (int q = 0; q <= inst.ub - item.h; ++q) {
@@ -106,6 +107,13 @@ void Coord::costruct_solution(Instance& inst) {
             }
         }
     }
+
+    Solution sol;
+    sol.name = "coord";
+    sol.items = inst.selected_items;
+    sol.obj = static_cast<int>(std::lrint(z.get(GRB_DoubleAttr_X)));
+
+    return sol;
 }
 
 Instance Coord::subinst(Instance const& inst) const {
