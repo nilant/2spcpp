@@ -124,14 +124,10 @@ std::vector<Instance> Shelves::subinsts(Instance const& inst) const {
 
                 assert(sub.selected_items.size() == sub.reff);
 
+                sub.area();
                 subs.push_back(sub);
             }
         }
-    }
-
-    if (subs.size() % 2 != 0) {
-        Instance empty{};
-        subs.push_back(empty);
     }
 
     return subs;

@@ -161,6 +161,17 @@ void Instance::print(fs::path const& file_path, std::string inst_name) {
     file_ss << jj << std::endl;
 }
 
+void Instance::area() {
+    int fill_area = 0;
+    for (auto const& item : selected_items) {
+        fill_area += item.h * item.w;
+    }
+
+    int total_area = ub * w;
+
+    fill_ratio = static_cast<double>(fill_area) / total_area;
+}
+
 Instance merge(Instance const& inst1, Instance const& inst2) {
 
     Instance inst{};
@@ -223,6 +234,7 @@ Instance merge(Instance const& inst1, Instance const& inst2) {
         p += inst.selected_items.back().w;
     }
 
+    inst.area();
     return inst;
 }
 

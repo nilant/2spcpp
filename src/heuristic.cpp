@@ -7,19 +7,16 @@
 #include "coord.hpp"
 
 #include <chrono>
-#include <fstream>
 #include <fmt/core.h>
+#include <algorithm>
 
 
 std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Instance const& inst, Args const& args) {
 
-    if (subs.size() % 2 == 1) {
-        subs.push_back(Instance{});
-    }
     int n = subs.size();
 
     Args coord_args{args};
-    coord_args.timelimit /= (n);
+    coord_args.timelimit /= n;
 
     mdarray<int, 2> combs{n, n};
     mdarray<Instance, 2> instances{n, n};
@@ -45,26 +42,26 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
                 star = '*';
                 obj = shelves_obj;
 
-                #ifndef NDEBUG
-                    auto json_merge_sol = merge_sol.to_json();                     
-                    auto json_bl_sol = bl_sol.to_json();
+                // #ifndef NDEBUG
+                //     auto json_merge_sol = merge_sol.to_json();                     
+                //     auto json_bl_sol = bl_sol.to_json();
 
-                    Coord coord(env, new_inst, shelves_obj);
-                    auto coord_res = coord.optimize(coord_args, shelves_obj);
-                    coord_res.sol = coord.costruct_solution(new_inst);
+                //     Coord coord(env, new_inst, shelves_obj);
+                //     auto coord_res = coord.optimize(coord_args, shelves_obj);
+                //     coord_res.sol = coord.costruct_solution(new_inst);
 
-                    auto json_coord_sol = coord_res.sol.to_json();
+                //     auto json_coord_sol = coord_res.sol.to_json();
 
-                    nlohmann::ordered_json jj;
-                    jj["shelves"] = json_merge_sol;
-                    jj["bl"] = json_bl_sol;
-                    jj["coord"] = json_coord_sol;
+                //     nlohmann::ordered_json jj;
+                //     jj["shelves"] = json_merge_sol;
+                //     jj["bl"] = json_bl_sol;
+                //     jj["coord"] = json_coord_sol;
 
-                    std::ofstream file(fmt::format("data/sols/{}_{}_{}_{}_{}_sol.json", inst.name, inst.rmax, inst.wmax, i, j));
-                    file << std::setprecision(2) << std::setw(4) << std::fixed;
+                //     std::ofstream file(fmt::format("data/sols/{}_{}_{}_{}_{}_sol.json", inst.name, inst.rmax, inst.wmax, i, j));
+                //     file << std::setprecision(2) << std::setw(4) << std::fixed;
 
-                    file << jj << std::endl;
-                #endif
+                //     file << jj << std::endl;
+                // #endif
             }
             fmt::print("Optimize ({}, {}): pre={}, post={} {}\n", i, j, shelves_obj, bl_res.obj, star);
 
@@ -81,15 +78,33 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
         Coord coord(env, sub, sub.ub);
         auto coord_res = coord.optimize(coord_args, sub.ub);
         fmt::print("coord pre={}, post={}\n", sub.ub, coord_res.obj);
-        sub.ub = std::min(static_cast<int>(std::lrint(coord_res.obj)), sub.ub);
+
+        if (coord_res.obj != -1) {
+            sub = coord.subinst(sub);
+        }
     }
 
     return new_subs;
 }
 
+std::vector<Instance> filter_subs(std::vector<Instance>& subs, double percentage) {
+    auto it = std::partition(subs.begin(), subs.end(), [percentage](auto const& sub) {return sub.fill_ratio <= percentage; });
+    std::vector<Instance> full_instances{it, subs.end()};
+    subs.erase(it, subs.end());
+    
+    if (subs.size() % 2 != 0 && subs.size() > 1) {
+        Instance empty{};
+        subs.push_back(empty);
+    }
+
+    return full_instances;
+}
+
 HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
 
     fmt::print("Optimizing {}...\n", inst.name);
+
+    double filter_area_percent = 0.95;
 
     auto t0 = std::chrono::high_resolution_clock::now();
 
@@ -105,17 +120,23 @@ HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
     fmt::print("starting solution={}\n", res.start_sol);
 
     auto subs = shelves.subinsts(inst);
+    auto full_insts = filter_subs(subs, filter_area_percent);
 
-    int nlevels = std::lrint(std::log2(subs.size()));
+    int n = subs.size();
+
+    int nlevels = std::lrint(std::log2(n));
 
     Args coord_args{args};
     coord_args.timelimit = (args.timelimit - 10) / nlevels;
 
-    int n = subs.size();
     fmt::print("n={}, pairs={}, nlevels={}\n", n, (n * (n-1) / 2), nlevels);
     int i = 0;
-    while (subs.size() >= 2) {
+    while (n >= 2) {
         subs = solve_level(env, subs, inst, coord_args);
+        auto full = filter_subs(subs, filter_area_percent);
+        full_insts.insert(full_insts.end(), full.begin(), full.end());
+        n = subs.size();
+
         int obj = 0;
         for (auto const& sub : subs) {
             obj += sub.ub;
@@ -127,6 +148,9 @@ HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
     auto t1 = std::chrono::high_resolution_clock::now();
     res.runtime = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count() / 1000.0;
     res.obj = subs[0].ub;
+    for (auto const& inst : full_insts) {
+        res.obj += inst.ub;
+    }
 
     return res;
 }

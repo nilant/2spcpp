@@ -35,12 +35,14 @@ struct Instance {
     int reff{0};
     int lb{0};
     int ub{0};
+    double fill_ratio{0.0};
     std::vector<Task> tasks;
     std::vector<Config> items;
     std::vector<Config> selected_items;
 
     Instance() {};
     Instance(fs::path const& dat_file);
+    void area();
     void print(fs::path const& dat_file, std::string name);
     void print_selected(fs::path const& dat_file, std::string name);
 };

@@ -83,9 +83,6 @@ Coord::Coord(GRBEnv& env, Instance const& inst, int ub) : model{env}, x{inst.nit
 MIPResult Coord::optimize(Args const& args, int ub) {
     
     auto res = solve(name, model, args);
-    if (res.obj == -1) {
-        res.obj = ub;
-    }
     res.buildtime = _buildtime;
 
     return res;
@@ -125,8 +122,11 @@ Instance Coord::subinst(Instance const& inst) const {
     sub.w = inst.w;
     sub.seed = inst.seed;
     sub.alpha = inst.alpha;
+    sub.ntasks = inst.ntasks;
     sub.tasks = inst.tasks;
+    sub.ntasks = inst.ntasks;
     sub.items = inst.items;
+    sub.nitems = inst.nitems;
     sub.reff = inst.reff;
     
     sub.ub = val(z);
@@ -144,6 +144,7 @@ Instance Coord::subinst(Instance const& inst) const {
         }
     }
 
+    sub.area();
     assert(sub.selected_items.size() == sub.reff);
 
     return sub;
