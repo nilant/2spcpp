@@ -108,7 +108,7 @@ HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
 
     auto t0 = std::chrono::high_resolution_clock::now();
 
-    HeurResult res{"matheuristic"};
+    HeurResult res{args.exec_name};
 
     Args shelves_args{args};
     shelves_args.timelimit = 10;
@@ -127,7 +127,11 @@ HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
     int nlevels = std::lrint(std::log2(n));
 
     Args coord_args{args};
-    coord_args.timelimit = (args.timelimit - 10) / nlevels;
+    if (nlevels > 0) {
+        coord_args.timelimit = (args.timelimit - 10) / nlevels;
+    } else {
+        coord_args.timelimit = args.timelimit - 10;
+    }
 
     fmt::print("n={}, pairs={}, nlevels={}\n", n, (n * (n-1) / 2), nlevels);
     int i = 0;
@@ -147,10 +151,12 @@ HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
 
     auto t1 = std::chrono::high_resolution_clock::now();
     res.runtime = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count() / 1000.0;
-    res.obj = subs[0].ub;
+    res.obj = 0;
     for (auto const& inst : full_insts) {
         res.obj += inst.ub;
     }
-
+    if (n == 1) {
+        res.obj += subs[0].ub;
+    }
     return res;
 }
