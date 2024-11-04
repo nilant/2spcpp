@@ -92,11 +92,6 @@ std::vector<Instance> filter_subs(std::vector<Instance>& subs, double percentage
     std::vector<Instance> full_instances{it, subs.end()};
     subs.erase(it, subs.end());
     
-    if (subs.size() % 2 != 0 && subs.size() > 1) {
-        Instance empty{};
-        subs.push_back(empty);
-    }
-
     return full_instances;
 }
 
@@ -104,7 +99,7 @@ HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
 
     fmt::print("Optimizing {}...\n", inst.name);
 
-    double filter_area_percent = 0.95;
+    double filter_area_percent = 1;
 
     auto t0 = std::chrono::high_resolution_clock::now();
 
@@ -123,6 +118,12 @@ HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
     auto full_insts = filter_subs(subs, filter_area_percent);
 
     int n = subs.size();
+
+    if (n % 2 != 0) {
+        Instance empty{};
+        subs.push_back(empty);
+        n++;
+    }
 
     int nlevels = std::lrint(std::log2(n));
 
