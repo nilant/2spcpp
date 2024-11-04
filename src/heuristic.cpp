@@ -1,6 +1,6 @@
 #include "heuristic.hpp"
 #include "assignment.hpp"
-#include "bottom_left.hpp"
+#include "bottom_left_plus.hpp"
 #include "heuresult.hpp"
 #include "instance.hpp"
 #include "shelves.hpp"
