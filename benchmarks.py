@@ -93,6 +93,7 @@ if __name__ == '__main__':
         cmd = './' + cmd
         start = time.time();
         for input in args.input_dir.glob('**/*.json'):
+            print(f'launching {cmd} with input {input}...')
             subprocess.run([cmd, input] + cmdl_args)
 
         end = time.time();

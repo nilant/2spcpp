@@ -13,13 +13,13 @@ models_order = ["obj", "bound", "runtime"]
 algos_order = ["obj", "bound", "runtime"]
 
 # models
-models = ["bin/shelves", "bin/coord", "bin/coord2"]
+models = []
 
 # algorithms
-algos = ["bin/bottom_left"]
+algos = ["bin/heur95", "bin/heur98", "bin/heur100"]
 
 # timelimit
-timelimit = 3600
+timelimit = 600
 
 # memlimit
 memlimit = 16

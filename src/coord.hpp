@@ -16,7 +16,9 @@ class Coord {
 
     public:
         Coord(GRBEnv& env, Instance const& inst, int ub);
-        MIPResult optimize(Args const& args);
+        MIPResult optimize(Args const& args, int ub);
+        Solution costruct_solution(Instance& inst);
         double runtime() { return model.get(GRB_DoubleAttr_Runtime); };
         double buildtime() { return _buildtime; };
+        Instance subinst(Instance const& inst) const;
 };

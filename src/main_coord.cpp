@@ -1,8 +1,8 @@
-#include <fmt/core.h>
-
-#include "bottom_left.hpp"
 #include "coord.hpp"
-#include "mipresult.hpp"
+#include "bottom_left_plus.hpp"
+#include "cli.hpp"
+#include <gurobi_c++.h>
+#include <fmt/core.h>
 
 int main(int argc, char* argv[]) {
 
@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
         int ub = res_bl.obj;
 
         Coord coord{env, inst, ub};
-        MIPResult res = coord.optimize(args);
+        MIPResult res = coord.optimize(args, ub);
         res.write(args.input_file);
         res.print();
 
@@ -25,6 +25,6 @@ int main(int argc, char* argv[]) {
         fmt::print("error code={}\n", e.getErrorCode());
         fmt::print("error message={}\n", e.getMessage());
     }
-
+    
     return 0;
 }

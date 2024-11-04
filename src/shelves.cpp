@@ -7,14 +7,14 @@
 #include "instance.hpp"
 
 
-Shelves::Shelves(GRBEnv& env, Instance const& inst) : model{env}, y{inst.nitems, inst.rmax}, x{inst.nitems, inst.nitems, inst.rmax} {
+Shelves::Shelves(GRBEnv& env, Instance const& inst) : model{env}, sorted_items{inst.items}, y{inst.nitems, inst.rmax}, x{inst.nitems, inst.nitems, inst.rmax} {
 
     auto t0 = std::chrono::high_resolution_clock::now();
 
-    std::vector<Config> sorted_items(inst.nitems);
-    std::partial_sort_copy(inst.items.begin(), inst.items.end(),
-                            sorted_items.begin(), sorted_items.end(), 
-                            [] (auto const& a, auto const& b) { return a.h > b.h; });
+    std::sort(sorted_items.begin(), sorted_items.end(), 
+                [] (auto const& a, auto const& b) { 
+                    return a.h > b.h; }
+                );
 
     for (int i = 0; i < inst.nitems; ++i) {
         for (int r = 0; r < sorted_items[i].repeat; ++r) {
@@ -71,4 +71,65 @@ MIPResult Shelves::optimize(Args const& args) {
     auto res = solve(name, model, args);
     res.buildtime = _buildtime;
     return res;
+}
+
+std::vector<Instance> Shelves::subinsts(Instance const& inst) const {
+
+    std::vector<Instance> subs;
+
+    for (int i = 0; i < inst.nitems; ++i) {
+        for (int r = 0; r < sorted_items[i].repeat; ++r) {
+            if (val(y(i, r)) == 1) {
+                Instance sub{};
+                sub.name = inst.name;
+                sub.rmax = inst.rmax;
+                sub.wmax = inst.wmax;
+                sub.w = inst.w;
+                sub.seed = inst.seed;
+                sub.alpha = inst.alpha;
+                sub.ntasks = inst.ntasks;
+                sub.nitems = inst.nitems;
+
+                sub.ub = sorted_items[i].h;
+                sub.selected_items.push_back(sorted_items[i]);
+
+                sub.tasks = std::vector<Task>(sub.ntasks);
+                sub.reff = 0;
+                sub.tasks[sorted_items[i].task_id] = (inst.tasks[sorted_items[i].task_id]);
+                sub.tasks[sorted_items[i].task_id].repeat = 1;
+                if (val(x(i, i, r)) >= 1) {
+                    sub.tasks[sorted_items[i].task_id].repeat += val(x(i, i, r));
+                    for (int rr = 0; rr < val(x(i, i, r)); ++rr) {
+                        sub.selected_items.push_back(sorted_items[i]);
+                    }
+                }
+                sub.reff += sub.tasks[sorted_items[i].task_id].repeat;
+
+                for (int k = i+1; k < inst.nitems; ++k) {
+                    if (val(x(k, i, r)) >= 1) {
+                        sub.tasks[sorted_items[k].task_id] = (inst.tasks[sorted_items[k].task_id]);
+                        sub.tasks[sorted_items[k].task_id].repeat = val(x(k, i, r));
+                        for (int rr = 0; rr < val(x(k, i, r)); ++rr) {
+                            sub.selected_items.push_back(sorted_items[k]);
+                        }
+                        sub.reff += sub.tasks[sorted_items[k].task_id].repeat;
+                    }
+                }
+
+                for (auto& task : sub.tasks) {
+                    for (auto& item : task.configs) {
+                        item.repeat = task.repeat;
+                        sub.items.push_back(item);
+                    }
+                }
+
+                assert(sub.selected_items.size() == sub.reff);
+
+                sub.area();
+                subs.push_back(sub);
+            }
+        }
+    }
+
+    return subs;
 }

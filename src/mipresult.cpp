@@ -32,7 +32,6 @@ void MIPResult::print() {
 }
 
 MIPResult solve(std::string const& name, GRBModel& model, Args const& args) {
-    fmt::print("Optimizing {}\n\n", args.input_file.string());
 
     model.set(GRB_IntParam_Seed, args.seed);
     model.set(GRB_DoubleParam_TimeLimit, args.timelimit);
@@ -55,8 +54,11 @@ MIPResult solve(std::string const& name, GRBModel& model, Args const& args) {
         }
 
         if (model.get(GRB_IntAttr_Status) == GRB_INFEASIBLE) {
-            model.computeIIS();
-            model.write(fmt::format("{}.ilp", name));
+            #ifndef NDEBUG
+                model.computeIIS();
+                model.write(fmt::format("{}.lp", name));
+                model.write(fmt::format("{}.ilp", name));
+            #endif
         }
 
     } catch(GRBException& e) {
