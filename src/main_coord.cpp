@@ -13,7 +13,7 @@ int main(int argc, char* argv[]) {
         GRBEnv env{};
         Instance inst{args.input_file};
 
-        auto res_bl = bottom_left(inst);
+        auto res_bl = bottom_left_plus(inst);
         int ub = res_bl.obj;
 
         Coord coord{env, inst, ub};

@@ -1,6 +1,6 @@
 #include <fmt/core.h>
 
-#include "bottom_left.hpp"
+#include "bottom_left_plus.hpp"
 #include "coord2.hpp"
 #include "mipresult.hpp"
 
@@ -12,7 +12,7 @@ int main(int argc, char* argv[]) {
         GRBEnv env{};
         Instance inst{args.input_file};
 
-        auto res_bl = bottom_left(inst);
+        auto res_bl = bottom_left_plus(inst);
         int ub = res_bl.obj;
         
         Coord2 coord2{env, inst, ub};

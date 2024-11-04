@@ -1,10 +1,10 @@
 #include "heuristic.hpp"
 #include "assignment.hpp"
-#include "bottom_left_plus.hpp"
 #include "heuresult.hpp"
 #include "instance.hpp"
 #include "shelves.hpp"
 #include "coord.hpp"
+#include "bottom_left_plus.hpp"
 
 #include <chrono>
 #include <fmt/core.h>
@@ -31,7 +31,7 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
 
             auto shelves_obj = new_inst.ub;
 
-            auto bl_res = bottom_left(new_inst);
+            auto bl_res = bottom_left_plus(new_inst);
             auto bl_sol = bl_res.sol;
 
             int bl_obj = bl_res.obj;

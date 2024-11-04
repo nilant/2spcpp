@@ -1,6 +1,6 @@
 #include <fmt/core.h>
 
-#include "bottom_left_plus.hpp"
+#include "bottom_left.hpp"
 #include "cli.hpp"
 
 int main(int argc, char* argv[]) {
@@ -9,7 +9,7 @@ int main(int argc, char* argv[]) {
 
     Instance inst{args.input_file};
 
-    HeurResult res = bottom_left_plus(inst);
+    HeurResult res = bottom_left(inst);
     res.write(args.input_file);
     res.print();
 

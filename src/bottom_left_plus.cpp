@@ -66,7 +66,7 @@ int get_top_from_id(std::vector<int>& tops, int id, int ub) {
     return tops[id];
 }
 
-int bottom_left_impl(std::vector<Config>::iterator begin, std::vector<Config>::iterator end, int w, int ub) {
+int bottom_left_plus_impl(std::vector<Config>::iterator begin, std::vector<Config>::iterator end, int w, int ub) {
 
     mdarray<int, 2> coord{w, ub};
  
@@ -129,7 +129,7 @@ int bottom_left_impl(std::vector<Config>::iterator begin, std::vector<Config>::i
     return obj;
 }
 
-HeurResult bottom_left(Instance& inst) {
+HeurResult bottom_left_plus(Instance& inst) {
 
     auto t0 = std::chrono::high_resolution_clock::now();
 
@@ -150,7 +150,7 @@ HeurResult bottom_left(Instance& inst) {
         );
 
     auto t1 = std::chrono::high_resolution_clock::now();
-    int obj = bottom_left_impl(items.begin(), items.end(), inst.w, ub);
+    int obj = bottom_left_plus_impl(items.begin(), items.end(), inst.w, ub);
     res.obj = obj;
 
     res.sol.items = items;
