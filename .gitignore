@@ -5,12 +5,11 @@
 .DS_Store
 build/
 bin/
-data*/
+doc/
 env.list
 *.lic
 *.gz
 *.zip
-doc
 *.ilp
 *.lp
 *.mps

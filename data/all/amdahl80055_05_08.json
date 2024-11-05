@@ -1,0 +1,164 @@
+{
+    "instance": {
+        "name": "amdahl80055",
+        "rmax": 5,
+        "wmax": 8,
+        "W": 16,
+        "seed": 5,
+        "ntasks": 5,
+        "nitems": 19,
+        "reff": 15,
+        "lb": 46,
+        "ub": 75,
+        "tasks": [
+            {
+                "id": 0,
+                "effort": 27,
+                "repeat": 4,
+                "configs": [
+                    {
+                        "width": 3,
+                        "height": 13
+                    },
+                    {
+                        "width": 5,
+                        "height": 10
+                    },
+                    {
+                        "width": 6,
+                        "height": 9
+                    }
+                ]
+            },
+            {
+                "id": 1,
+                "effort": 44,
+                "repeat": 5,
+                "configs": [
+                    {
+                        "width": 1,
+                        "height": 44
+                    },
+                    {
+                        "width": 3,
+                        "height": 21
+                    },
+                    {
+                        "width": 5,
+                        "height": 16
+                    },
+                    {
+                        "width": 6,
+                        "height": 15
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "effort": 63,
+                "repeat": 3,
+                "configs": [
+                    {
+                        "width": 1,
+                        "height": 63
+                    },
+                    {
+                        "width": 5,
+                        "height": 23
+                    },
+                    {
+                        "width": 6,
+                        "height": 21
+                    },
+                    {
+                        "width": 7,
+                        "height": 20
+                    }
+                ]
+            },
+            {
+                "id": 3,
+                "effort": 32,
+                "repeat": 2,
+                "configs": [
+                    {
+                        "width": 1,
+                        "height": 32
+                    },
+                    {
+                        "width": 2,
+                        "height": 20
+                    },
+                    {
+                        "width": 4,
+                        "height": 13
+                    },
+                    {
+                        "width": 6,
+                        "height": 11
+                    }
+                ]
+            },
+            {
+                "id": 4,
+                "effort": 84,
+                "repeat": 1,
+                "configs": [
+                    {
+                        "width": 3,
+                        "height": 40
+                    },
+                    {
+                        "width": 4,
+                        "height": 34
+                    },
+                    {
+                        "width": 5,
+                        "height": 31
+                    },
+                    {
+                        "width": 6,
+                        "height": 28
+                    }
+                ]
+            }
+        ],
+        "alpha": 80
+    },
+    "shelves": {
+        "obj": 73.0,
+        "bound": 73.0,
+        "runtime": 0.07744789123535156,
+        "gap": 0.0
+    },
+    "coord": {
+        "obj": 59.0,
+        "bound": 59.0,
+        "runtime": 11.812304019927979,
+        "gap": 0.0
+    },
+    "coord2": {
+        "obj": 59.0,
+        "bound": 59.0,
+        "runtime": 101.73766899108887,
+        "gap": 0.0
+    },
+    "bottom_left": {
+        "start_sol": 0.0,
+        "obj": 63.0,
+        "bound": 47.0,
+        "runtime": 0.0
+    },
+    "bottom_left_plus": {
+        "start_sol": 0.0,
+        "obj": 63.0,
+        "bound": 0.0,
+        "runtime": 0.0
+    },
+    "matheuristic": {
+        "start_sol": 73.0,
+        "obj": 59.0,
+        "bound": 0.0,
+        "runtime": 12.153
+    }
+}
