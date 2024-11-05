@@ -1,4 +1,4 @@
-#! /usr/bin/env python3.11
+#! /usr/bin/env python3
 
 import pathlib
 import argparse
@@ -31,11 +31,6 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('input_dir', type=pathlib.Path, help='instances directory')
     parser.add_argument('--config', type=pathlib.Path, help='configuration file')
-    parser.add_argument('--exec', help='name of the executable')
-    parser.add_argument('--timelimit', type=float, default=float('inf'))
-    parser.add_argument('--memlimit', type=float, default=float('inf'))
-    parser.add_argument('--threads', type=int, default=0, help='number of threads to use')
-    parser.add_argument('--seed', type=int, default=0, help='random seed')
 
     args = parser.parse_args()
     
@@ -48,49 +43,26 @@ if __name__ == '__main__':
         sys.exit()
 
     if args.config:
-        with open(args.config, 'rb') as f:
-            config = tomllib.load(f);
+        config_path = args.config
+    elif pathlib.Path('configs/benchmarks.toml').exists():
+        config_path = pathlib.Path('configs/benchmarks.toml')
     else:
-        config = {}
-
-    if args.exec:
-        execs = args.exec.split(',')
-    elif args.config:
-        execs = config['models'] + config['algos']
-    else:
-        print('no executable specified (use --exec or a config file)')
+        print('no configuration available')
         sys.exit()
 
-    cmdl_args = ['--timelimit']
-    if config:
-        timelimit = config.get('timelimit', float('inf'))
-    else:
-        timelimit = args.timelimit
-    cmdl_args.append(str(timelimit))
+    with open(config_path, 'rb') as f:
+        config = tomllib.load(f);
 
-    cmdl_args.append('--memlimit')
-    if config:
-        memlimit = config.get('memlimit', float('inf'))
-    else:
-        memlimit = args.memlimit
-    cmdl_args.append(str(memlimit))
+    execs = config['execs']
 
-    cmdl_args.append('--threads')
-    if config:
-        threads = config.get('threads', 0)
-    else:
-        threads = args.threads
-    cmdl_args.append(str(threads))
-
-    cmdl_args.append('--seed')
-    if config:
-        seed = config.get('seed', 0)
-    else:
-        seed = args.seed
-    cmdl_args.append(str(seed))
+    cmdl_args = []
+    for k, v in config.items():
+        if k != 'execs':
+            cmdl_args.append(f'--{k}')
+            cmdl_args.append(str(v))
 
     for cmd in execs:
-        cmd = './' + cmd
+        cmd = './bin/' + cmd
         start = time.time();
         for input in args.input_dir.glob('**/*.json'):
             print(f'launching {cmd} with input {input}...')

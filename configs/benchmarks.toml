@@ -1,0 +1,6 @@
+execs = ["bottom_left", "bottom_left_plus"]
+timelimit = 3600
+memlimit = 16
+iterlimit = 0
+threads = 0
+seed = 0

@@ -11,8 +11,6 @@ env.list
 *.gz
 *.zip
 doc
-*.toml
-!config.toml
 *.ilp
 *.lp
 *.mps
