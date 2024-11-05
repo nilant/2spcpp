@@ -14,6 +14,11 @@
 std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Instance const& inst, Args const& args) {
 
     int n = subs.size();
+    if (n % 2 != 0) {
+        Instance empty{};
+        subs.push_back(empty);
+        n++;
+    }
 
     Args coord_args{args};
     coord_args.timelimit /= n;
