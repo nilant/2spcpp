@@ -16,10 +16,10 @@ algos_order = ["obj", "bound", "runtime"]
 models = []
 
 # algorithms
-algos = ["bin/heur95", "bin/heur98", "bin/heur100"]
+algos = ["bin/shelves", "bin/coord", "bin/coord2", "bin/bottom_left", "bin/bottom_left_plus"]
 
 # timelimit
-timelimit = 600
+timelimit = 3600
 
 # memlimit
 memlimit = 16

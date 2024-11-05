@@ -133,7 +133,7 @@ HeurResult bottom_left_plus(Instance& inst) {
 
     auto t0 = std::chrono::high_resolution_clock::now();
 
-    HeurResult res{"bottom_left"};
+    HeurResult res{"bottom_left_plus"};
 
     int ub = 2*inst.ub;
     int lb = 0;

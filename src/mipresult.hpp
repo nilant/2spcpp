@@ -12,11 +12,11 @@ namespace fs = std::filesystem;
 
 struct MIPResult {
     std::string name;
-    double obj;
-    double bound;
-    double gap;
-    double runtime;
-    double buildtime;
+    double obj{0.0};
+    double bound{0.0};
+    double gap{0.0};
+    double runtime{0.0};
+    double buildtime{0.0};
 
     Solution sol;
 

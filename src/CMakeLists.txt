@@ -21,5 +21,5 @@ target_link_libraries(matheuristic PUBLIC ${GUROBI_CPP_LIBRARY} ${GUROBI_LIBRARY
 add_executable(bottom_left main_bottom_left.cpp bottom_left.cpp instance.cpp cli.cpp heuresult.cpp)
 target_link_libraries(bottom_left PUBLIC fmt::fmt -pthread)
 
-add_executable(bottom_left_plus main_bottom_left.cpp bottom_left.cpp instance.cpp cli.cpp heuresult.cpp)
+add_executable(bottom_left_plus main_bottom_left_plus.cpp bottom_left_plus.cpp instance.cpp cli.cpp heuresult.cpp)
 target_link_libraries(bottom_left_plus PUBLIC fmt::fmt -pthread)

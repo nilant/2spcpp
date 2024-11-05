@@ -8,7 +8,7 @@ Args::Args(int argc, char* argv[]) {
 
     input_file = fs::path(cmdl[1]);
     exec_name = std::string(fs::path(cmdl[0]).stem());
-    cmdl("--timelimit", 600) >> timelimit;
+    cmdl("--timelimit", 3600) >> timelimit;
     cmdl("--iterlimit", 500) >> iterlimit;
     cmdl("--memlimit", 16) >> memlimit;
     cmdl("--threads", 1) >> threads;
