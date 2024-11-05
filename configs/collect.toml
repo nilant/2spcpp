@@ -1,5 +1,5 @@
 merge_cells = false
 execs = ["shelves", "coord", "coord2", "bottom_left", "bottom_left_plus", "matheuristic"]
-instance_index = [ "alpha", "ntasks", "seed", "wmax", "rmax", "seed"]
+instance_index = [ "alpha", "ntasks", "seed", "rmax", "wmax"]
 instance_fields = ["W", "nitems", "reff", "lb"]
 exec_fields = ["obj", "bound", "runtime"]
