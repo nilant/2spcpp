@@ -505,9 +505,9 @@
     },
     "matheuristic": {
         "start_sol": 139.0,
-        "obj": 115.0,
-        "bound": 6.4605281140204e-310,
-        "runtime": 657.349
+        "obj": 118.0,
+        "bound": 0.0,
+        "runtime": 157.045
     },
     "shelves": {
         "obj": 139.0,
