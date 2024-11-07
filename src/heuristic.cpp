@@ -21,7 +21,7 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
     }
 
     Args coord_args{args};
-    coord_args.timelimit /= n;
+    coord_args.timelimit /= (n * (n-1)  / 2);
 
     mdarray<int, 2> combs{n, n};
     mdarray<Instance, 2> instances{n, n};
@@ -29,65 +29,26 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
     for (int i = 0; i < n; ++i) {
         for (int j = i+1; j < n; ++j) {
             Instance new_inst = merge(subs[i], subs[j]);
-            Solution merge_sol;
-            merge_sol.name = "shelves";
-            merge_sol.items = new_inst.selected_items;
-            merge_sol.obj = new_inst.ub;
 
-            auto shelves_obj = new_inst.ub;
+            fmt::print("pair ({},{}): merge={} ", i, j, new_inst.ub);
+            Coord coord(env, new_inst, new_inst.ub);
+            auto coord_res = coord.optimize(coord_args, new_inst.ub);
+            fmt::print("coord={} runtime={:.2f}({})\n", coord_res.obj, coord_res.runtime, coord_args.timelimit);
 
-            auto bl_res = bottom_left_plus(new_inst);
-            auto bl_sol = bl_res.sol;
-
-            int bl_obj = bl_res.obj;
-
-            char star = ' ';
-            int obj = bl_obj; 
-            if (bl_obj > shelves_obj) {
-                star = '*';
-                obj = shelves_obj;
-
-                // #ifndef NDEBUG
-                //     auto json_merge_sol = merge_sol.to_json();                     
-                //     auto json_bl_sol = bl_sol.to_json();
-
-                //     Coord coord(env, new_inst, shelves_obj);
-                //     auto coord_res = coord.optimize(coord_args, shelves_obj);
-                //     coord_res.sol = coord.costruct_solution(new_inst);
-
-                //     auto json_coord_sol = coord_res.sol.to_json();
-
-                //     nlohmann::ordered_json jj;
-                //     jj["shelves"] = json_merge_sol;
-                //     jj["bl"] = json_bl_sol;
-                //     jj["coord"] = json_coord_sol;
-
-                //     std::ofstream file(fmt::format("data/sols/{}_{}_{}_{}_{}_sol.json", inst.name, inst.rmax, inst.wmax, i, j));
-                //     file << std::setprecision(2) << std::setw(4) << std::fixed;
-
-                //     file << jj << std::endl;
-                // #endif
+            if (coord_res.obj != -1 && coord_res.obj <= new_inst.ub) {
+                auto sub = coord.subinst(new_inst);
+                instances(i, j) = sub;
+                combs(i, j) = sub.ub;
+            } else {
+                instances(i, j) = new_inst;
+                combs(i, j) = new_inst.ub;
             }
-            fmt::print("Optimize ({}, {}): pre={}, post={} {}\n", i, j, shelves_obj, bl_res.obj, star);
-
-            new_inst.ub = obj;
-            combs(i, j) = new_inst.ub;
-            instances(i, j) = new_inst;
         }
     }
 
     Assignment ass{env, combs};
     ass.optimize(args);
     auto new_subs = ass.select(instances);
-    for (auto& sub : new_subs) {
-        Coord coord(env, sub, sub.ub);
-        auto coord_res = coord.optimize(coord_args, sub.ub);
-        fmt::print("coord pre={}, post={}\n", sub.ub, coord_res.obj);
-
-        if (coord_res.obj != -1) {
-            sub = coord.subinst(sub);
-        }
-    }
 
     return new_subs;
 }
