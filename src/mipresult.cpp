@@ -22,6 +22,7 @@ void MIPResult::write(fs::path const& file_path) {
         jsol["bound"] = bound;
         jsol["runtime"] = runtime;
         jsol["gap"] = gap;
+        jsol["status"] = status;
         j[name] = jsol;
 
         out << j << std::endl;
@@ -57,10 +58,10 @@ MIPResult solve(std::string const& name, GRBModel& model, Args const& args) {
             result.gap = model.get(GRB_DoubleAttr_MIPGap);
             result.runtime = model.get(GRB_DoubleAttr_Runtime);
         } else {
-            result.obj = -1;
-            result.bound = -1;
-            result.gap = -1;
-            result.runtime = -1;
+            result.obj = NAN;
+            result.bound = NAN;
+            result.gap = NAN;
+            result.runtime = NAN;
         }
 
         if (status == GRB_INFEASIBLE) {
