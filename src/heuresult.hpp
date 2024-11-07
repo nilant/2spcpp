@@ -6,6 +6,7 @@ namespace fs = std::filesystem;
 
 struct HeurResult {
     std::string name;
+    std::string status{"OPT"};
     double start_sol{0.0};
     double obj{0.0};
     double bound{0.0};

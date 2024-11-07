@@ -41,6 +41,16 @@ MIPResult solve(std::string const& name, GRBModel& model, Args const& args) {
     MIPResult result{name};
     try {
         model.optimize();
+
+        int status = model.get(GRB_IntAttr_Status);
+        if (status == GRB_OPTIMAL) {
+            result.status = "OPT";
+        } else if (status == GRB_TIME_LIMIT) {
+            result.status = "TL";
+        } else if (status == GRB_MEM_LIMIT) {
+            result.status = "ML";
+        }
+
         if (model.get(GRB_IntAttr_SolCount) > 0) {
             result.obj = model.get(GRB_DoubleAttr_ObjVal);
             result.bound = model.get(GRB_DoubleAttr_ObjBound);
@@ -53,7 +63,7 @@ MIPResult solve(std::string const& name, GRBModel& model, Args const& args) {
             result.runtime = -1;
         }
 
-        if (model.get(GRB_IntAttr_Status) == GRB_INFEASIBLE) {
+        if (status == GRB_INFEASIBLE) {
             #ifndef NDEBUG
                 model.computeIIS();
                 model.write(fmt::format("{}.lp", name));

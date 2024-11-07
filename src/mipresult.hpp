@@ -12,6 +12,7 @@ namespace fs = std::filesystem;
 
 struct MIPResult {
     std::string name;
+    std::string status;
     double obj{0.0};
     double bound{0.0};
     double gap{0.0};
