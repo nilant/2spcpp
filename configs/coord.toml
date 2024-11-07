@@ -1,0 +1,6 @@
+execs = ["coord"]
+timelimit = 3600
+memlimit = 16
+iterlimit = 0
+threads = 0
+seed = 0
