@@ -21,6 +21,7 @@ void HeurResult::write(fs::path const& file_path) {
         jsol["obj"] = obj;
         jsol["bound"] = bound;
         jsol["runtime"] = runtime;
+        jsol["status"] = status;
         j[name] = jsol;
 
         out << j << std::endl;
