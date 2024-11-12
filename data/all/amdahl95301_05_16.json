@@ -1003,8 +1003,9 @@
     "shelves": {
         "obj": 311.0,
         "bound": 311.0,
-        "runtime": 60.68748188018799,
-        "gap": 0.0
+        "runtime": 19.68807101249695,
+        "gap": 0.0,
+        "status": "OPT"
     },
     "coord": {
         "obj": -1.0,
@@ -1013,10 +1014,11 @@
         "gap": -1.0
     },
     "coord2": {
-        "obj": -1.0,
-        "bound": -1.0,
-        "runtime": -1.0,
-        "gap": -1.0
+        "obj": null,
+        "bound": null,
+        "runtime": null,
+        "gap": null,
+        "status": "ML"
     },
     "bottom_left": {
         "start_sol": 0.0,
@@ -1034,6 +1036,6 @@
         "start_sol": 317.0,
         "obj": 309.0,
         "bound": 0.0,
-        "runtime": 2991.976
+        "runtime": 2994.273
     }
 }

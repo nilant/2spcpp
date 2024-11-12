@@ -1,6 +1,6 @@
-execs = ["matheuristic"]
-timelimit = 600
-memlimit = 16
+execs = ["shelves", "coord", "coord2", "bottom_left", "bottom_left_plus", "matheuristic"]
+timelimit = 3600
+memlimit = 15
 iterlimit = 0
 threads = 0
 seed = 0

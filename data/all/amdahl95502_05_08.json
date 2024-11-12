@@ -1155,20 +1155,22 @@
     "shelves": {
         "obj": 697.0,
         "bound": 697.0,
-        "runtime": 259.55516815185547,
-        "gap": 0.0
+        "runtime": 352.62322187423706,
+        "gap": 0.0,
+        "status": "OPT"
     },
     "coord": {
-        "obj": -1.0,
-        "bound": -1.0,
-        "runtime": -1.0,
-        "gap": -1.0
+        "obj": null,
+        "bound": null,
+        "runtime": null,
+        "gap": null,
+        "status": "ML"
     },
     "bottom_left": {
         "start_sol": 0.0,
         "obj": 687.0,
         "bound": 672.0,
-        "runtime": 0.01
+        "runtime": 0.011
     },
     "bottom_left_plus": {
         "start_sol": 0.0,
@@ -1178,8 +1180,8 @@
     },
     "matheuristic": {
         "start_sol": 702.0,
-        "obj": 695.0,
+        "obj": 694.0,
         "bound": 0.0,
-        "runtime": 3407.758
+        "runtime": 3396.395
     }
 }

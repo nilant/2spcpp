@@ -247,20 +247,23 @@
     "shelves": {
         "obj": 131.0,
         "bound": 131.0,
-        "runtime": 0.2374098300933838,
-        "gap": 0.0
+        "runtime": 0.2304990291595459,
+        "gap": 0.0,
+        "status": "OPT"
     },
     "coord": {
         "obj": 115.0,
         "bound": 115.0,
-        "runtime": 395.16850304603577,
-        "gap": 0.0
+        "runtime": 145.02347803115845,
+        "gap": 0.0,
+        "status": "OPT"
     },
     "coord2": {
         "obj": 115.0,
         "bound": 115.0,
-        "runtime": 486.6495201587677,
-        "gap": 0.0
+        "runtime": 1589.4468040466309,
+        "gap": 0.0,
+        "status": "OPT"
     },
     "bottom_left": {
         "start_sol": 0.0,
@@ -278,6 +281,6 @@
         "start_sol": 131.0,
         "obj": 115.0,
         "bound": 0.0,
-        "runtime": 1353.656
+        "runtime": 1351.311
     }
 }

@@ -1623,14 +1623,15 @@
     "shelves": {
         "obj": 792.0,
         "bound": 790.0,
-        "runtime": 3600.065908908844,
-        "gap": 0.0025252525252525255
+        "runtime": 3600.074289083481,
+        "gap": 0.0025252525252525255,
+        "status": "TL"
     },
     "bottom_left": {
         "start_sol": 0.0,
         "obj": 773.0,
         "bound": 758.0,
-        "runtime": 0.011
+        "runtime": 0.013
     },
     "bottom_left_plus": {
         "start_sol": 0.0,

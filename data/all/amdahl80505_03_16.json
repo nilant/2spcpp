@@ -1667,14 +1667,16 @@
     "shelves": {
         "obj": 462.0,
         "bound": 462.0,
-        "runtime": 2653.9615020751953,
-        "gap": 0.0
+        "runtime": 468.30872201919556,
+        "gap": 0.0,
+        "status": "OPT"
     },
     "coord": {
-        "obj": -1.0,
-        "bound": -1.0,
-        "runtime": -1.0,
-        "gap": -1.0
+        "obj": null,
+        "bound": null,
+        "runtime": null,
+        "gap": null,
+        "status": "ML"
     },
     "bottom_left": {
         "start_sol": 0.0,
@@ -1692,6 +1694,6 @@
         "start_sol": 467.0,
         "obj": 455.0,
         "bound": 0.0,
-        "runtime": 2456.128
+        "runtime": 2455.406
     }
 }
