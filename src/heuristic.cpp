@@ -1,5 +1,7 @@
 #include "heuristic.hpp"
 #include "assignment.hpp"
+#include "coord_less.hpp"
+#include "coord.hpp"
 #include "heuresult.hpp"
 #include "instance.hpp"
 #include "shelves.hpp"
@@ -23,6 +25,9 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
     Args coord_args{args};
     coord_args.timelimit /= n;
 
+    Args less_args{args};
+    less_args.timelimit /= (n * (n - 1) / 2);
+
     mdarray<int, 2> combs{n, n};
     mdarray<Instance, 2> instances{n, n};
 
@@ -36,42 +41,21 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
 
             auto shelves_obj = new_inst.ub;
 
-            auto bl_res = bottom_left_plus(new_inst);
-            auto bl_sol = bl_res.sol;
+            CoordLess coord_less(env, new_inst, new_inst.ub);
+            auto less_res = coord_less.optimize(less_args, new_inst.ub);
 
-            int bl_obj = bl_res.obj;
+            int probe_obj = less_res.obj;
 
             char star = ' ';
-            int obj = bl_obj; 
-            if (bl_obj > shelves_obj) {
+            int obj = probe_obj; 
+            if (probe_obj == -1 || probe_obj > shelves_obj) {
                 star = '*';
                 obj = shelves_obj;
-
-                // #ifndef NDEBUG
-                //     auto json_merge_sol = merge_sol.to_json();                     
-                //     auto json_bl_sol = bl_sol.to_json();
-
-                //     Coord coord(env, new_inst, shelves_obj);
-                //     auto coord_res = coord.optimize(coord_args, shelves_obj);
-                //     coord_res.sol = coord.costruct_solution(new_inst);
-
-                //     auto json_coord_sol = coord_res.sol.to_json();
-
-                //     nlohmann::ordered_json jj;
-                //     jj["shelves"] = json_merge_sol;
-                //     jj["bl"] = json_bl_sol;
-                //     jj["coord"] = json_coord_sol;
-
-                //     std::ofstream file(fmt::format("data/sols/{}_{}_{}_{}_{}_sol.json", inst.name, inst.rmax, inst.wmax, i, j));
-                //     file << std::setprecision(2) << std::setw(4) << std::fixed;
-
-                //     file << jj << std::endl;
-                // #endif
             }
-            fmt::print("Optimize ({}, {}): pre={}, post={} {}\n", i, j, shelves_obj, bl_res.obj, star);
+            fmt::print("Optimize ({}, {}): pre={}, post={} runtime={:.2f}({}) {}\n", i, j, shelves_obj, probe_obj, less_res.runtime, coord_args.timelimit, star);
 
             new_inst.ub = obj;
-            combs(i, j) = new_inst.ub;
+            combs(i, j) = obj;
             instances(i, j) = new_inst;
         }
     }
