@@ -735,9 +735,9 @@
         "runtime": 0.0
     },
     "matheuristic": {
-        "start_sol": 293.0,
-        "obj": 281.0,
+        "start_sol": 294.0,
+        "obj": 282.0,
         "bound": 0.0,
-        "runtime": 347.47
+        "runtime": 392.352
     }
 }

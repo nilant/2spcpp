@@ -503,12 +503,6 @@
         ],
         "alpha": 80
     },
-    "matheuristic": {
-        "start_sol": 139.0,
-        "obj": 118.0,
-        "bound": 0.0,
-        "runtime": 157.045
-    },
     "shelves": {
         "obj": 139.0,
         "bound": 139.0,
@@ -538,5 +532,11 @@
         "obj": 132.0,
         "bound": 0.0,
         "runtime": 0.0
+    },
+    "matheuristic": {
+        "start_sol": 139.0,
+        "obj": 119.0,
+        "bound": 0.0,
+        "runtime": 180.288
     }
 }

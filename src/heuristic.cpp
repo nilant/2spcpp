@@ -22,14 +22,13 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
         n++;
     }
 
-    Args coord_args{args};
-    coord_args.timelimit /= n;
-
     Args less_args{args};
-    less_args.timelimit /= (n * (n - 1) / 2);
+    less_args.timelimit = 2;
 
     mdarray<int, 2> combs{n, n};
     mdarray<Instance, 2> instances{n, n};
+
+    auto t0 = std::chrono::high_resolution_clock::now();
 
     for (int i = 0; i < n; ++i) {
         for (int j = i+1; j < n; ++j) {
@@ -52,13 +51,19 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
                 star = '*';
                 obj = shelves_obj;
             }
-            fmt::print("Optimize ({}, {}): pre={}, post={} runtime={:.2f}({}) {}\n", i, j, shelves_obj, probe_obj, less_res.runtime, coord_args.timelimit, star);
+            fmt::print("Optimize ({}, {}): pre={}, post={} runtime={:.2f}({}) {}\n", i, j, shelves_obj, probe_obj, less_res.runtime, less_args.timelimit, star);
 
             new_inst.ub = obj;
             combs(i, j) = obj;
             instances(i, j) = new_inst;
         }
     }
+
+    auto t1 = std::chrono::high_resolution_clock::now();
+    auto runtime = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count() / 1000.0;
+
+    Args coord_args{args};
+    coord_args.timelimit = (coord_args.timelimit - runtime) / n;
 
     Assignment ass{env, combs};
     ass.optimize(args);
@@ -79,6 +84,7 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
 std::vector<Instance> filter_subs(std::vector<Instance>& subs, double percentage) {
     auto it = std::partition(subs.begin(), subs.end(), [percentage](auto const& sub) {return sub.fill_ratio <= percentage; });
     std::vector<Instance> full_instances{it, subs.end()};
+    fmt::print("filtering {} instances...\n", full_instances.size());
     subs.erase(it, subs.end());
     
     return full_instances;
