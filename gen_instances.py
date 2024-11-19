@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.11
+#!/usr/bin/env python3
 
 import math
 import random
@@ -6,7 +6,6 @@ import argparse
 import pathlib
 import itertools
 import json
-import bounds as bd
 
 #compute running time under amdahl_law
 #exect_time: total execution time
@@ -83,6 +82,7 @@ class Instance:
     def write_json(self, dir_path):
         d = {'instance': 
                 {'name': self.name, 
+                 'alpha': self.amdahl_p * 100,
                 'rmax': f'{self.rmax:02}',
                 'wmax': f'{self.wmax:02}',
                 'W': self.W,
@@ -129,4 +129,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     print('*****************class1*****************\n')
-    gen_instances(args.output_dir, seeds=[1,2,3,4,5], strip_widths=[16], number_of_tasks=[10,15,20,30,50], maximum_repetitions=[3,5], maximum_processors=[8,16], amdahl_percentuals=[0.8, 0.95])
+    gen_instances(args.output_dir, seeds=[1,2,3,4,5], strip_widths=[16], number_of_tasks=[25,35,40,45], maximum_repetitions=[3,5], maximum_processors=[8,16], amdahl_percentuals=[0.8, 0.95])
