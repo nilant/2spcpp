@@ -2,72 +2,110 @@
     "instance": {
         "name": "amdahl80254",
         "alpha": 80.0,
-        "rmax": "05",
-        "wmax": "16",
+        "rmax": 5,
+        "wmax": 16,
         "W": 16,
         "seed": 4,
         "ntasks": 25,
-        "nitems": 157,
-        "reff": 76,
-        "lb": -1,
+        "nitems": 159,
+        "reff": 77,
+        "lb": 377.625,
         "ub": -1,
         "tasks": [
             {
                 "id": 0,
-                "effort": 87,
-                "repeat": 4,
+                "effort": 96,
+                "repeat": 5,
                 "configs": [
                     {
+                        "width": 1,
+                        "height": 96
+                    },
+                    {
                         "width": 2,
-                        "height": 53
+                        "height": 58
                     },
                     {
-                        "width": 6,
-                        "height": 29
+                        "width": 3,
+                        "height": 45
                     },
                     {
-                        "width": 7,
-                        "height": 28
+                        "width": 4,
+                        "height": 39
                     },
                     {
                         "width": 8,
-                        "height": 27
-                    },
-                    {
-                        "width": 9,
-                        "height": 26
-                    },
-                    {
-                        "width": 10,
-                        "height": 25
+                        "height": 29
                     },
                     {
                         "width": 12,
-                        "height": 24
+                        "height": 26
                     },
                     {
-                        "width": 13,
-                        "height": 23
+                        "width": 15,
+                        "height": 25
                     }
                 ]
             },
             {
                 "id": 1,
-                "effort": 59,
-                "repeat": 5,
+                "effort": 45,
+                "repeat": 4,
                 "configs": [
                     {
-                        "width": 1,
-                        "height": 59
+                        "width": 2,
+                        "height": 27
                     },
                     {
-                        "width": 4,
-                        "height": 24
+                        "width": 3,
+                        "height": 21
                     },
+                    {
+                        "width": 6,
+                        "height": 15
+                    },
+                    {
+                        "width": 9,
+                        "height": 13
+                    },
+                    {
+                        "width": 14,
+                        "height": 12
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "effort": 56,
+                "repeat": 2,
+                "configs": [
                     {
                         "width": 5,
-                        "height": 22
+                        "height": 21
                     },
+                    {
+                        "width": 7,
+                        "height": 18
+                    },
+                    {
+                        "width": 9,
+                        "height": 17
+                    },
+                    {
+                        "width": 10,
+                        "height": 16
+                    },
+                    {
+                        "width": 12,
+                        "height": 15
+                    }
+                ]
+            },
+            {
+                "id": 3,
+                "effort": 58,
+                "repeat": 1,
+                "configs": [
                     {
                         "width": 6,
                         "height": 20
@@ -77,28 +115,24 @@
                         "height": 19
                     },
                     {
-                        "width": 8,
-                        "height": 18
+                        "width": 9,
+                        "height": 17
                     },
                     {
-                        "width": 13,
+                        "width": 11,
                         "height": 16
                     },
                     {
-                        "width": 15,
+                        "width": 14,
                         "height": 15
                     }
                 ]
             },
             {
-                "id": 2,
-                "effort": 69,
-                "repeat": 3,
+                "id": 4,
+                "effort": 70,
+                "repeat": 5,
                 "configs": [
-                    {
-                        "width": 1,
-                        "height": 69
-                    },
                     {
                         "width": 2,
                         "height": 42
@@ -108,105 +142,8 @@
                         "height": 33
                     },
                     {
-                        "width": 5,
-                        "height": 25
-                    },
-                    {
                         "width": 6,
-                        "height": 23
-                    },
-                    {
-                        "width": 9,
-                        "height": 20
-                    },
-                    {
-                        "width": 15,
-                        "height": 18
-                    }
-                ]
-            },
-            {
-                "id": 3,
-                "effort": 81,
-                "repeat": 3,
-                "configs": [
-                    {
-                        "width": 2,
-                        "height": 49
-                    },
-                    {
-                        "width": 3,
-                        "height": 38
-                    },
-                    {
-                        "width": 8,
-                        "height": 25
-                    },
-                    {
-                        "width": 9,
                         "height": 24
-                    },
-                    {
-                        "width": 10,
-                        "height": 23
-                    },
-                    {
-                        "width": 13,
-                        "height": 22
-                    },
-                    {
-                        "width": 14,
-                        "height": 21
-                    }
-                ]
-            },
-            {
-                "id": 4,
-                "effort": 62,
-                "repeat": 5,
-                "configs": [
-                    {
-                        "width": 1,
-                        "height": 62
-                    },
-                    {
-                        "width": 3,
-                        "height": 29
-                    },
-                    {
-                        "width": 4,
-                        "height": 25
-                    },
-                    {
-                        "width": 8,
-                        "height": 19
-                    },
-                    {
-                        "width": 9,
-                        "height": 18
-                    },
-                    {
-                        "width": 11,
-                        "height": 17
-                    },
-                    {
-                        "width": 14,
-                        "height": 16
-                    }
-                ]
-            },
-            {
-                "id": 5,
-                "effort": 68,
-                "repeat": 1,
-                "configs": [
-                    {
-                        "width": 3,
-                        "height": 32
-                    },
-                    {
-                        "width": 6,
-                        "height": 23
                     },
                     {
                         "width": 7,
@@ -214,10 +151,45 @@
                     },
                     {
                         "width": 9,
-                        "height": 20
+                        "height": 21
                     },
                     {
                         "width": 12,
+                        "height": 19
+                    },
+                    {
+                        "width": 14,
+                        "height": 18
+                    }
+                ]
+            },
+            {
+                "id": 5,
+                "effort": 67,
+                "repeat": 3,
+                "configs": [
+                    {
+                        "width": 1,
+                        "height": 67
+                    },
+                    {
+                        "width": 2,
+                        "height": 41
+                    },
+                    {
+                        "width": 5,
+                        "height": 25
+                    },
+                    {
+                        "width": 7,
+                        "height": 22
+                    },
+                    {
+                        "width": 8,
+                        "height": 21
+                    },
+                    {
+                        "width": 11,
                         "height": 19
                     },
                     {
@@ -228,97 +200,489 @@
             },
             {
                 "id": 6,
-                "effort": 26,
-                "repeat": 1,
+                "effort": 69,
+                "repeat": 3,
                 "configs": [
                     {
                         "width": 1,
-                        "height": 26
+                        "height": 69
                     },
                     {
                         "width": 4,
-                        "height": 11
+                        "height": 28
+                    },
+                    {
+                        "width": 5,
+                        "height": 25
                     },
                     {
                         "width": 6,
-                        "height": 9
+                        "height": 23
                     },
                     {
-                        "width": 10,
-                        "height": 8
+                        "width": 9,
+                        "height": 20
                     },
                     {
-                        "width": 12,
-                        "height": 7
+                        "width": 11,
+                        "height": 19
+                    },
+                    {
+                        "width": 14,
+                        "height": 18
                     }
                 ]
             },
             {
                 "id": 7,
-                "effort": 41,
+                "effort": 97,
+                "repeat": 3,
+                "configs": [
+                    {
+                        "width": 1,
+                        "height": 97
+                    },
+                    {
+                        "width": 2,
+                        "height": 59
+                    },
+                    {
+                        "width": 3,
+                        "height": 46
+                    },
+                    {
+                        "width": 4,
+                        "height": 39
+                    },
+                    {
+                        "width": 8,
+                        "height": 30
+                    },
+                    {
+                        "width": 9,
+                        "height": 29
+                    },
+                    {
+                        "width": 11,
+                        "height": 27
+                    },
+                    {
+                        "width": 15,
+                        "height": 25
+                    }
+                ]
+            },
+            {
+                "id": 8,
+                "effort": 75,
+                "repeat": 4,
+                "configs": [
+                    {
+                        "width": 4,
+                        "height": 30
+                    },
+                    {
+                        "width": 5,
+                        "height": 27
+                    },
+                    {
+                        "width": 6,
+                        "height": 25
+                    },
+                    {
+                        "width": 8,
+                        "height": 23
+                    },
+                    {
+                        "width": 9,
+                        "height": 22
+                    },
+                    {
+                        "width": 12,
+                        "height": 20
+                    },
+                    {
+                        "width": 15,
+                        "height": 19
+                    }
+                ]
+            },
+            {
+                "id": 9,
+                "effort": 31,
+                "repeat": 1,
+                "configs": [
+                    {
+                        "width": 2,
+                        "height": 19
+                    },
+                    {
+                        "width": 3,
+                        "height": 15
+                    },
+                    {
+                        "width": 4,
+                        "height": 13
+                    },
+                    {
+                        "width": 10,
+                        "height": 9
+                    },
+                    {
+                        "width": 14,
+                        "height": 8
+                    }
+                ]
+            },
+            {
+                "id": 10,
+                "effort": 96,
+                "repeat": 1,
+                "configs": [
+                    {
+                        "width": 5,
+                        "height": 35
+                    },
+                    {
+                        "width": 6,
+                        "height": 32
+                    },
+                    {
+                        "width": 8,
+                        "height": 29
+                    },
+                    {
+                        "width": 9,
+                        "height": 28
+                    },
+                    {
+                        "width": 10,
+                        "height": 27
+                    },
+                    {
+                        "width": 12,
+                        "height": 26
+                    }
+                ]
+            },
+            {
+                "id": 11,
+                "effort": 22,
+                "repeat": 1,
+                "configs": [
+                    {
+                        "width": 2,
+                        "height": 14
+                    },
+                    {
+                        "width": 4,
+                        "height": 9
+                    },
+                    {
+                        "width": 5,
+                        "height": 8
+                    },
+                    {
+                        "width": 10,
+                        "height": 7
+                    },
+                    {
+                        "width": 11,
+                        "height": 6
+                    }
+                ]
+            },
+            {
+                "id": 12,
+                "effort": 35,
+                "repeat": 3,
+                "configs": [
+                    {
+                        "width": 4,
+                        "height": 14
+                    },
+                    {
+                        "width": 5,
+                        "height": 13
+                    },
+                    {
+                        "width": 6,
+                        "height": 12
+                    },
+                    {
+                        "width": 7,
+                        "height": 11
+                    },
+                    {
+                        "width": 10,
+                        "height": 10
+                    }
+                ]
+            },
+            {
+                "id": 13,
+                "effort": 80,
+                "repeat": 3,
+                "configs": [
+                    {
+                        "width": 4,
+                        "height": 32
+                    },
+                    {
+                        "width": 8,
+                        "height": 24
+                    },
+                    {
+                        "width": 10,
+                        "height": 23
+                    },
+                    {
+                        "width": 11,
+                        "height": 22
+                    },
+                    {
+                        "width": 14,
+                        "height": 21
+                    }
+                ]
+            },
+            {
+                "id": 14,
+                "effort": 59,
+                "repeat": 2,
+                "configs": [
+                    {
+                        "width": 1,
+                        "height": 59
+                    },
+                    {
+                        "width": 2,
+                        "height": 36
+                    },
+                    {
+                        "width": 5,
+                        "height": 22
+                    },
+                    {
+                        "width": 8,
+                        "height": 18
+                    },
+                    {
+                        "width": 13,
+                        "height": 16
+                    },
+                    {
+                        "width": 15,
+                        "height": 15
+                    }
+                ]
+            },
+            {
+                "id": 15,
+                "effort": 39,
                 "repeat": 5,
                 "configs": [
                     {
                         "width": 4,
-                        "height": 17
+                        "height": 16
                     },
                     {
                         "width": 5,
                         "height": 15
                     },
                     {
-                        "width": 8,
+                        "width": 6,
                         "height": 13
                     },
                     {
-                        "width": 11,
-                        "height": 12
+                        "width": 10,
+                        "height": 11
                     },
                     {
-                        "width": 12,
-                        "height": 11
+                        "width": 15,
+                        "height": 10
                     }
                 ]
             },
             {
-                "id": 8,
-                "effort": 66,
+                "id": 16,
+                "effort": 67,
                 "repeat": 4,
                 "configs": [
                     {
-                        "width": 2,
-                        "height": 40
+                        "width": 1,
+                        "height": 67
                     },
                     {
-                        "width": 6,
-                        "height": 22
+                        "width": 3,
+                        "height": 32
                     },
                     {
-                        "width": 7,
-                        "height": 21
+                        "width": 4,
+                        "height": 27
                     },
                     {
-                        "width": 8,
+                        "width": 9,
                         "height": 20
                     },
                     {
-                        "width": 11,
+                        "width": 10,
+                        "height": 19
+                    },
+                    {
+                        "width": 12,
                         "height": 18
                     },
                     {
-                        "width": 14,
+                        "width": 15,
                         "height": 17
                     }
                 ]
             },
             {
-                "id": 9,
-                "effort": 73,
+                "id": 17,
+                "effort": 100,
                 "repeat": 2,
                 "configs": [
                     {
                         "width": 2,
-                        "height": 44
+                        "height": 60
+                    },
+                    {
+                        "width": 3,
+                        "height": 47
+                    },
+                    {
+                        "width": 4,
+                        "height": 40
+                    },
+                    {
+                        "width": 7,
+                        "height": 32
+                    },
+                    {
+                        "width": 8,
+                        "height": 30
+                    },
+                    {
+                        "width": 9,
+                        "height": 29
+                    },
+                    {
+                        "width": 11,
+                        "height": 28
+                    },
+                    {
+                        "width": 12,
+                        "height": 27
+                    }
+                ]
+            },
+            {
+                "id": 18,
+                "effort": 25,
+                "repeat": 4,
+                "configs": [
+                    {
+                        "width": 1,
+                        "height": 25
+                    },
+                    {
+                        "width": 2,
+                        "height": 15
+                    },
+                    {
+                        "width": 3,
+                        "height": 12
+                    },
+                    {
+                        "width": 5,
+                        "height": 9
+                    },
+                    {
+                        "width": 8,
+                        "height": 8
+                    },
+                    {
+                        "width": 11,
+                        "height": 7
+                    }
+                ]
+            },
+            {
+                "id": 19,
+                "effort": 80,
+                "repeat": 5,
+                "configs": [
+                    {
+                        "width": 1,
+                        "height": 80
+                    },
+                    {
+                        "width": 3,
+                        "height": 38
+                    },
+                    {
+                        "width": 9,
+                        "height": 24
+                    },
+                    {
+                        "width": 10,
+                        "height": 23
+                    },
+                    {
+                        "width": 11,
+                        "height": 22
+                    },
+                    {
+                        "width": 13,
+                        "height": 21
+                    }
+                ]
+            },
+            {
+                "id": 20,
+                "effort": 51,
+                "repeat": 5,
+                "configs": [
+                    {
+                        "width": 1,
+                        "height": 51
+                    },
+                    {
+                        "width": 2,
+                        "height": 31
+                    },
+                    {
+                        "width": 5,
+                        "height": 19
+                    },
+                    {
+                        "width": 6,
+                        "height": 17
+                    },
+                    {
+                        "width": 8,
+                        "height": 16
+                    },
+                    {
+                        "width": 10,
+                        "height": 15
+                    },
+                    {
+                        "width": 14,
+                        "height": 14
+                    }
+                ]
+            },
+            {
+                "id": 21,
+                "effort": 75,
+                "repeat": 5,
+                "configs": [
+                    {
+                        "width": 2,
+                        "height": 45
                     },
                     {
                         "width": 4,
@@ -330,488 +694,132 @@
                     },
                     {
                         "width": 8,
-                        "height": 22
-                    },
-                    {
-                        "width": 11,
-                        "height": 20
-                    },
-                    {
-                        "width": 14,
-                        "height": 19
-                    }
-                ]
-            },
-            {
-                "id": 10,
-                "effort": 69,
-                "repeat": 2,
-                "configs": [
-                    {
-                        "width": 1,
-                        "height": 69
-                    },
-                    {
-                        "width": 3,
-                        "height": 33
-                    },
-                    {
-                        "width": 5,
-                        "height": 25
-                    },
-                    {
-                        "width": 6,
                         "height": 23
                     },
                     {
                         "width": 9,
-                        "height": 20
-                    },
-                    {
-                        "width": 14,
-                        "height": 18
-                    }
-                ]
-            },
-            {
-                "id": 11,
-                "effort": 35,
-                "repeat": 2,
-                "configs": [
-                    {
-                        "width": 1,
-                        "height": 35
-                    },
-                    {
-                        "width": 4,
-                        "height": 14
-                    },
-                    {
-                        "width": 6,
-                        "height": 12
-                    },
-                    {
-                        "width": 7,
-                        "height": 11
-                    },
-                    {
-                        "width": 10,
-                        "height": 10
-                    }
-                ]
-            },
-            {
-                "id": 12,
-                "effort": 71,
-                "repeat": 1,
-                "configs": [
-                    {
-                        "width": 1,
-                        "height": 71
-                    },
-                    {
-                        "width": 2,
-                        "height": 43
-                    },
-                    {
-                        "width": 6,
-                        "height": 24
-                    },
-                    {
-                        "width": 7,
-                        "height": 23
-                    },
-                    {
-                        "width": 8,
                         "height": 22
                     },
                     {
-                        "width": 10,
-                        "height": 20
+                        "width": 11,
+                        "height": 21
                     },
                     {
                         "width": 12,
+                        "height": 20
+                    },
+                    {
+                        "width": 15,
                         "height": 19
-                    }
-                ]
-            },
-            {
-                "id": 13,
-                "effort": 43,
-                "repeat": 2,
-                "configs": [
-                    {
-                        "width": 3,
-                        "height": 21
-                    },
-                    {
-                        "width": 5,
-                        "height": 16
-                    },
-                    {
-                        "width": 8,
-                        "height": 13
-                    },
-                    {
-                        "width": 11,
-                        "height": 12
-                    },
-                    {
-                        "width": 15,
-                        "height": 11
-                    }
-                ]
-            },
-            {
-                "id": 14,
-                "effort": 32,
-                "repeat": 3,
-                "configs": [
-                    {
-                        "width": 1,
-                        "height": 32
-                    },
-                    {
-                        "width": 2,
-                        "height": 20
-                    },
-                    {
-                        "width": 3,
-                        "height": 15
-                    },
-                    {
-                        "width": 5,
-                        "height": 12
-                    },
-                    {
-                        "width": 9,
-                        "height": 10
-                    },
-                    {
-                        "width": 11,
-                        "height": 9
-                    }
-                ]
-            },
-            {
-                "id": 15,
-                "effort": 90,
-                "repeat": 2,
-                "configs": [
-                    {
-                        "width": 1,
-                        "height": 90
-                    },
-                    {
-                        "width": 2,
-                        "height": 54
-                    },
-                    {
-                        "width": 5,
-                        "height": 33
-                    },
-                    {
-                        "width": 6,
-                        "height": 30
-                    },
-                    {
-                        "width": 7,
-                        "height": 29
-                    },
-                    {
-                        "width": 9,
-                        "height": 26
-                    },
-                    {
-                        "width": 11,
-                        "height": 25
-                    },
-                    {
-                        "width": 15,
-                        "height": 23
-                    }
-                ]
-            },
-            {
-                "id": 16,
-                "effort": 76,
-                "repeat": 2,
-                "configs": [
-                    {
-                        "width": 1,
-                        "height": 76
-                    },
-                    {
-                        "width": 3,
-                        "height": 36
-                    },
-                    {
-                        "width": 6,
-                        "height": 26
-                    },
-                    {
-                        "width": 7,
-                        "height": 24
-                    },
-                    {
-                        "width": 10,
-                        "height": 22
-                    },
-                    {
-                        "width": 11,
-                        "height": 21
-                    },
-                    {
-                        "width": 13,
-                        "height": 20
-                    }
-                ]
-            },
-            {
-                "id": 17,
-                "effort": 77,
-                "repeat": 2,
-                "configs": [
-                    {
-                        "width": 1,
-                        "height": 77
-                    },
-                    {
-                        "width": 2,
-                        "height": 47
-                    },
-                    {
-                        "width": 3,
-                        "height": 36
-                    },
-                    {
-                        "width": 7,
-                        "height": 25
-                    },
-                    {
-                        "width": 8,
-                        "height": 24
-                    },
-                    {
-                        "width": 10,
-                        "height": 22
-                    },
-                    {
-                        "width": 12,
-                        "height": 21
-                    },
-                    {
-                        "width": 15,
-                        "height": 20
-                    }
-                ]
-            },
-            {
-                "id": 18,
-                "effort": 28,
-                "repeat": 4,
-                "configs": [
-                    {
-                        "width": 5,
-                        "height": 11
-                    },
-                    {
-                        "width": 6,
-                        "height": 10
-                    },
-                    {
-                        "width": 9,
-                        "height": 9
-                    },
-                    {
-                        "width": 10,
-                        "height": 8
-                    }
-                ]
-            },
-            {
-                "id": 19,
-                "effort": 70,
-                "repeat": 1,
-                "configs": [
-                    {
-                        "width": 1,
-                        "height": 70
-                    },
-                    {
-                        "width": 5,
-                        "height": 26
-                    },
-                    {
-                        "width": 6,
-                        "height": 24
-                    },
-                    {
-                        "width": 9,
-                        "height": 21
-                    },
-                    {
-                        "width": 10,
-                        "height": 20
-                    },
-                    {
-                        "width": 14,
-                        "height": 18
-                    }
-                ]
-            },
-            {
-                "id": 20,
-                "effort": 70,
-                "repeat": 4,
-                "configs": [
-                    {
-                        "width": 2,
-                        "height": 42
-                    },
-                    {
-                        "width": 4,
-                        "height": 28
-                    },
-                    {
-                        "width": 5,
-                        "height": 26
-                    },
-                    {
-                        "width": 7,
-                        "height": 22
-                    },
-                    {
-                        "width": 10,
-                        "height": 20
-                    },
-                    {
-                        "width": 12,
-                        "height": 19
-                    },
-                    {
-                        "width": 14,
-                        "height": 18
-                    }
-                ]
-            },
-            {
-                "id": 21,
-                "effort": 50,
-                "repeat": 4,
-                "configs": [
-                    {
-                        "width": 2,
-                        "height": 30
-                    },
-                    {
-                        "width": 3,
-                        "height": 24
-                    },
-                    {
-                        "width": 4,
-                        "height": 20
-                    },
-                    {
-                        "width": 8,
-                        "height": 15
-                    },
-                    {
-                        "width": 10,
-                        "height": 14
-                    },
-                    {
-                        "width": 14,
-                        "height": 13
                     }
                 ]
             },
             {
                 "id": 22,
-                "effort": 63,
-                "repeat": 5,
+                "effort": 39,
+                "repeat": 2,
                 "configs": [
                     {
-                        "width": 2,
-                        "height": 38
+                        "width": 1,
+                        "height": 39
                     },
                     {
-                        "width": 5,
-                        "height": 23
-                    },
-                    {
-                        "width": 7,
-                        "height": 20
-                    },
-                    {
-                        "width": 8,
+                        "width": 3,
                         "height": 19
                     },
                     {
-                        "width": 11,
-                        "height": 18
+                        "width": 4,
+                        "height": 16
                     },
                     {
-                        "width": 12,
-                        "height": 17
+                        "width": 6,
+                        "height": 13
+                    },
+                    {
+                        "width": 9,
+                        "height": 12
+                    },
+                    {
+                        "width": 11,
+                        "height": 11
                     },
                     {
                         "width": 15,
-                        "height": 16
+                        "height": 10
                     }
                 ]
             },
             {
                 "id": 23,
-                "effort": 71,
-                "repeat": 4,
+                "effort": 59,
+                "repeat": 1,
                 "configs": [
                     {
-                        "width": 4,
-                        "height": 29
+                        "width": 1,
+                        "height": 59
+                    },
+                    {
+                        "width": 2,
+                        "height": 36
                     },
                     {
                         "width": 5,
-                        "height": 26
-                    },
-                    {
-                        "width": 8,
                         "height": 22
                     },
                     {
-                        "width": 9,
-                        "height": 21
+                        "width": 8,
+                        "height": 18
                     },
                     {
-                        "width": 10,
-                        "height": 20
+                        "width": 11,
+                        "height": 17
                     },
                     {
                         "width": 12,
-                        "height": 19
+                        "height": 16
+                    },
+                    {
+                        "width": 15,
+                        "height": 15
                     }
                 ]
             },
             {
                 "id": 24,
-                "effort": 30,
-                "repeat": 5,
+                "effort": 92,
+                "repeat": 3,
                 "configs": [
                     {
-                        "width": 1,
-                        "height": 30
+                        "width": 2,
+                        "height": 56
+                    },
+                    {
+                        "width": 3,
+                        "height": 43
+                    },
+                    {
+                        "width": 4,
+                        "height": 37
                     },
                     {
                         "width": 5,
-                        "height": 11
+                        "height": 34
                     },
                     {
-                        "width": 8,
-                        "height": 9
+                        "width": 6,
+                        "height": 31
                     },
                     {
-                        "width": 12,
-                        "height": 8
+                        "width": 9,
+                        "height": 27
+                    },
+                    {
+                        "width": 10,
+                        "height": 26
+                    },
+                    {
+                        "width": 15,
+                        "height": 24
                     }
                 ]
             }

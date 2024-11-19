@@ -72,7 +72,7 @@ class Instance:
         #bounds
         items = list(itertools.chain.from_iterable([(task.configs[0][0], task.configs[0][1])] * task.repeat
                                                    for task in self.tasks))
-        self.lb = -1
+        self.lb = sum(item[0] * item[1] for item in items) / self.W 
         self.ub = -1 
 
     def statistics(self):
@@ -82,9 +82,9 @@ class Instance:
     def write_json(self, dir_path):
         d = {'instance': 
                 {'name': self.name, 
-                 'alpha': self.amdahl_p * 100,
-                'rmax': f'{self.rmax:02}',
-                'wmax': f'{self.wmax:02}',
+                'alpha': self.amdahl_p * 100,
+                'rmax': self.rmax,
+                'wmax': self.wmax,
                 'W': self.W,
                 'seed': self.seed,
                 'ntasks': self.ntasks,
@@ -114,11 +114,10 @@ def gen_instances(dir_path, seeds, strip_widths, number_of_tasks, maximum_repeti
     for W, ntasks, rmax, wmax, amdahl_p, seed in itertools.product(strip_widths, number_of_tasks, maximum_repetitions,
                                                              maximum_processors, amdahl_percentuals, seeds): 
 
-        output_dir = dir_path / f'seed{seed}'
-        output_dir.mkdir(parents=True, exist_ok=True)
+        dir_path.mkdir(parents=True, exist_ok=True)
         inst = Instance(W, ntasks, wmax, rmax, amdahl_p, seed)
         # inst.statistics()
-        inst.write_json(output_dir)
+        inst.write_json(dir_path)
 
 
 if __name__ == '__main__':
