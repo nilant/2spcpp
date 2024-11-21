@@ -1700,10 +1700,10 @@
         "bound": 0.0,
         "runtime": 0.0
     },
-    "matheuristic": {
-        "start_sol": 716.0,
-        "obj": 690.0,
+    "math3": {
+        "start_sol": 712.0,
+        "obj": 688.0,
         "bound": 0.0,
-        "runtime": 421.217
+        "runtime": 437.936
     }
 }
