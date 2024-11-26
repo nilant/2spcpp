@@ -6,6 +6,7 @@
 build/
 bin/
 doc/
+data/
 data/test*
 env.list
 *.lic
