@@ -44,14 +44,14 @@ if __name__ == '__main__':
 
     if args.config:
         config_path = args.config
-    elif pathlib.Path('configs/benchmarks.toml').exists():
-        config_path = pathlib.Path('configs/benchmarks.toml')
+    elif pathlib.Path('config.toml').exists():
+        config_path = pathlib.Path('config.toml')
     else:
         print('no configuration available')
         sys.exit()
 
     with open(config_path, 'rb') as f:
-        config = tomllib.load(f);
+        config = tomllib.load(f)['benchmarks']
 
     execs = config['execs']
 
