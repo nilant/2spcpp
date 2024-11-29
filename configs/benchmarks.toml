@@ -1,6 +1,0 @@
-execs = ["math1", "math2", "math3"]
-timelimit = 600
-memlimit = 15
-iterlimit = 0
-threads = 1
-seed = 0
