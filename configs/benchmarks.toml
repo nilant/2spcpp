@@ -1,6 +1,0 @@
-execs = ["math2"]
-timelimit = 3600
-memlimit = 15
-iterlimit = 0
-threads = 1
-seed = 0
