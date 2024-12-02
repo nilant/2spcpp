@@ -8,8 +8,8 @@ struct Args {
     fs::path input_file;
     std::string exec_name;
     int iterlimit{0};
-    int timelimit{0};
-    int memlimit{0};
+    double timelimit{0};
+    double memlimit{0};
     int threads{0};
     int seed{0};
 

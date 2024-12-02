@@ -11,7 +11,9 @@
 #include <algorithm>
 
 
-std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Instance const& inst, Args const& args) {
+std::pair<std::vector<Instance>, double> solve_level(GRBEnv& env, std::vector<Instance>& subs, Instance const& inst, Args const& args) {
+
+    auto t0 = std::chrono::high_resolution_clock::now();
 
     int n = subs.size();
     if (n % 2 != 0) {
@@ -21,7 +23,9 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
     }
 
     Args coord_args{args};
-    coord_args.timelimit /= (n * (n-1)  / 2);
+    int npairs = (n * (n-1)  / 2);
+    int solved_pairs = 0;
+    coord_args.timelimit /= npairs;
 
     mdarray<int, 2> combs{n, n};
     mdarray<Instance, 2> instances{n, n};
@@ -33,7 +37,13 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
             fmt::print("pair ({},{}): merge={} ", i, j, new_inst.ub);
             Coord coord(env, new_inst, new_inst.ub);
             auto coord_res = coord.optimize(coord_args, new_inst.ub);
-            fmt::print("coord={} runtime={:.2f}({})\n", coord_res.obj, coord_res.runtime, coord_args.timelimit);
+            fmt::print("coord={} runtime={:.2f}({:.2f})\n", coord_res.obj, coord_res.runtime, coord_args.timelimit);
+
+            solved_pairs++;
+
+            if (coord_args.timelimit - coord_res.runtime > 1e-1) {
+                coord_args.timelimit += (coord_args.timelimit - coord_res.runtime) / (npairs - solved_pairs); 
+            }
 
             if (coord_res.obj != -1 && coord_res.obj <= new_inst.ub) {
                 auto sub = coord.subinst(new_inst);
@@ -50,7 +60,10 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
     ass.optimize(args);
     auto new_subs = ass.select(instances);
 
-    return new_subs;
+    auto t1 = std::chrono::high_resolution_clock::now();
+    auto runtime = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count() / 1000.0;
+
+    return {new_subs, runtime};
 }
 
 std::vector<Instance> filter_subs(std::vector<Instance>& subs, double percentage) {
@@ -91,19 +104,24 @@ HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
         n++;
     }
 
-    int nlevels = std::lrint(std::log2(n));
+    int nlevels = std::ceil(std::log2(n));
+    int solved_levels = 0;
+    assert(nlevels > 0);
 
     Args coord_args{args};
-    if (nlevels > 0) {
-        coord_args.timelimit = (args.timelimit - 10) / nlevels;
-    } else {
-        coord_args.timelimit = args.timelimit - 10;
-    }
-
     fmt::print("n={}, pairs={}, nlevels={}\n", n, (n * (n-1) / 2), nlevels);
+
     int i = 0;
     while (n >= 2) {
-        subs = solve_level(env, subs, inst, coord_args);
+        auto solve_res = solve_level(env, subs, inst, coord_args);
+        solved_levels++;
+        subs = solve_res.first;
+        auto runtime_level = solve_res.second;
+
+        if (coord_args.timelimit - runtime_level > 1) {
+            coord_args.timelimit += (coord_args.timelimit - runtime_level) / (nlevels - solved_levels);
+        }
+
         auto full = filter_subs(subs, filter_area_percent);
         full_insts.insert(full_insts.end(), full.begin(), full.end());
         n = subs.size();

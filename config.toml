@@ -11,7 +11,7 @@ remote_dir = "packing"
 data_dir = "all"
 
 [benchmarks]
-execs = ["bottom_left"]
+execs = ["math4"]
 timelimit = 3600
 memlimit = 15
 iterlimit = 0
