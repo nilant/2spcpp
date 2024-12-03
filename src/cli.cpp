@@ -1,3 +1,4 @@
+#include <fmt/core.h>
 #include "cli.hpp"
 #include "../libs/argh.h"
 
@@ -13,4 +14,8 @@ Args::Args(int argc, char* argv[]) {
     cmdl("--memlimit", 16) >> memlimit;
     cmdl("--threads", 1) >> threads;
     cmdl("--seed", 0) >> seed;
+}
+
+void Args::print() const {
+    fmt::print("timelimit: {}\niterlimit: {}\nmemlimit: {}\nthreads: {}\nseed: {}\n",timelimit, iterlimit, memlimit, threads, seed);
 }

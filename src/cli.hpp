@@ -14,4 +14,5 @@ struct Args {
     int seed{0};
 
     Args(int argc, char* argv[]);
+    void print() const;
 };

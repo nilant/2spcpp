@@ -61,7 +61,7 @@ MIPResult solve(std::string const& name, GRBModel& model, Args const& args) {
             result.obj = NAN;
             result.bound = NAN;
             result.gap = NAN;
-            result.runtime = NAN;
+            result.runtime = model.get(GRB_DoubleAttr_Runtime);
         }
 
         if (status == GRB_INFEASIBLE) {

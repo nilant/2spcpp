@@ -13,8 +13,6 @@
 
 std::pair<std::vector<Instance>, double> solve_level(GRBEnv& env, std::vector<Instance>& subs, Instance const& inst, Args const& args) {
 
-    auto t0 = std::chrono::high_resolution_clock::now();
-
     int n = subs.size();
     if (n % 2 != 0) {
         Instance empty{};
@@ -23,13 +21,14 @@ std::pair<std::vector<Instance>, double> solve_level(GRBEnv& env, std::vector<In
     }
 
     Args coord_args{args};
-    int npairs = (n * (n-1)  / 2);
+    int npairs = (n * (n-1) / 2);
     int solved_pairs = 0;
     coord_args.timelimit /= npairs;
 
     mdarray<int, 2> combs{n, n};
     mdarray<Instance, 2> instances{n, n};
 
+    double runtime = 0.0;
     for (int i = 0; i < n; ++i) {
         for (int j = i+1; j < n; ++j) {
             Instance new_inst = merge(subs[i], subs[j]);
@@ -38,11 +37,11 @@ std::pair<std::vector<Instance>, double> solve_level(GRBEnv& env, std::vector<In
             Coord coord(env, new_inst, new_inst.ub);
             auto coord_res = coord.optimize(coord_args, new_inst.ub);
             fmt::print("coord={} runtime={:.2f}({:.2f})\n", coord_res.obj, coord_res.runtime, coord_args.timelimit);
-
+            runtime += coord_res.runtime;
             solved_pairs++;
 
             if (coord_args.timelimit - coord_res.runtime > 1e-1) {
-                coord_args.timelimit += (coord_args.timelimit - coord_res.runtime) / (npairs - solved_pairs); 
+                coord_args.timelimit = coord_args.timelimit + (coord_args.timelimit - coord_res.runtime) / (npairs - solved_pairs); 
             }
 
             if (coord_res.obj != -1 && coord_res.obj <= new_inst.ub) {
@@ -59,9 +58,6 @@ std::pair<std::vector<Instance>, double> solve_level(GRBEnv& env, std::vector<In
     Assignment ass{env, combs};
     ass.optimize(args);
     auto new_subs = ass.select(instances);
-
-    auto t1 = std::chrono::high_resolution_clock::now();
-    auto runtime = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count() / 1000.0;
 
     return {new_subs, runtime};
 }
@@ -109,6 +105,7 @@ HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
     assert(nlevels > 0);
 
     Args coord_args{args};
+    coord_args.timelimit /= nlevels;
     fmt::print("n={}, pairs={}, nlevels={}\n", n, (n * (n-1) / 2), nlevels);
 
     int i = 0;
@@ -119,7 +116,7 @@ HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
         auto runtime_level = solve_res.second;
 
         if (coord_args.timelimit - runtime_level > 1) {
-            coord_args.timelimit += (coord_args.timelimit - runtime_level) / (nlevels - solved_levels);
+            coord_args.timelimit = coord_args.timelimit + (coord_args.timelimit - runtime_level) / (nlevels - solved_levels);
         }
 
         auto full = filter_subs(subs, filter_area_percent);
