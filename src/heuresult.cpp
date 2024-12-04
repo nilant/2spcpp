@@ -17,9 +17,7 @@ void HeurResult::write(fs::path const& file_path) {
         out << std::setprecision(2)  << std::setw(4) << std::fixed;
 
         nlohmann::ordered_json jsol;
-        jsol["start_sol"] = start_sol;
         jsol["obj"] = obj;
-        jsol["bound"] = bound;
         jsol["runtime"] = runtime;
         jsol["status"] = status;
         j[name] = jsol;

@@ -13,6 +13,9 @@ struct Args {
     int threads{0};
     int seed{0};
 
+    //brkga
+    
+
     Args(int argc, char* argv[]);
     void print() const;
 };

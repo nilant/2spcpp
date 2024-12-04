@@ -14,6 +14,7 @@ project(
 
 find_package(GUROBI REQUIRED)
 find_package(fmt REQUIRED)
+find_package(OpenMP REQUIRED)
 
 # Adding the src, examples
 add_subdirectory(src)
