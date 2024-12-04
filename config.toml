@@ -1,6 +1,6 @@
 [collect]
 merge_cells = false
-execs = ["shelves", "coord", "coord2", "bottom_left", "bottom_left_plus", "matheuristic"]
+execs = ["brkga"]
 instance_index = [ "alpha", "ntasks", "seed", "rmax", "wmax"]
 instance_fields = ["W", "nitems", "reff", "lb"]
 exec_fields = ["obj", "bound", "runtime"]
@@ -11,8 +11,8 @@ remote_dir = "packing"
 data_dir = "all"
 
 [benchmarks]
-execs = ["math4"]
-timelimit = 3600
+execs = ["bekga"]
+timelimit = 600
 memlimit = 15
 iterlimit = 0
 threads = 1

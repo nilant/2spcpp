@@ -14,7 +14,11 @@ struct Args {
     int seed{0};
 
     //brkga
-    
+    unsigned p{0};
+    double pe{0.0};
+    double pm{0.0};
+    double rhoe{0.0};
+    unsigned K{0};
 
     Args(int argc, char* argv[]);
     void print() const;

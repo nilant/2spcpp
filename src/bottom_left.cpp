@@ -17,6 +17,36 @@ bool fit(Config const& item, mdarray<int, 2> const& coord, int p, int q) {
     return flag;
 }
 
+int bottom_left_impl(std::vector<Config> const& items, int ub, int w) {
+    
+    mdarray<int, 2> coord{w, ub};
+
+    for (int p = 0; p < w; ++p) {
+        for (int q = 0; q < ub; ++q) {
+            coord(p, q) = true;
+        }
+    }
+    int obj = 0;
+    for (auto const& item : items) {
+        for (int q = 0; q <= ub - item.h; ++q) {
+            for (int p = 0; p <= w - item.w; ++p) {
+                if (fit(item, coord, p, q)) {
+                    obj = std::max(q + item.h, obj);
+                    for (int i = p; i < p + item.w; ++i) {
+                        for (int j = q; j < q + item.h; ++j) {
+                            coord(i, j) = false;
+                        }
+                    }
+                    goto next_item;
+                }
+            }
+        }
+        next_item:;
+    }
+
+    return obj;
+}
+
 HeurResult bottom_left(Instance const& inst) {
 
     auto t0 = std::chrono::high_resolution_clock::now();
@@ -38,14 +68,7 @@ HeurResult bottom_left(Instance const& inst) {
     int lb = std::ceil(area / inst.w);
 
     int w = inst.w;
-    mdarray<int, 2> coord{w, ub};
-
-    for (int p = 0; p < w; ++p) {
-        for (int q = 0; q < ub; ++q) {
-            coord(p, q) = true;
-        }
-    }
-
+    
     std::sort(items.begin(), items.end(), 
              [](auto const& a, auto const& b) { 
                 if ((a.h > b.h) || (a.h == b.h && a.w < b.w)) {
@@ -55,23 +78,7 @@ HeurResult bottom_left(Instance const& inst) {
             }
     );
 
-    int obj = 0;
-    for (auto const& item : items) {
-        for (int q = 0; q <= ub - item.h; ++q) {
-            for (int p = 0; p <= w - item.w; ++p) {
-                if (fit(item, coord, p, q)) {
-                    obj = std::max(q + item.h, obj);
-                    for (int i = p; i < p + item.w; ++i) {
-                        for (int j = q; j < q + item.h; ++j) {
-                            coord(i, j) = false;
-                        }
-                    }
-                    goto next_item;
-                }
-            }
-        }
-        next_item:;
-    }
+    int obj = bottom_left_impl(items, ub, w);
 
     auto t1 = std::chrono::high_resolution_clock::now();
     res.obj = obj;

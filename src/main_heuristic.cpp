@@ -1,6 +1,5 @@
 #include <fmt/core.h>
 
-#include "gurobi_c++.h"
 #include "heuresult.hpp"
 #include "heuristic.hpp"
 
