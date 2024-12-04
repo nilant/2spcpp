@@ -4,5 +4,5 @@ rm -rf build/*
 mkdir -p bin
 docker build --target builder -t builder .
 docker container create --name extract builder
-docker container cp extract:/code/build/src/brkga ./bin/brkga
+docker container cp extract:/code/build/src/brkga1 ./bin/brkga1
 docker container rm -f extract

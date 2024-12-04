@@ -19,22 +19,16 @@ double Decoder::decode(const std::vector< double >& chromosome) const {
 
 	assert(idx == instance.reff);
 
-	std::vector<std::pair<int, double>> idx_key;
-	idx_key.reserve(instance.reff);
-	for (int i = 0; i < instance.reff; ++i) {
-		idx_key.push_back({i, chromosome[instance.reff + i]});
-	}
+	std::sort(items.begin(), items.end(), 
+             [](auto const& a, auto const& b) { 
+                if ((a.h > b.h) || (a.h == b.h && a.w < b.w)) {
+                    return true;
+                }
+                return false;
+            }
+    );
 
-	std::sort(idx_key.begin(), idx_key.end(), [] (auto const& a, auto const& b) { return a.second >= b.second; });
-
-	std::vector<Config> sorted_items;
-	sorted_items.reserve(items.size());
-
-	for (int i = 0; i < items.size(); ++i) {
-		sorted_items.push_back(items[idx_key[i].first]);
-	}
-
-	myFitness = bottom_left_impl(sorted_items, instance.ub, instance.w);
+	myFitness = bottom_left_impl(items, instance.ub, instance.w);
 
 	return myFitness;
 }
