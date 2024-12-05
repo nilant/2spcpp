@@ -1,6 +1,6 @@
 [collect]
 merge_cells = false
-execs = ["brkga"]
+execs = ["brkga1"]
 instance_index = [ "alpha", "ntasks", "seed", "rmax", "wmax"]
 instance_fields = ["W", "nitems", "reff", "lb"]
 exec_fields = ["obj", "bound", "runtime"]
@@ -11,9 +11,9 @@ remote_dir = "packing"
 data_dir = "all"
 
 [benchmarks]
-execs = ["bekga"]
+execs = ["brkga1"]
 timelimit = 600
 memlimit = 15
-iterlimit = 0
+iterlimit = 1000
 threads = 1
 seed = 0
