@@ -15,7 +15,7 @@ Instance::Instance(fs::path const& input_file) {
     alpha = j["alpha"];
     seed = j["seed"];
     ntasks = j["ntasks"];
-    nitems = j["nitems"];
+    nitems = j["ntasks"];
     reff = j["reff"];
     lb = j["lb"];
 
@@ -34,17 +34,17 @@ Instance::Instance(fs::path const& input_file) {
 
         nitems2 += task.repeat * nconfigs;
 
-        for (auto const& jconfig : jtask["configs"]) {
-            Config config;
-            config.repeat = task.repeat;
-            config.id = id;
-            config.task_id = task.id;
-            config.w = jconfig["width"];
-            config.h = jconfig["height"];
-            task.configs.push_back(config);
-            items.push_back(config);
-            id++;
-        }
+        auto const& jconfig = jtask["configs"][0];
+        Config config;
+        config.repeat = task.repeat;
+        config.id = id;
+        config.task_id = task.id;
+        config.w = jconfig["width"];
+        config.h = jconfig["height"];
+        task.configs.push_back(config);
+        items.push_back(config);
+        id++;
+
         tasks.push_back(task);
     }
 
@@ -279,10 +279,4 @@ nlohmann::ordered_json Solution::to_json() {
     jsol["obj"] = obj;
 
     return jsol;
-}
-
-void Instance::strip_configs() {
-    for (auto& task : tasks) {
-        task.configs.erase(std::next(task.configs.begin()), task.configs.end());
-    }
 }

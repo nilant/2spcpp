@@ -13,8 +13,6 @@ int main(int argc, char* argv[]) {
         GRBEnv env{};
         Instance inst{args.input_file};
 
-        inst.strip_configs();
-
         auto res_bl = bottom_left(inst);
         int ub = res_bl.obj;
 
