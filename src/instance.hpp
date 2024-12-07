@@ -45,6 +45,7 @@ struct Instance {
     void area();
     void print(fs::path const& dat_file, std::string name);
     void print_selected(fs::path const& dat_file, std::string name);
+    void strip_configs();
 };
 
 struct Solution {

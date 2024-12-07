@@ -280,3 +280,9 @@ nlohmann::ordered_json Solution::to_json() {
 
     return jsol;
 }
+
+void Instance::strip_configs() {
+    for (auto& task : tasks) {
+        task.configs.erase(std::next(task.configs.begin()), task.configs.end());
+    }
+}
