@@ -13,7 +13,7 @@ HeurResult heuristic(Instance const& inst, Args const& args) {
     auto t0 = std::chrono::high_resolution_clock::now();
     HeurResult res{args.exec_name};
 
-	const unsigned n = inst.reff * 2;		// size of chromosomes
+	const unsigned n = inst.reff;		// size of chromosomes
 	const unsigned p = args.p;		// size of population
 	const double pe = args.pe;		// fraction of population to be the elite-set
 	const double pm = args.pm;		// fraction of population to be replaced by mutants
