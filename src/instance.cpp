@@ -280,3 +280,11 @@ nlohmann::ordered_json Solution::to_json() {
 
     return jsol;
 }
+
+void Solution::write(fs::path const& file_path) {
+     
+    std::ofstream file_ss{file_path};
+    file_ss << std::setprecision(2)  << std::setw(4) << std::fixed;
+
+    file_ss << this->to_json() << std::endl;
+}

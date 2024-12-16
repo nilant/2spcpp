@@ -53,6 +53,7 @@ struct Solution {
     std::vector<Config> items;
     
     nlohmann::ordered_json to_json();
+    void write(fs::path const& file_path);
 };
 
 Instance merge(Instance const& inst1, Instance const& inst2);
