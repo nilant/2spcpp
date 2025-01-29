@@ -89,6 +89,11 @@ MIPResult Coord::optimize(Args const& args, int ub) {
     return res;
 }
 
+void Coord::write_sol(fs::path const &file_path) {
+    auto path = file_path;
+    model.write(path.parent_path() / (path.stem().string() + "_sol.json"));
+}
+
 Solution Coord::costruct_solution(Instance& inst) {
 
     inst.selected_items.clear();

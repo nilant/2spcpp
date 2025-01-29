@@ -1,5 +1,6 @@
 #pragma once
 
+#include <filesystem>
 #include <gurobi_c++.h>
 #include "cli.hpp"
 #include "mdarray.hpp"
@@ -17,6 +18,7 @@ class Coord {
     public:
         Coord(GRBEnv& env, Instance const& inst, int ub);
         MIPResult optimize(Args const& args, int ub);
+        void write_sol(fs::path const& file_path);
         Solution costruct_solution(Instance& inst);
         double runtime() { return model.get(GRB_DoubleAttr_Runtime); };
         double buildtime() { return _buildtime; };

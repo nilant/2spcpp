@@ -1,4 +1,4 @@
-add_executable(coord main_coord.cpp coord.cpp instance.cpp cli.cpp mipresult.cpp bottom_left_plus.cpp)
+add_executable(coord main_coord.cpp coord.cpp instance.cpp cli.cpp mipresult.cpp bottom_left.cpp)
 
 target_include_directories(coord PUBLIC ${GUROBI_INCLUDE_DIRS})
 target_link_libraries(coord PUBLIC ${GUROBI_CPP_LIBRARY} ${GUROBI_LIBRARY} fmt::fmt -pthread)

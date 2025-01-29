@@ -21,8 +21,7 @@ int main(int argc, char* argv[]) {
         res.write(args.input_file);
         res.print();
 
-        Solution sol = coord.costruct_solution(inst);
-        sol.write(args.input_file.replace_filename(args.input_file.filename().string() + "_sol"));
+        coord.write_sol(args.input_file);
 
     } catch (GRBException& e) {
         fmt::print("error code={}\n", e.getErrorCode());
