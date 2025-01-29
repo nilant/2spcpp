@@ -7,7 +7,7 @@
 #include "mipresult.hpp"
 
 class Coord2 {
-    std::string name{"coord2"};
+    std::string name{"LP2+"};
     double _buildtime{0};
 
     GRBModel model;

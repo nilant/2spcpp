@@ -17,7 +17,7 @@ Coord::Coord(GRBEnv& env, Instance const& inst, int ub) : model{env}, x{inst.nit
         int i = item.id;
         for (int p = 0; p <= inst.w - item.w; ++p) {
             for (int q = 0; q <= ub - item.h; ++q) {
-                x(i, p, q) = model.addVar(0, 1, 0, GRB_BINARY, fmt::format("x_{}_{}_{}", i, p, q));
+                x(i, p, q) = model.addVar(0, 1, 0, GRB_CONTINUOUS, fmt::format("x_{}_{}_{}", i, p, q));
             }
         }
     }

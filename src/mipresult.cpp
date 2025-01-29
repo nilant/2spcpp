@@ -19,16 +19,14 @@ void MIPResult::write(fs::path const& file_path) {
 
         nlohmann::ordered_json jsol;
         jsol["obj"] = obj;
-        jsol["bound"] = bound;
         jsol["runtime"] = runtime;
-        jsol["gap"] = gap;
         j[name] = jsol;
 
         out << j << std::endl;
 }
 
 void MIPResult::print() {
-    fmt::print("obj={}, bound={}, runtime={}, buildtime={}\n", obj, bound, runtime, buildtime);
+    fmt::print("obj={}\n", obj);
 }
 
 MIPResult solve(std::string const& name, GRBModel& model, Args const& args) {
@@ -43,13 +41,9 @@ MIPResult solve(std::string const& name, GRBModel& model, Args const& args) {
         model.optimize();
         if (model.get(GRB_IntAttr_SolCount) > 0) {
             result.obj = model.get(GRB_DoubleAttr_ObjVal);
-            result.bound = model.get(GRB_DoubleAttr_ObjBound);
-            result.gap = model.get(GRB_DoubleAttr_MIPGap);
             result.runtime = model.get(GRB_DoubleAttr_Runtime);
         } else {
             result.obj = -1;
-            result.bound = -1;
-            result.gap = -1;
             result.runtime = -1;
         }
 
@@ -65,8 +59,6 @@ MIPResult solve(std::string const& name, GRBModel& model, Args const& args) {
         fmt::print("Error code = {}\n", e.getErrorCode());
         fmt::print("Error message = {}\n", e.getMessage()); 
         result.obj = -1;
-        result.bound = -1;
-        result.gap = -1;
         result.runtime = -1;
     } catch(...) {
         fmt::print("Exception during optimization");

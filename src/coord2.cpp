@@ -2,6 +2,7 @@
 
 #include "coord2.hpp"
 #include "gurobi_c++.h"
+#include "gurobi_c.h"
 #include "instance.hpp"
 #include "mipresult.hpp"
 
@@ -43,7 +44,7 @@ Coord2::Coord2(GRBEnv& env, Instance const& inst, int ub) : model{env}, x{inst.n
         int i = item.id;
         for (int p = 0; p <= inst.w - item.w; ++p) {
             for (int q = 0; q <= ub - item.h; ++q) {
-                x(i, p, q) = model.addVar(0, 1, 0, GRB_BINARY, fmt::format("x_{}_{}_{}", i, p, q));
+                x(i, p, q) = model.addVar(0, 1, 0, GRB_CONTINUOUS, fmt::format("x_{}_{}_{}", i, p, q));
             }
         }
     }
