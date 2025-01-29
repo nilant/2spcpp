@@ -21,8 +21,6 @@ int main(int argc, char* argv[]) {
         res.write(args.input_file);
         res.print();
 
-        coord.write_sol(args.input_file);
-
     } catch (GRBException& e) {
         fmt::print("error code={}\n", e.getErrorCode());
         fmt::print("error message={}\n", e.getMessage());
