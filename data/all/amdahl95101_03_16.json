@@ -366,10 +366,23 @@
         "bound": 0.0,
         "runtime": 0.0
     },
-    "matheuristic": {
+    "math1": {
+        "start_sol": 56.0,
+        "obj": 53.0,
+        "bound": 0.0,
+        "runtime": 186.337
+    },
+    "math2": {
         "start_sol": 56.0,
         "obj": 52.0,
         "bound": 0.0,
-        "runtime": 200.311
+        "runtime": 391.946,
+        "status": "OPT"
+    },
+    "math3": {
+        "start_sol": 56.0,
+        "obj": 53.0,
+        "bound": 0.0,
+        "runtime": 189.449
     }
 }
