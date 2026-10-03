@@ -1,0 +1,184 @@
+{
+    "instance": {
+        "name": "amdahl99055",
+        "alpha": 99.0,
+        "rmax": 5,
+        "wmax": 16,
+        "W": 16,
+        "seed": 5,
+        "ntasks": 5,
+        "nitems": 33,
+        "reff": 20,
+        "lb": 52.0,
+        "ub": -1,
+        "tasks": [
+            {
+                "id": 0,
+                "effort": 58,
+                "repeat": 5,
+                "configs": [
+                    {
+                        "width": 2,
+                        "height": 30
+                    },
+                    {
+                        "width": 4,
+                        "height": 15
+                    },
+                    {
+                        "width": 5,
+                        "height": 13
+                    },
+                    {
+                        "width": 6,
+                        "height": 11
+                    },
+                    {
+                        "width": 7,
+                        "height": 9
+                    },
+                    {
+                        "width": 8,
+                        "height": 8
+                    },
+                    {
+                        "width": 9,
+                        "height": 7
+                    },
+                    {
+                        "width": 11,
+                        "height": 6
+                    }
+                ]
+            },
+            {
+                "id": 1,
+                "effort": 32,
+                "repeat": 4,
+                "configs": [
+                    {
+                        "width": 2,
+                        "height": 17
+                    },
+                    {
+                        "width": 3,
+                        "height": 11
+                    },
+                    {
+                        "width": 6,
+                        "height": 6
+                    },
+                    {
+                        "width": 7,
+                        "height": 5
+                    },
+                    {
+                        "width": 10,
+                        "height": 4
+                    },
+                    {
+                        "width": 12,
+                        "height": 3
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "effort": 35,
+                "repeat": 4,
+                "configs": [
+                    {
+                        "width": 2,
+                        "height": 18
+                    },
+                    {
+                        "width": 4,
+                        "height": 10
+                    },
+                    {
+                        "width": 5,
+                        "height": 8
+                    },
+                    {
+                        "width": 7,
+                        "height": 6
+                    },
+                    {
+                        "width": 8,
+                        "height": 5
+                    },
+                    {
+                        "width": 10,
+                        "height": 4
+                    },
+                    {
+                        "width": 14,
+                        "height": 3
+                    }
+                ]
+            },
+            {
+                "id": 3,
+                "effort": 40,
+                "repeat": 3,
+                "configs": [
+                    {
+                        "width": 4,
+                        "height": 11
+                    },
+                    {
+                        "width": 5,
+                        "height": 9
+                    },
+                    {
+                        "width": 6,
+                        "height": 8
+                    },
+                    {
+                        "width": 9,
+                        "height": 5
+                    },
+                    {
+                        "width": 11,
+                        "height": 4
+                    }
+                ]
+            },
+            {
+                "id": 4,
+                "effort": 30,
+                "repeat": 4,
+                "configs": [
+                    {
+                        "width": 1,
+                        "height": 30
+                    },
+                    {
+                        "width": 2,
+                        "height": 16
+                    },
+                    {
+                        "width": 4,
+                        "height": 8
+                    },
+                    {
+                        "width": 6,
+                        "height": 6
+                    },
+                    {
+                        "width": 7,
+                        "height": 5
+                    },
+                    {
+                        "width": 9,
+                        "height": 4
+                    },
+                    {
+                        "width": 12,
+                        "height": 3
+                    }
+                ]
+            }
+        ]
+    }
+}

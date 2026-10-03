@@ -128,4 +128,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     print('*****************class1*****************\n')
-    gen_instances(args.output_dir, seeds=[1,2,3,4,5], strip_widths=[16], number_of_tasks=[25,35,40,45], maximum_repetitions=[3,5], maximum_processors=[8,16], amdahl_percentuals=[0.8, 0.95])
+    gen_instances(args.output_dir, seeds=[1,2,3,4,5], strip_widths=[16], number_of_tasks=[5, 10, 15, 20, 25, 30], maximum_repetitions=[3,5], maximum_processors=[8,16], amdahl_percentuals=[0.99])
