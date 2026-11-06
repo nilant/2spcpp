@@ -24,7 +24,7 @@ struct MIPResult {
 
     explicit MIPResult(std::string const& alg_name) : name{alg_name} {}
 
-    void write(fs::path const& file_path);
+    // Print the result to stdout as a JSON object.
     void print();
 };
 

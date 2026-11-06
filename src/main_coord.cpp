@@ -21,10 +21,9 @@ int main(int argc, char* argv[]) {
 
         Coord coord{env, inst, ub};
         MIPResult res = coord.optimize(args, ub);
-        res.write(args.input_file);
         res.print();
 
-        coord.write_sol(args.input_file);
+        //coord.write_sol(args.input_file);
 
     } catch (GRBException& e) {
         fmt::print("error code={}\n", e.getErrorCode());

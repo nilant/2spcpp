@@ -23,7 +23,6 @@ int main(int argc, char* argv[]) {
         Instance inst{args.input_file};
 
         HeurResult res = heuristic(env, inst, args);
-        res.write(args.input_file);
         res.print();
 
     } catch (GRBException& e) {

@@ -17,7 +17,6 @@ int main(int argc, char* argv[]) {
         Instance inst{args.input_file};
         Shelves shelves{env, inst};
         MIPResult res = shelves.optimize(args);
-        res.write(args.input_file);
         res.print();
 
     } catch (GRBException& e) {

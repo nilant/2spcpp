@@ -1,33 +1,14 @@
 #include "heuresult.hpp"
 
 #include <filesystem>
-#include <iostream>
-#include <fstream>
 #include <fmt/core.h>
 
 #include "../libs/json.hpp"
 
-// Read the instance JSON, add (or overwrite) the entry `name` with the result
-// and write the file back.
-void HeurResult::write(fs::path const& file_path) {
-        std::ifstream file(file_path);
-        auto j = nlohmann::ordered_json::parse(file);
-
-        std::ofstream file_ss{file_path};
-        auto& out = file_path.empty() ? std::cout : file_ss;
-
-        out << std::setprecision(2)  << std::setw(4) << std::fixed;
-
-        nlohmann::ordered_json jsol;
-        jsol["start_sol"] = start_sol;
-        jsol["obj"] = obj;
-        jsol["bound"] = bound;
-        jsol["runtime"] = runtime;
-        j[name] = jsol;
-
-        out << j << std::endl;
-}
-
 void HeurResult::print() {
-    fmt::print("obj={}, bound={}, runtime={}\n", obj, bound, runtime);
+    nlohmann::ordered_json j;
+    j["obj"] = obj;
+    j["bound"] = bound;
+    j["runtime"] = runtime;
+    fmt::print("{}\n", j.dump());
 }

@@ -142,26 +142,23 @@ bin/bottom_left  data/<instance>.json
 | `--seed` | 0 | Gurobi random seed |
 | `--iterlimit` | 500 | Parsed but currently unused |
 
-**The results are written back into the instance file**, under a key named
-after the algorithm. For example, after running `shelves` and
-`bottom_left` the file contains:
+**The result is printed to stdout as a single JSON object**, and the instance
+file is not modified. For example:
 
 ```json
-{
-  "instance": { "...": "..." },
-  "shelves":     { "obj": 50.0, "bound": 44.1, "runtime": 1.2, "gap": 0.12 },
-  "bottom_left": { "obj": 58.0, "bound": 42.0, "runtime": 0.0 }
-}
+{"obj":50.0,"bound":44.1,"gap":0.12,"runtime":1.2}
 ```
+
+Heuristics (`bottom_left`, `bottom_left_plus`, `matheuristic`) print `obj`,
+`bound` and `runtime`; the MIP programs (`shelves`, `coord`, `coord2`) print
+`obj`, `bound`, `gap` and `runtime`.
 
 - `obj` is the height of the best solution found.
 - `bound` is a lower bound.
-- `gap` is the relative MIP gap (MIP solvers only). `start_sol` is the starting
-  solution value (matheuristic only).
+- `gap` is the relative MIP gap (MIP programs only).
 - `obj`, `bound`, `gap` and `runtime` are `-1` if the solver found no solution.
 
-Copy the instances before running if you want to keep the originals. `coord`
-also writes the Gurobi solution file `<instance>_sol.json` next to the instance.
+Redirect stdout to a file to keep the results. `coord` also writes the Gurobi solution file `<instance>_sol.json` next to the instance.
 
 ## Python tools
 

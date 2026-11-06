@@ -20,7 +20,6 @@ int main(int argc, char* argv[]) {
         
         Coord2 coord2{env, inst, ub};
         MIPResult res = coord2.optimize(args);
-        res.write(args.input_file);
         res.print();
 
     } catch (GRBException& e) {

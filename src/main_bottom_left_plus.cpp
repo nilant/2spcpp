@@ -1,5 +1,5 @@
 // Entry point `bottom_left_plus`: run the bottom-left+ heuristic on an instance.
-// Usage: bottom_left_plus <instance.json>  (result is added to the JSON file)
+// Usage: bottom_left_plus <instance.json>  (prints the result as JSON)
 
 #include <fmt/core.h>
 
@@ -13,7 +13,6 @@ int main(int argc, char* argv[]) {
     Instance inst{args.input_file};
 
     HeurResult res = bottom_left_plus(inst);
-    res.write(args.input_file);
     res.print();
 
     assert(res.obj > res.bound);
