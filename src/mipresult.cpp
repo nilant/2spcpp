@@ -48,14 +48,14 @@ MIPResult solve(std::string const& name, GRBModel& model, Args const& args) {
         }
 
     } catch(GRBException& e) {
-        fmt::print("Error code = {}\n", e.getErrorCode());
-        fmt::print("Error message = {}\n", e.getMessage()); 
+        fmt::print(stderr, "Error code = {}\n", e.getErrorCode());
+        fmt::print(stderr, "Error message = {}\n", e.getMessage()); 
         result.obj = -1;
         result.bound = -1;
         result.gap = -1;
         result.runtime = -1;
     } catch(...) {
-        fmt::print("Exception during optimization");
+        fmt::print(stderr, "Exception during optimization");
         std::exit(1);
     }
 

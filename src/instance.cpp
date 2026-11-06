@@ -263,7 +263,7 @@ bool check_feas(std::vector<Config> const& items) {
             auto const& item2 = items[j];
             if (overlap_1d(item1.x, item1.x + item1.w, item2.x, item2.x + item2.w) &&
                 overlap_1d(item1.y, item1.y + item1.h, item2.y, item2.y + item2.h)) {
-                    fmt::print("item {}(({},{})-({},{})) and item {}(({},{})-({},{})) overlaps\n", item1.id, item1.x, item1.y, item1.w, item1.h, item2.id, item2.x, item2.y, item2.w, item2.h);
+                    fmt::print(stderr, "item {}(({},{})-({},{})) and item {}(({},{})-({},{})) overlaps\n", item1.id, item1.x, item1.y, item1.w, item1.h, item2.id, item2.x, item2.y, item2.w, item2.h);
                     return false;
                 }
         }

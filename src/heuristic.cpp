@@ -73,7 +73,7 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
                 //     file << jj << std::endl;
                 // #endif
             }
-            fmt::print("Optimize ({}, {}): pre={}, post={} {}\n", i, j, shelves_obj, bl_res.obj, star);
+            fmt::print(stderr, "Optimize ({}, {}): pre={}, post={} {}\n", i, j, shelves_obj, bl_res.obj, star);
 
             new_inst.ub = obj;
             combs(i, j) = new_inst.ub;
@@ -87,7 +87,7 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
     for (auto& sub : new_subs) {
         Coord coord(env, sub, sub.ub);
         auto coord_res = coord.optimize(coord_args, sub.ub);
-        fmt::print("coord pre={}, post={}\n", sub.ub, coord_res.obj);
+        fmt::print(stderr, "coord pre={}, post={}\n", sub.ub, coord_res.obj);
 
         if (coord_res.obj != -1) {
             sub = coord.subinst(sub);
@@ -115,7 +115,7 @@ std::vector<Instance> filter_subs(std::vector<Instance>& subs, double percentage
 // filtered out, as fill_ratio never exceeds 1.
 HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
 
-    fmt::print("Optimizing {}...\n", inst.name);
+    fmt::print(stderr, "Optimizing {}...\n", inst.name);
 
     double filter_area_percent = 1;
 
@@ -130,7 +130,7 @@ HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
     auto shelves_sol = shelves.optimize(shelves_args);
     res.start_sol = shelves_sol.obj;
     
-    fmt::print("starting solution={}\n", res.start_sol);
+    fmt::print(stderr, "starting solution={}\n", res.start_sol);
 
     auto subs = shelves.subinsts(inst);
     auto full_insts = filter_subs(subs, filter_area_percent);
@@ -152,7 +152,7 @@ HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
         coord_args.timelimit = args.timelimit - 10;
     }
 
-    fmt::print("n={}, pairs={}, nlevels={}\n", n, (n * (n-1) / 2), nlevels);
+    fmt::print(stderr, "n={}, pairs={}, nlevels={}\n", n, (n * (n-1) / 2), nlevels);
     int i = 0;
     while (n >= 2) {
         subs = solve_level(env, subs, inst, coord_args);
@@ -164,7 +164,7 @@ HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
         for (auto const& sub : subs) {
             obj += sub.ub;
         }
-        fmt::print("level={}, obj={}\n", i, obj);
+        fmt::print(stderr, "level={}, obj={}\n", i, obj);
         i++;
     }
 

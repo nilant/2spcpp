@@ -158,7 +158,9 @@ Heuristics (`bottom_left`, `bottom_left_plus`, `matheuristic`) print `obj`,
 - `gap` is the relative MIP gap (MIP programs only).
 - `obj`, `bound`, `gap` and `runtime` are `-1` if the solver found no solution.
 
-Redirect stdout to a file to keep the results. `coord` also writes the Gurobi solution file `<instance>_sol.json` next to the instance.
+Progress and error messages go to stderr, so stdout holds only the JSON result
+(plus the Gurobi log, which can be silenced with `OutputFlag`). Redirect stdout
+to a file to keep the results. `coord` also writes the Gurobi solution file `<instance>_sol.json` next to the instance.
 
 ## Python tools
 
