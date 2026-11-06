@@ -1,4 +1,4 @@
-FROM ubuntu:22.04 AS gurobi
+FROM ubuntu:26.04 AS gurobi
 
 RUN apt-get update -y && apt-get --no-install-recommends install -y \
 	wget \
