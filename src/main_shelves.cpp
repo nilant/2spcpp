@@ -1,3 +1,6 @@
+// Entry point `shelves`: solve the shelf-based MIP with Gurobi.
+// Usage: shelves <instance.json> [--timelimit s ...]
+
 #include <fmt/core.h>
 
 #include "gurobi_c++.h"

@@ -1,3 +1,6 @@
+// Entry point `coord2`: run bottom-left+ to get an upper bound, then solve the
+// coordinate MIP (repetitions as separate tasks). Usage: coord2 <instance.json>
+
 #include <fmt/core.h>
 
 #include "bottom_left_plus.hpp"

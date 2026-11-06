@@ -12,6 +12,8 @@ auto compute_offset(const S& strides, I i, Args... args) noexcept {
     return i*strides[dim] + compute_offset<dim + 1>(strides, args...);
 }
 
+// Minimal N-dimensional dense array (row-major) over a std::vector.
+// Elements are accessed with operator()(i, j, ...), e.g. x(i, p, q).
 template<typename T, std::size_t N>
 class mdarray {
 

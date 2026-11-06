@@ -7,6 +7,12 @@
 #include "instance.hpp"
 
 
+// Build the shelf model. Items are sorted by decreasing height, so the first
+// item of a shelf is the tallest and defines its height.
+//  y(i, r): the r-th shelf opened by item i (cost = height of item i);
+//  x(k, i, r): copies of item k placed in shelf (i, r).
+//  (19) every task is executed exactly `repeat` times (shelf openers + copies);
+//  (20) the width of the items in a shelf cannot exceed the strip width.
 Shelves::Shelves(GRBEnv& env, Instance const& inst) : model{env}, sorted_items{inst.items}, y{inst.nitems, inst.rmax}, x{inst.nitems, inst.nitems, inst.rmax} {
 
     auto t0 = std::chrono::high_resolution_clock::now();
@@ -66,6 +72,7 @@ Shelves::Shelves(GRBEnv& env, Instance const& inst) : model{env}, sorted_items{i
 }
 
 
+// Solve the shelf model with the limits in `args`.
 MIPResult Shelves::optimize(Args const& args) {
     
     auto res = solve(name, model, args);
@@ -73,6 +80,8 @@ MIPResult Shelves::optimize(Args const& args) {
     return res;
 }
 
+// Split the solution into one sub-instance per opened shelf; each contains
+// the items on that shelf (ub = shelf height). They are later merged pairwise.
 std::vector<Instance> Shelves::subinsts(Instance const& inst) const {
 
     std::vector<Instance> subs;

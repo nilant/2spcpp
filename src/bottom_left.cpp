@@ -6,6 +6,8 @@
 #include "mdarray.hpp"
 
 
+// True if the w x h item fits with its corner at (p, q): all the cells of the
+// occupancy grid it covers must still be free (true = free).
 bool fit(Config const& item, mdarray<int, 2> const& coord, int p, int q) {
     bool flag = true;
     for (int i = p; i < p + item.w; i++) {
@@ -17,6 +19,10 @@ bool fit(Config const& item, mdarray<int, 2> const& coord, int p, int q) {
     return flag;
 }
 
+// Bottom-left heuristic with fixed configuration (the first one of each task):
+// items are sorted by decreasing height and each one is put in the lowest, then
+// leftmost, free position. The grid is sized with a trivial upper bound (sum of
+// all heights). The area bound is returned as lower bound.
 HeurResult bottom_left(Instance const& inst) {
 
     auto t0 = std::chrono::high_resolution_clock::now();
@@ -35,6 +41,7 @@ HeurResult bottom_left(Instance const& inst) {
         }
     }
 
+    // area lower bound
     int lb = std::ceil(area / inst.w);
 
     int w = inst.w;

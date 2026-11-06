@@ -4,6 +4,10 @@
 #include <vector>
 #include <fmt/core.h>
 
+// Load the instance from the "instance" object of the JSON file. Every task
+// configuration becomes an item with a global id. selected_items initially
+// holds the first configuration of each task (once per repetition) and ub is
+// the sum of their heights (a trivial feasible height).
 Instance::Instance(fs::path const& input_file) {
     
     std::ifstream file(input_file);
@@ -60,6 +64,8 @@ Instance::Instance(fs::path const& input_file) {
     }
 }
 
+// Write the instance as JSON to file_path (which is overwritten), keeping only
+// the configurations present in selected_items.
 void Instance::print_selected(fs::path const& file_path, std::string inst_name) {
 
     std::ifstream file(file_path);
@@ -112,6 +118,8 @@ void Instance::print_selected(fs::path const& file_path, std::string inst_name) 
     file_ss << jj << std::endl;
 }
 
+// Write the instance as JSON to file_path (which is overwritten), with all
+// the configurations of each task.
 void Instance::print(fs::path const& file_path, std::string inst_name) {
 
     std::ifstream file(file_path);
@@ -161,6 +169,7 @@ void Instance::print(fs::path const& file_path, std::string inst_name) {
     file_ss << jj << std::endl;
 }
 
+// fill_ratio = area of selected_items / area of the strip (ub * w).
 void Instance::area() {
     int fill_area = 0;
     for (auto const& item : selected_items) {
@@ -172,6 +181,9 @@ void Instance::area() {
     fill_ratio = static_cast<double>(fill_area) / total_area;
 }
 
+// Merge two sub-instances into one: tasks present in both get their repeats
+// summed. The items of inst1 are laid in a row at y = 0 and the items of inst2
+// in a row on top, at y = height of the tallest item of inst1. ub = ub1 + ub2.
 Instance merge(Instance const& inst1, Instance const& inst2) {
 
     Instance inst{};
@@ -238,10 +250,12 @@ Instance merge(Instance const& inst1, Instance const& inst2) {
     return inst;
 }
 
+// True if the open intervals [x1_min, x1_max) and [x2_min, x2_max) intersect.
 inline bool overlap_1d(int x1_min, int x1_max, int x2_min, int x2_max) {
     return x1_max > x2_min && x2_max > x1_min;
 }
 
+// Check that no two items overlap (O(n^2)); prints the first offending pair.
 bool check_feas(std::vector<Config> const& items) {
     for (int i = 0; i < items.size()-1; ++i) {
         for (int j = i+1; j <items.size(); ++j) {
@@ -257,6 +271,7 @@ bool check_feas(std::vector<Config> const& items) {
     return true;
 }
 
+// Serialize the solution (items with their position and the objective).
 nlohmann::ordered_json Solution::to_json() {
     nlohmann::ordered_json jsol;
 
@@ -281,6 +296,7 @@ nlohmann::ordered_json Solution::to_json() {
     return jsol;
 }
 
+// Write the solution as JSON to file_path.
 void Solution::write(fs::path const& file_path) {
      
     std::ofstream file_ss{file_path};

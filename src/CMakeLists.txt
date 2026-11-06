@@ -1,3 +1,6 @@
+# One executable per algorithm. The MIP-based ones link against Gurobi, the
+# pure heuristics (bottom_left, bottom_left_plus) only need fmt.
+
 add_executable(coord main_coord.cpp coord.cpp instance.cpp cli.cpp mipresult.cpp bottom_left.cpp)
 
 target_include_directories(coord PUBLIC ${GUROBI_INCLUDE_DIRS})

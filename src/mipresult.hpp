@@ -10,6 +10,8 @@
 
 namespace fs = std::filesystem;
 
+// Result of a MIP solve: objective, best bound, relative gap, solve and model
+// build time (seconds). All values are -1 when no solution was found.
 struct MIPResult {
     std::string name;
     double obj{0.0};
@@ -26,8 +28,10 @@ struct MIPResult {
     void print();
 };
 
+// Rounded value of a binary/integer variable in the current solution.
 inline int val(GRBVar const& x) {
     return std::lrint(x.get(GRB_DoubleAttr_X));
 }
 
+// Apply the command line limits to `model`, optimize it and collect the result.
 MIPResult solve(std::string const& name, GRBModel& model, Args const& args);

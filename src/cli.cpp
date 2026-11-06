@@ -1,6 +1,8 @@
 #include "cli.hpp"
 #include "../libs/argh.h"
 
+// Parse the command line: argv[1] is the instance file; options default to
+// timelimit=3600 s, iterlimit=500, memlimit=16 GB, threads=1, seed=0.
 Args::Args(int argc, char* argv[]) {
     argh::parser cmdl({"--timelimit", "--memlimit", "--iterlimit",
                        "--threads", "--seed"});

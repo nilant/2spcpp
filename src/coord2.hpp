@@ -6,6 +6,10 @@
 #include "instance.hpp"
 #include "mipresult.hpp"
 
+// Coordinate-based MIP, variant 2: every repetition of a task is a separate
+// task (nitems2 items in total), so each one picks its own configuration.
+// x(i, p, q) = 1 if item i is placed with its bottom-left corner at (p, q).
+// z is the makespan (strip height) to minimize; `ub` bounds the grid height.
 class Coord2 {
     std::string name{"coord2"};
     double _buildtime{0};

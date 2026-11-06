@@ -7,6 +7,8 @@
 
 #include "../libs/json.hpp"
 
+// Read the instance JSON, add (or overwrite) the entry `name` with the result
+// and write the file back.
 void HeurResult::write(fs::path const& file_path) {
         std::ifstream file(file_path);
         auto j = nlohmann::ordered_json::parse(file);

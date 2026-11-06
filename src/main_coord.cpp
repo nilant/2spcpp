@@ -1,3 +1,6 @@
+// Entry point `coord`: run bottom-left to get an upper bound, then solve the
+// coordinate MIP with Gurobi. Usage: coord <instance.json> [--timelimit s ...]
+
 #include "coord.hpp"
 #include "bottom_left.hpp"
 #include "cli.hpp"

@@ -8,6 +8,10 @@
 #include "cli.hpp"
 
 
+// Matching MIP used by the matheuristic: given the cost matrix `combs`
+// (combs(i, j) = height obtained by merging sub-instances i and j), pick the
+// perfect matching of minimum total cost. x(i, j), i < j, is 1 when i and j
+// are paired.
 class Assignment {
     std::string name{"assigment"};
     double _buildtime{0};
@@ -20,5 +24,6 @@ class Assignment {
         MIPResult optimize(Args const& args);
         double runtime() { return model.get(GRB_DoubleAttr_Runtime); };
         double buildtime() { return _buildtime; };
+        // Return the merged instances (from `instances`) of the selected pairs.
         std::vector<Instance> select(mdarray<Instance, 2> const& instances);
 };

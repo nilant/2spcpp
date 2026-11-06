@@ -1,3 +1,6 @@
+// Entry point `bottom_left_plus`: run the bottom-left+ heuristic on an instance.
+// Usage: bottom_left_plus <instance.json>  (result is added to the JSON file)
+
 #include <fmt/core.h>
 
 #include "bottom_left_plus.hpp"

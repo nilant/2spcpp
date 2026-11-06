@@ -9,6 +9,8 @@
 #include "instance.hpp"
 #include "mdarray.hpp"
 
+// True if the item fits with its corner at (p, q): all covered cells must be
+// empty (-1 = free, otherwise the id of the item occupying the cell).
 bool fit(Config const& item, mdarray<int, 2> const& coord, int p, int q) {
     bool flag = true;
     for (int i = p; i < p + item.w; i++) {
@@ -20,6 +22,8 @@ bool fit(Config const& item, mdarray<int, 2> const& coord, int p, int q) {
     return flag;
 }
 
+// Place `item` at (p, q): mark the grid cells with its id, store its position
+// and remember the height of its top in `tops`.
 void fill_space(mdarray<int, 2>& coord, std::vector<int>& tops, int p, int q, Config& item) {
     for (int i = p; i < p + item.w; ++i) {
         for (int j = q; j < q + item.h; ++j) {
@@ -33,6 +37,8 @@ void fill_space(mdarray<int, 2>& coord, std::vector<int>& tops, int p, int q, Co
     tops[item.id] = item.y + item.h;
 }
 
+// Id of the item next to the candidate position (to the left if `left`, else to
+// the right), or -1 if there is none (strip border / free cell).
 int find_adjacent_item_id(mdarray<int, 2>& coord, int p, int q, int w, int h, int strip_w, bool left) {
 
     int item_id = -1;
@@ -58,6 +64,7 @@ int find_adjacent_item_id(mdarray<int, 2>& coord, int p, int q, int w, int h, in
     return item_id;
 }
 
+// Top coordinate of item `id`; the upper bound `ub` when there is no item.
 int get_top_from_id(std::vector<int>& tops, int id, int ub) {
     if (id == -1) {
         return ub;
@@ -66,6 +73,12 @@ int get_top_from_id(std::vector<int>& tops, int id, int ub) {
     return tops[id];
 }
 
+// Bottom-left+ placement: for every item (in the given order), scan the rows
+// bottom-up and, in the first row where it fits, choose between the leftmost
+// and the rightmost feasible position. The side is chosen so that the item
+// ends up flush with the neighbour whose top is closest to the item's own
+// top, which tends to leave smaller holes than plain bottom-left.
+// Returns the height of the packing.
 int bottom_left_plus_impl(std::vector<Config>::iterator begin, std::vector<Config>::iterator end, int w, int ub) {
 
     mdarray<int, 2> coord{w, ub};
@@ -129,6 +142,9 @@ int bottom_left_plus_impl(std::vector<Config>::iterator begin, std::vector<Confi
     return obj;
 }
 
+// Sort the selected items by decreasing height (ties: narrower first), pack
+// them with bottom_left_plus_impl on a grid of height 2*inst.ub and return the
+// result. In debug builds the packing is checked for overlaps.
 HeurResult bottom_left_plus(Instance& inst) {
 
     auto t0 = std::chrono::high_resolution_clock::now();

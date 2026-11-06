@@ -6,6 +6,13 @@
 #include "mipresult.hpp"
 
 
+// Build the model. Every repetition of every task is expanded into its own
+// task with `repeat = 1` and its own set of items, so each repetition can pick
+// a different configuration. Constraints (paper numbering):
+//  (9)  each expanded task is placed exactly once;
+//  (10) each cell of the strip is covered by at most one item;
+//  (11) z >= top of the item chosen for each task;
+//  (12) area bound: total area / W <= z.
 Coord2::Coord2(GRBEnv& env, Instance const& inst, int ub) : model{env}, x{inst.nitems2, inst.w, ub} {
 
     auto t0 = std::chrono::high_resolution_clock::now();
@@ -108,6 +115,7 @@ Coord2::Coord2(GRBEnv& env, Instance const& inst, int ub) : model{env}, x{inst.n
 	_buildtime = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count() / 1000.0; 
 };
 
+// Solve the model with the limits in `args`.
 MIPResult Coord2::optimize(Args const& args) {
     
     auto res = solve(name, model, args);

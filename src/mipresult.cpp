@@ -7,6 +7,8 @@
 #include "gurobi_c++.h"
 #include "gurobi_c.h"
 
+// Read the instance JSON, add (or overwrite) the entry `name` with the result
+// and write the file back.
 void MIPResult::write(fs::path const& file_path) {
 
         std::ifstream file(file_path);
@@ -31,6 +33,9 @@ void MIPResult::print() {
     fmt::print("obj={}, bound={}, runtime={}, buildtime={}\n", obj, bound, runtime, buildtime);
 }
 
+// Set seed/time/memory/thread limits from `args`, optimize and fill the
+// result. If no solution is found the fields are set to -1. In debug builds,
+// infeasible models are dumped to <name>.lp / <name>.ilp (IIS).
 MIPResult solve(std::string const& name, GRBModel& model, Args const& args) {
 
     model.set(GRB_IntParam_Seed, args.seed);

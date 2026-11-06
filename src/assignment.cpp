@@ -7,6 +7,7 @@
 
 Assignment::Assignment(GRBEnv& env, mdarray<int, 2> const& combs) : model{env}, x{combs.dimension(0), combs.dimension(1)} {
 
+    // Variables: x(i, j) for i < j, cost = height of the merged pair (i, j).
     auto t0 = std::chrono::high_resolution_clock::now();
     int n = x.dimension(0);
 
@@ -17,6 +18,7 @@ Assignment::Assignment(GRBEnv& env, mdarray<int, 2> const& combs) : model{env}, 
     }
 
     for (int i = 0; i < n; ++i) {
+        // every sub-instance must be matched with exactly one other
         GRBLinExpr expr{0};
         for (int j = i+1; j < n; ++j) {
             expr += x(i, j);

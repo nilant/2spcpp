@@ -12,6 +12,7 @@ project(
   DESCRIPTION ""
   LANGUAGES CXX C)
 
+# Gurobi is located through cmake/FindGUROBI.cmake (-DGUROBI_DIR or $GUROBI_HOME)
 find_package(GUROBI REQUIRED)
 find_package(fmt REQUIRED)
 

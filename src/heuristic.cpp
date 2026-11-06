@@ -11,6 +11,11 @@
 #include <algorithm>
 
 
+// One level of the pairing hierarchy: merge every pair of sub-instances (the
+// second stacked on the first) and try to improve it with bottom-left+, build
+// the cost matrix, choose the best perfect matching with the assignment MIP and
+// re-optimize each selected pair with the coordinate MIP. Returns n/2
+// instances. An empty instance is added when the number is odd.
 std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Instance const& inst, Args const& args) {
 
     int n = subs.size();
@@ -92,6 +97,8 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
     return new_subs;
 }
 
+// Move out of `subs` the sub-instances with fill ratio above `percentage`
+// (considered full, they are not merged anymore) and return them.
 std::vector<Instance> filter_subs(std::vector<Instance>& subs, double percentage) {
     auto it = std::partition(subs.begin(), subs.end(), [percentage](auto const& sub) {return sub.fill_ratio <= percentage; });
     std::vector<Instance> full_instances{it, subs.end()};
@@ -100,6 +107,12 @@ std::vector<Instance> filter_subs(std::vector<Instance>& subs, double percentage
     return full_instances;
 }
 
+// Matheuristic: (1) solve the shelf MIP for 10 s to get a starting solution
+// and one sub-instance per shelf; (2) repeat log2(n) times: pair the
+// sub-instances (solve_level) halving their number; (3) the final objective is
+// the sum of the heights of the remaining instances. The time limit is split
+// evenly among the levels. With filter_area_percent = 1 no instance is
+// filtered out, as fill_ratio never exceeds 1.
 HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
 
     fmt::print("Optimizing {}...\n", inst.name);

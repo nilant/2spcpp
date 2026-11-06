@@ -7,6 +7,11 @@
 #include "mipresult.hpp"
 
 
+// Build the model. Constraints (numbering follows the paper):
+//  (4) every task is placed exactly `repeat` times (over all its configs);
+//  (5) every cell (r, s) of the strip is covered by at most one item;
+//  (6) z >= top of every placed item (z is the objective, the strip height);
+//  (7) area bound: total placed area <= z * W.
 Coord::Coord(GRBEnv& env, Instance const& inst, int ub) : model{env}, x{inst.nitems, inst.w, ub} {
 
     auto t0 = std::chrono::high_resolution_clock::now();
@@ -81,6 +86,7 @@ Coord::Coord(GRBEnv& env, Instance const& inst, int ub) : model{env}, x{inst.nit
 	_buildtime = std::chrono::duration_cast<std::chrono::milliseconds>(t1 - t0).count() / 1000.0; 
 };
 
+// Solve the model with the limits in `args`.
 MIPResult Coord::optimize(Args const& args, int ub) {
     
     auto res = solve(name, model, args);
@@ -89,11 +95,13 @@ MIPResult Coord::optimize(Args const& args, int ub) {
     return res;
 }
 
+// Write the Gurobi model/solution next to the instance as <stem>_sol.json.
 void Coord::write_sol(fs::path const &file_path) {
     auto path = file_path;
     model.write(path.parent_path() / (path.stem().string() + "_sol.json"));
 }
 
+// Collect the placed items (with their x, y) from the solved variables.
 Solution Coord::costruct_solution(Instance& inst) {
 
     inst.selected_items.clear();
@@ -119,6 +127,9 @@ Solution Coord::costruct_solution(Instance& inst) {
     return sol;
 }
 
+// Instance holding the solved placement (selected_items with x, y) and the
+// optimal height as ub. NOTE: `sub.wmax = sub.wmax` below is a self-assignment
+// (probably meant `inst.wmax`).
 Instance Coord::subinst(Instance const& inst) const {
     
     Instance sub;

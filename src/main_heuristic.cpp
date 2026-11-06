@@ -1,3 +1,6 @@
+// Entry point `matheuristic`: shelves MIP + pairing matheuristic.
+// Usage: matheuristic <instance.json> [--timelimit s ...]
+
 #include <fmt/core.h>
 
 #include "gurobi_c++.h"
