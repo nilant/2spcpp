@@ -18,7 +18,7 @@ WORKDIR /gurobi/linux64/src/build
 
 RUN make && cp libgurobi_c++.a ../../lib/
 
-FROM ubuntu:22.04 AS builder
+FROM ubuntu:26.04 AS builder
 
 WORKDIR /code
 
