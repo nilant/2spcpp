@@ -15,4 +15,5 @@ Args::Args(int argc, char* argv[]) {
     cmdl("--memlimit", 16) >> memlimit;
     cmdl("--threads", 1) >> threads;
     cmdl("--seed", 0) >> seed;
+    verbose = cmdl["--verbose"];
 }

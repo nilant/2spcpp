@@ -13,9 +13,10 @@ int main(int argc, char* argv[]) {
 
         Args args{argc, argv};
 
-        GRBEnv env{};
+        GRBEnv env{true};
+        env.set(GRB_IntParam_OutputFlag, args.verbose ? 1 : 0);
+        env.start();
         Instance inst{args.input_file};
-        fmt::print("##### Solving instance {}...\n", inst.name);
         Shelves shelves{env, inst};
         MIPResult res = shelves.optimize(args);
         res.print();

@@ -5,9 +5,9 @@ namespace fs = std::filesystem;
 
 // Command line arguments, shared by all executables:
 //   <exe> <instance.json> [--timelimit s] [--iterlimit n] [--memlimit GB]
-//                         [--threads n] [--seed n]
+//                         [--threads n] [--seed n] [--verbose]
 // Defaults (see cli.cpp): timelimit=3600, iterlimit=500, memlimit=16,
-// threads=1, seed=0.
+// threads=1, seed=0. Gurobi output is silenced unless --verbose is given.
 struct Args {
 
     fs::path input_file;  // instance JSON, also used as output file
@@ -17,6 +17,7 @@ struct Args {
     int memlimit{0};  // GB, Gurobi soft memory limit
     int threads{0};  // Gurobi threads
     int seed{0};  // Gurobi seed
+    bool verbose{false};  // enable Gurobi output
 
     Args(int argc, char* argv[]);
 };

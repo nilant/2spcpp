@@ -1,15 +1,8 @@
 #include "heuresult.hpp"
 
-#include <filesystem>
 #include <fmt/core.h>
 
-#include "../libs/json.hpp"
-
 void HeurResult::print() {
-    nlohmann::ordered_json j;
-    j["name"] = name;
-    j["obj"] = obj;
-    j["bound"] = bound;
-    j["runtime"] = runtime;
-    fmt::print("[RESULT] {}\n", j.dump());
+    fmt::print("[RESULT] {{\"obj\":{:.2f},\"bound\":{:.2f},\"runtime\":{:.2f}}}\n",
+               obj, bound, runtime);
 }

@@ -13,15 +13,11 @@ int main(int argc, char* argv[]) {
     try {
         Args args{argc, argv};
 
-        GRBEnv env{};
-        #ifdef NDEBUG
-            env.set(GRB_IntParam_OutputFlag, 0);
-        #else
-            env.set(GRB_IntParam_OutputFlag, 1);
-        #endif
+        GRBEnv env{true};
+        env.set(GRB_IntParam_OutputFlag, args.verbose ? 1 : 0);
+        env.start();
 
         Instance inst{args.input_file};
-        fmt::print("##### Solving instance {}...\n", inst.name);
 
         HeurResult res = heuristic(env, inst, args);
         res.print();
