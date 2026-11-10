@@ -9,6 +9,7 @@ doc/
 data/
 results/
 env.list
+hosts.txt
 *.lic
 *.gz
 *.ilp
