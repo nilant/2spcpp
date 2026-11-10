@@ -10,5 +10,5 @@ void HeurResult::print() {
     j["obj"] = obj;
     j["bound"] = bound;
     j["runtime"] = runtime;
-    fmt::print("{}\n", j.dump());
+    fmt::print("[RESULT] {}\n", j.dump());
 }

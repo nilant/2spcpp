@@ -11,7 +11,7 @@ void MIPResult::print() {
     j["bound"] = bound;
     j["gap"] = gap;
     j["runtime"] = runtime;
-    fmt::print("{}\n", j.dump());
+    fmt::print("[RESULT] {}\n", j.dump());
 }
 
 // Set seed/time/memory/thread limits from `args`, optimize and fill the
