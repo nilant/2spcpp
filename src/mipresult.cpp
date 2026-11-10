@@ -1,12 +1,14 @@
 #include <fmt/core.h>
 
+#include "../libs/json.hpp"
+
 #include "mipresult.hpp"
 #include "gurobi_c++.h"
 #include "gurobi_c.h"
 
 void MIPResult::print() {
-    fmt::print("[RESULT] {{\"obj\":{:.2f},\"bound\":{:.2f},\"gap\":{:.2f},\"runtime\":{:.2f}}}\n",
-               obj, bound, gap, runtime);
+    fmt::print("{{\"name\":{},\"obj\":{:.2f},\"bound\":{:.2f},\"gap\":{:.2f},\"runtime\":{:.2f}}}\n",
+               name, obj, bound, gap, runtime);
 }
 
 // Set seed/time/memory/thread limits from `args`, optimize and fill the

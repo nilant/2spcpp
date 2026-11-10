@@ -143,26 +143,27 @@ bin/bottom_left  data/<instance>.json
 | `--iterlimit` | 500 | Parsed but currently unused |
 | `--verbose` | off | Show the Gurobi log (silenced by default) |
 
-**The result is printed to stdout as a single JSON object on a line prefixed
-with `[RESULT]`**, with all numbers printed with two decimal places, and the
-instance file is not modified. For example:
+**The result is printed to stdout as a single JSON object on one line**, with
+all numbers printed with two decimal places, and the instance file is not
+modified. For example:
 
+```json
+{"name":"my_instance","obj":50.00,"bound":44.10,"gap":0.12,"runtime":1.20}
 ```
-[RESULT] {"obj":50.00,"bound":44.10,"gap":0.12,"runtime":1.20}
-```
 
-Heuristics (`bottom_left`, `bottom_left_plus`, `matheuristic`) print `obj`,
-`bound` and `runtime`; the MIP programs (`shelves`, `coord`, `coord2`) print
-`obj`, `bound`, `gap` and `runtime`.
+Heuristics (`bottom_left`, `bottom_left_plus`, `matheuristic`) print `name`,
+`obj`, `bound` and `runtime`; the MIP programs (`shelves`, `coord`, `coord2`) print
+`name`, `obj`, `bound`, `gap` and `runtime`.
 
+- `name` is the instance name.
 - `obj` is the height of the best solution found.
 - `bound` is a lower bound.
 - `gap` is the relative MIP gap (MIP programs only).
 - `obj`, `bound`, `gap` and `runtime` are `-1` if the solver found no solution.
 
 Progress and error messages go to stderr. With `--verbose`, stdout also contains the
-Gurobi log, so to collect the results keep only the lines starting with `[RESULT]`, e.g.
-`bin/shelves data/<instance>.json | grep '^\[RESULT\]'`. `coord` also writes the Gurobi solution file `<instance>_sol.json` next to the instance.
+Gurobi log, and the JSON result is the last line (e.g.
+`bin/shelves data/<instance>.json --verbose | tail -n 1`). `coord` also writes the Gurobi solution file `<instance>_sol.json` next to the instance.
 
 ## Python tools
 
