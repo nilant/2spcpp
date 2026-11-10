@@ -27,7 +27,7 @@ HeurResult bottom_left(Instance const& inst) {
 
     auto t0 = std::chrono::high_resolution_clock::now();
 
-    HeurResult res{"bottom_left"};
+    HeurResult res{inst.name};
 
     int ub = 0;
     double area = 0;

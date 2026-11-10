@@ -21,6 +21,7 @@ int main(int argc, char* argv[]) {
         #endif
 
         Instance inst{args.input_file};
+        fmt::print("##### Solving instance {}...\n", inst.name);
 
         HeurResult res = heuristic(env, inst, args);
         res.print();

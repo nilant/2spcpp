@@ -7,6 +7,7 @@
 
 void MIPResult::print() {
     nlohmann::ordered_json j;
+    j["name"] = name;
     j["obj"] = obj;
     j["bound"] = bound;
     j["gap"] = gap;

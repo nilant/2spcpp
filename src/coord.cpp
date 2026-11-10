@@ -12,7 +12,7 @@
 //  (5) every cell (r, s) of the strip is covered by at most one item;
 //  (6) z >= top of every placed item (z is the objective, the strip height);
 //  (7) area bound: total placed area <= z * W.
-Coord::Coord(GRBEnv& env, Instance const& inst, int ub) : model{env}, x{inst.nitems, inst.w, ub} {
+Coord::Coord(GRBEnv& env, Instance const& inst, int ub) : name{inst.name}, model{env}, x{inst.nitems, inst.w, ub} {
 
     auto t0 = std::chrono::high_resolution_clock::now();
 

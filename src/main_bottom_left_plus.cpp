@@ -11,6 +11,7 @@ int main(int argc, char* argv[]) {
     Args args{argc, argv};
 
     Instance inst{args.input_file};
+    fmt::print("##### Solving instance {}...\n", inst.name);
 
     HeurResult res = bottom_left_plus(inst);
     res.print();

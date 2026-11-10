@@ -7,6 +7,7 @@
 
 void HeurResult::print() {
     nlohmann::ordered_json j;
+    j["name"] = name;
     j["obj"] = obj;
     j["bound"] = bound;
     j["runtime"] = runtime;

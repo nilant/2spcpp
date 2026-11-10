@@ -13,7 +13,7 @@
 //  x(k, i, r): copies of item k placed in shelf (i, r).
 //  (19) every task is executed exactly `repeat` times (shelf openers + copies);
 //  (20) the width of the items in a shelf cannot exceed the strip width.
-Shelves::Shelves(GRBEnv& env, Instance const& inst) : model{env}, sorted_items{inst.items}, y{inst.nitems, inst.rmax}, x{inst.nitems, inst.nitems, inst.rmax} {
+Shelves::Shelves(GRBEnv& env, Instance const& inst) : name{inst.name}, model{env}, sorted_items{inst.items}, y{inst.nitems, inst.rmax}, x{inst.nitems, inst.nitems, inst.rmax} {
 
     auto t0 = std::chrono::high_resolution_clock::now();
 

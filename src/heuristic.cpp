@@ -81,7 +81,7 @@ std::vector<Instance> solve_level(GRBEnv& env, std::vector<Instance>& subs, Inst
         }
     }
 
-    Assignment ass{env, combs};
+    Assignment ass{env, inst.name, combs};
     ass.optimize(args);
     auto new_subs = ass.select(instances);
     for (auto& sub : new_subs) {
@@ -115,13 +115,11 @@ std::vector<Instance> filter_subs(std::vector<Instance>& subs, double percentage
 // filtered out, as fill_ratio never exceeds 1.
 HeurResult heuristic(GRBEnv& env, Instance const& inst, Args const& args) {
 
-    fmt::print(stderr, "Optimizing {}...\n", inst.name);
-
     double filter_area_percent = 1;
 
     auto t0 = std::chrono::high_resolution_clock::now();
 
-    HeurResult res{args.exec_name};
+    HeurResult res{inst.name};
 
     Args shelves_args{args};
     shelves_args.timelimit = 10;

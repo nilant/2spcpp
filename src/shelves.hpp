@@ -11,7 +11,7 @@
 // x(k, i, r) is the number of copies of item k placed in that shelf. The
 // solution is a quick feasible packing used as starting point.
 class Shelves {
-    std::string name{"shelves"};
+    std::string name;  // instance name, reported in the result
     double _buildtime{0};
 
     GRBModel model;

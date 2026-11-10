@@ -13,7 +13,7 @@
 //  (10) each cell of the strip is covered by at most one item;
 //  (11) z >= top of the item chosen for each task;
 //  (12) area bound: total area / W <= z.
-Coord2::Coord2(GRBEnv& env, Instance const& inst, int ub) : model{env}, x{inst.nitems2, inst.w, ub} {
+Coord2::Coord2(GRBEnv& env, Instance const& inst, int ub) : name{inst.name}, model{env}, x{inst.nitems2, inst.w, ub} {
 
     auto t0 = std::chrono::high_resolution_clock::now();
     

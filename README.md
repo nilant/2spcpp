@@ -142,11 +142,14 @@ bin/bottom_left  data/<instance>.json
 | `--seed` | 0 | Gurobi random seed |
 | `--iterlimit` | 500 | Parsed but currently unused |
 
-**The result is printed to stdout as a single JSON object**, and the instance
-file is not modified. For example:
+**The result is printed to stdout as a single JSON object on a line prefixed
+with `[RESULT]`**, and the instance file is not modified. Before solving, each
+program also prints a `##### Solving instance <name>...` line to stdout. For
+example:
 
-```json
-{"obj":50.0,"bound":44.1,"gap":0.12,"runtime":1.2}
+```
+##### Solving instance my_instance...
+[RESULT] {"obj":50.0,"bound":44.1,"gap":0.12,"runtime":1.2}
 ```
 
 Heuristics (`bottom_left`, `bottom_left_plus`, `matheuristic`) print `obj`,
@@ -158,9 +161,10 @@ Heuristics (`bottom_left`, `bottom_left_plus`, `matheuristic`) print `obj`,
 - `gap` is the relative MIP gap (MIP programs only).
 - `obj`, `bound`, `gap` and `runtime` are `-1` if the solver found no solution.
 
-Progress and error messages go to stderr, so stdout holds only the JSON result
-(plus the Gurobi log, which can be silenced with `OutputFlag`). Redirect stdout
-to a file to keep the results. `coord` also writes the Gurobi solution file `<instance>_sol.json` next to the instance.
+Progress and error messages go to stderr. Stdout also contains the
+`#####` line and the Gurobi log (which can be silenced with `OutputFlag`), so
+to collect the results keep only the lines starting with `[RESULT]`, e.g.
+`bin/shelves data/<instance>.json | grep '^\[RESULT\]'`. `coord` also writes the Gurobi solution file `<instance>_sol.json` next to the instance.
 
 ## Python tools
 

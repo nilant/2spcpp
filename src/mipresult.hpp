@@ -10,7 +10,7 @@
 
 namespace fs = std::filesystem;
 
-// Result of a MIP solve: objective, best bound, relative gap, solve and model
+// Result of a MIP solve: `name` is the instance name, objective, best bound, relative gap, solve and model
 // build time (seconds). All values are -1 when no solution was found.
 struct MIPResult {
     std::string name;
@@ -22,7 +22,7 @@ struct MIPResult {
 
     Solution sol;
 
-    explicit MIPResult(std::string const& alg_name) : name{alg_name} {}
+    explicit MIPResult(std::string const& inst_name) : name{inst_name} {}
 
     // Print the result to stdout as a JSON object.
     void print();

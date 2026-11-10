@@ -12,7 +12,7 @@
 // A task with `repeat` > 1 must be placed `repeat` times in total, possibly
 // with different configurations. `ub` bounds the height of the grid.
 class Coord {
-    std::string name{"coord"};
+    std::string name;  // instance name, reported in the result
     double _buildtime{0};
 
     GRBModel model;

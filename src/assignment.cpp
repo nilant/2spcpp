@@ -5,7 +5,7 @@
 #include <fmt/core.h>
 
 
-Assignment::Assignment(GRBEnv& env, mdarray<int, 2> const& combs) : model{env}, x{combs.dimension(0), combs.dimension(1)} {
+Assignment::Assignment(GRBEnv& env, std::string const& inst_name, mdarray<int, 2> const& combs) : name{inst_name}, model{env}, x{combs.dimension(0), combs.dimension(1)} {
 
     // Variables: x(i, j) for i < j, cost = height of the merged pair (i, j).
     auto t0 = std::chrono::high_resolution_clock::now();

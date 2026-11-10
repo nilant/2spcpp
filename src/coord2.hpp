@@ -11,7 +11,7 @@
 // x(i, p, q) = 1 if item i is placed with its bottom-left corner at (p, q).
 // z is the makespan (strip height) to minimize; `ub` bounds the grid height.
 class Coord2 {
-    std::string name{"coord2"};
+    std::string name;  // instance name, reported in the result
     double _buildtime{0};
 
     GRBModel model;

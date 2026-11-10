@@ -14,6 +14,7 @@ int main(int argc, char* argv[]) {
 
         GRBEnv env{};
         Instance inst{args.input_file};
+        fmt::print("##### Solving instance {}...\n", inst.name);
 
         auto res_bl = bottom_left_plus(inst);
         int ub = res_bl.obj;
