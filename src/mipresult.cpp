@@ -8,7 +8,7 @@
 
 void MIPResult::print() {
     fmt::print("{{\"name\":{},\"obj\":{:.2f},\"bound\":{:.2f},\"gap\":{:.2f},\"runtime\":{:.2f}}}\n",
-               name, obj, bound, gap, runtime);
+               nlohmann::json(name).dump(), obj, bound, gap, runtime);
 }
 
 // Set seed/time/memory/thread limits from `args`, optimize and fill the

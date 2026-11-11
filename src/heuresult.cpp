@@ -6,5 +6,5 @@
 
 void HeurResult::print() {
     fmt::print("{{\"name\":{},\"obj\":{:.2f},\"bound\":{:.2f},\"runtime\":{:.2f}}}\n",
-              name, obj, bound, runtime);
+               nlohmann::json(name).dump(), obj, bound, runtime);
 }
